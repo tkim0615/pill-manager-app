@@ -45,7 +45,6 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password_hash, password)
 
-
     def __repr__(self):
         return f'<User {self.id}: {self.name} username:{self.username}>'
     
@@ -100,7 +99,7 @@ class Side_effect(db.Model, SerializerMixin):
     
         #validations
 
-    @validates('use_id', 'prescription_id')
+    @validates('user_id', 'prescription_id')
     def validate_se(self, key, value):
         if key == 'user_id':
             user = User.query.filter(User.id == value).first()
@@ -112,7 +111,7 @@ class Side_effect(db.Model, SerializerMixin):
             if not p:
                 raise ValueError('Prescription must exist!')
             if self.user_id != p.user_id:
-                raise ValueError('User ID must match the User ID associated with the Prescription.')
+                raise ValueError('User ID must match the User ID associated with the Prescription.(User can only report side effects on medication user took)')
 
             return value
 
