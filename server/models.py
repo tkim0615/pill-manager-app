@@ -102,8 +102,7 @@ class Dosage_history(db.Model, SerializerMixin):
     __tablename__ = 'dosage_histories'
 
     id = db.Column(db.Integer, primary_key=True)
-    time_taken = db.Column(db.Time)
-    date_taken= db.Column(db.Date)
+    date_taken= db.Column(db.DateTime)
 
     # Add relationship
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
