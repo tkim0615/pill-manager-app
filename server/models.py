@@ -114,7 +114,7 @@ class Side_effect(db.Model, SerializerMixin):
             if self.user_id != p.user_id:
                 raise ValueError('User ID must match the User ID associated with the Prescription.')
 
-        return value
+            return value
 
 class Dosage_history(db.Model, SerializerMixin):
     __tablename__ = 'dosage_histories'
@@ -138,9 +138,9 @@ class Dosage_history(db.Model, SerializerMixin):
                     value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
                 except ValueError:
                     raise ValueError("Invalid datetime format. Please use YYYY-MM-DD HH:MM:SS.")
+                return value
             elif not isinstance(value, datetime):
                 raise ValueError(f"ERROR: {key} must be of type datetime.datetime")
-                return value
 
             return value
 
@@ -156,6 +156,7 @@ class Dosage_history(db.Model, SerializerMixin):
             
             if not p:
                 raise ValueError('Prescription must exist!')
+            if self.user_id != p.user_id:
+                raise ValueError('User ID must match the User ID associated with the Prescription.')
+
             return value
-
-
