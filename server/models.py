@@ -98,6 +98,19 @@ class Side_effect(db.Model, SerializerMixin):
     
         #validations
 
+    @validates('use_id', 'prescription_id')
+    def validate_se(self, key, value):
+        if key == 'user_id':
+            user = User.query.filter(User.id == value).first()
+            if not user:
+                raise ValueError('User must exist!')
+            return value
+        if key == 'prescription_id':
+            p = Prescription.query.filter(Prescription.id == value).first()
+            if not p:
+                raise ValueError('Prescription must exist!')
+            return value
+
 class Dosage_history(db.Model, SerializerMixin):
     __tablename__ = 'dosage_histories'
 
@@ -112,7 +125,6 @@ class Dosage_history(db.Model, SerializerMixin):
     serialize_rules=('-user.dosage_histories', '-prescription.dosage_histories')
 
         #validations
-
 
     @validates('time_taken', 'date_taken')
     def validate_dosage(self, key, value):
@@ -134,5 +146,17 @@ class Dosage_history(db.Model, SerializerMixin):
                 raise ValueError(f"ERROR: {key} must be of type datetime.date")
         return value
 
+    @validates('use_id', 'prescription_id')
+    def validate_se(self, key, value):
+        if key == 'user_id':
+            user = User.query.filter(User.id == value).first()
+            if not user:
+                raise ValueError('User must exist!')
+            return value
+        if key == 'prescription_id':
+            p = Prescription.query.filter(Prescription.id == value).first()
+            if not p:
+                raise ValueError('Prescription must exist!')
+            return value
 
 
