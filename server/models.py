@@ -20,9 +20,9 @@ class User(db.Model, SerializerMixin):
     # Add relationship
     side_effects = db.relationship('Side_effect', backref='user', cascade = 'all, delete')
     dosage_histories = db.relationship('Dosage_history', backref='user', cascade = 'all, delete')
-
+    prescriptions = db.relationship('Prescription', backref='user', cascade = 'all, delete')
     # Add serialization rules
-    serialize_rules=('-side_effects.user',)
+    serialize_rules=('-side_effects.user', '-dosage_histories.user', '-prescriptions.user')
 
     # Add validation
     @validates('name', 'username', 'password_hash')
@@ -61,6 +61,8 @@ class Prescription(db.Model, SerializerMixin):
     completed = db.Column(db.Boolean)
 
         # Add relationship
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
     side_effects = db.relationship('Side_effect', backref='prescription', cascade = 'all, delete')
     dosage_histories = db.relationship('Dosage_history', backref='prescription', cascade = 'all, delete')
 
@@ -109,7 +111,10 @@ class Side_effect(db.Model, SerializerMixin):
             p = Prescription.query.filter(Prescription.id == value).first()
             if not p:
                 raise ValueError('Prescription must exist!')
-            return value
+            if self.user_id != p.user_id:
+                raise ValueError('User ID must match the User ID associated with the Prescription.')
+
+        return value
 
 class Dosage_history(db.Model, SerializerMixin):
     __tablename__ = 'dosage_histories'
@@ -126,28 +131,21 @@ class Dosage_history(db.Model, SerializerMixin):
 
         #validations
 
-    @validates('time_taken', 'date_taken')
+    @validates('date_taken')
     def validate_dosage(self, key, value):
-        if key == 'time_taken':
-            try:
-                # Parse the time string to a datetime object
-                time_object = datetime.strptime(value, '%H:%M').time()
-                return time_object
-            except ValueError:
-                raise ValueError("Invalid time format. Please use HH:MM.")
-
-        elif key == 'date_taken':
-            if isinstance(value, str): 
+            if isinstance(value, str):
                 try:
-                    value = datetime.strptime(value, '%Y-%m-%d').date()
+                    value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
                 except ValueError:
-                    raise ValueError("Invalid date format. Please use YYYY-MM-DD.")
-            elif not isinstance(value, date):
-                raise ValueError(f"ERROR: {key} must be of type datetime.date")
-        return value
+                    raise ValueError("Invalid datetime format. Please use YYYY-MM-DD HH:MM:SS.")
+            elif not isinstance(value, datetime):
+                raise ValueError(f"ERROR: {key} must be of type datetime.datetime")
+                return value
 
-    @validates('use_id', 'prescription_id')
-    def validate_se(self, key, value):
+            return value
+
+    @validates('user_id', 'prescription_id')
+    def validate_dose_ids(self, key, value):
         if key == 'user_id':
             user = User.query.filter(User.id == value).first()
             if not user:
@@ -155,6 +153,7 @@ class Dosage_history(db.Model, SerializerMixin):
             return value
         if key == 'prescription_id':
             p = Prescription.query.filter(Prescription.id == value).first()
+            
             if not p:
                 raise ValueError('Prescription must exist!')
             return value

@@ -2,7 +2,7 @@
 
 # Standard library imports
 from random import randint, choice as rc
-from datetime import timedelta
+from datetime import timedelta, datetime, time
 
 
 # Remote library imports
@@ -26,49 +26,69 @@ def create_users():
 
     return users
 
-def create_prescriptions():
+def create_prescriptions(users):
     rxs = []
     drugs = ['Lipitor 20mg', 'Crestor 5mg', 'Tylenol 325mg', 'Aspirin 81mg', 'Enalapril 5mg', 'Amoxicillin 500mg', 'Metformin 500mg']
     directions = ['Take 1 tablet once a day', 'Take 1 tablet twice a day', 'Take 1 tablet three times a day']
     start_date = fake.date_this_year(before_today=True, after_today=True)
     end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
 
-    for _ in range(10):
+    for _ in range(3):
+        start_date = fake.date_this_year(before_today=True, after_today=True)
+        end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
         p = Prescription(
             name = rc(drugs),
             direction = rc(directions),
             start_date = start_date,
             end_date = end_date,
-            completed=fake.boolean()
+            completed=fake.boolean(),
+            user_id=rc([user.id for user in users])
         )
         rxs.append(p)
     return rxs
 
 def create_se(users, rxs):
-    ses = []
-    
-    for _ in range(4):
-        s = Side_effect(
-            symptom = faker.sentence(),
-            user_id=rc([user.id for user in users]),
-            prescription_id = rc([prescription.id for rx in rxs])
-        )
 
-        ses.append(s)
+    ses = []
+    for rx in rxs:
+        user_ids_for_rx = [user.id for user in users if user.id == rx.user_id]
+
+        if not user_ids_for_rx:
+            # Skip creating dosage histories if the prescription's user is not found in the provided user list
+            continue
+    
+        for _ in range(4):
+            user_id = rc(user_ids_for_rx)
+
+            s = Side_effect(
+                symptom = fake.sentence(),
+                user_id= user_id,
+                prescription_id = rx.id
+            )
+
+            ses.append(s)
     return ses
+    
 def create_dh(users, rxs):
     dosage_hxs = []
 
     for rx in rxs:
-        for _ in range(5):  # Adjust the number of dosage histories per prescription as needed
-            # Generate a random date_taken within the prescription's start and end dates
-            date_taken = fake.date_between_dates(date_start=rx.start_date, date_end=rx.end_date)
+        user_ids_for_rx = [user.id for user in users if user.id == rx.user_id]
 
-            # Create Dosage_history instance
+        if not user_ids_for_rx:
+            # Skip creating dosage histories if the prescription's user is not found in the provided user list
+            continue
+
+        for _ in range(3):  # Adjust the number of dosage histories per prescription as needed
+            date_taken = fake.date_between_dates(date_start=rx.start_date, date_end=rx.end_date)
+            date_taken = datetime.combine(date_taken, time())
+            
+            # Randomly select a user from the list of users associated with the prescription
+            user_id = rc(user_ids_for_rx)
+
             dh = Dosage_history(
-                time_taken=fake.time_object(),
                 date_taken=date_taken,
-                user_id=rc([user.id for user in users]),
+                user_id=user_id,
                 prescription_id=rx.id
             )
             dosage_hxs.append(dh)
@@ -78,29 +98,32 @@ def create_dh(users, rxs):
 
 
 
+
 if __name__ == '__main__':
     with app.app_context():
         print("Clearing db...")
         User.query.delete()
+        Prescription.query.delete()
+        Side_effect.query.delete()
+        Dosage_history.query.delete()
   
-
         print("Seeding users...")
         users =create_users()
         db.session.add_all(users)
         db.session.commit()
 
         print("Seeding rxs...")
-        rxs = create_prescriptions()
+        rxs = create_prescriptions(users)
         db.session.add_all(rxs)
         db.session.commit()
 
         print("Seeding ses...")
-        ses = create_se(rxs, users)
+        ses = create_se(users, rxs)
         db.session.add_all(ses)
         db.session.commit()
 
         print("Seeding dosage_history...")
-        dosage = create_se(rxs, users)
+        dosage = create_dh(users, rxs)
         db.session.add_all(dosage)
         db.session.commit()
     
