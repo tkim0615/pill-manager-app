@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@babel/types": "^7.23.9",
+    "lodash": "^4.17.21",
+    "webpack": "^5.90.2"
+  }
+}
