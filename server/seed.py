@@ -10,13 +10,13 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Prescription, Side_effect, Dosage_history
+from models import db, User, Prescription, Doctor, Dosage_history
 fake = Faker()
 
 
 def create_users():
     users = []
-    for _ in range(2):
+    for _ in range(3):
         u = User(
             name=fake.name(),
             username = fake.first_name()
@@ -26,7 +26,17 @@ def create_users():
 
     return users
 
-def create_prescriptions(users):
+def create_doctors():
+    doctors = []
+    for _ in range(7):
+        d = Doctor(
+            name=fake.name()
+        )
+        doctors.append(d)
+
+    return doctors
+
+def create_prescriptions(users, doctors):
     rxs = []
     drugs = ['Lipitor 20mg', 'Crestor 5mg', 'Tylenol 325mg', 'Aspirin 81mg', 'Enalapril 5mg', 'Amoxicillin 500mg', 'Metformin 500mg']
     directions = ['Take 1 tablet once a day', 'Take 1 tablet twice a day', 'Take 1 tablet three times a day']
@@ -42,7 +52,8 @@ def create_prescriptions(users):
             start_date = start_date,
             end_date = end_date,
             completed=fake.boolean(),
-            user_id=rc([user.id for user in users])
+            user_id=rc([user.id for user in users]),
+            doctor_id=rc([doctor.id for doctor in doctors])
         )
         rxs.append(p)
     return rxs
@@ -103,24 +114,30 @@ if __name__ == '__main__':
     with app.app_context():
         print("Clearing db...")
         User.query.delete()
+        Doctor.query.delete()
         Prescription.query.delete()
-        Side_effect.query.delete()
         Dosage_history.query.delete()
+
   
         print("Seeding users...")
         users =create_users()
         db.session.add_all(users)
         db.session.commit()
 
+        print("Seeding doctor...")
+        doctors = create_doctors()
+        db.session.add_all(doctors)
+        db.session.commit()
+
         print("Seeding rxs...")
-        rxs = create_prescriptions(users)
+        rxs = create_prescriptions(users, doctors)
         db.session.add_all(rxs)
         db.session.commit()
 
-        print("Seeding ses...")
-        ses = create_se(users, rxs)
-        db.session.add_all(ses)
-        db.session.commit()
+        # print("Seeding ses...")
+        # ses = create_se(users, rxs)
+        # db.session.add_all(ses)
+        # db.session.commit()
 
         print("Seeding dosage_history...")
         dosage = create_dh(users, rxs)
