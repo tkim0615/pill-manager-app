@@ -147,9 +147,9 @@ class Dosage_history(db.Model, SerializerMixin):
     def validate_dosage(self, key, value):
             if isinstance(value, str):
                 try:
-                    value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
+                    value = datetime.strptime(value, '%Y-%m-%d %H:%M')
                 except ValueError:
-                    raise ValueError("Invalid datetime format. Please use YYYY-MM-DD HH:MM:SS.")
+                    raise ValueError("Invalid datetime format. Please use YYYY-MM-DD HH:MM.")
                 return value
             elif not isinstance(value, datetime):
                 raise ValueError(f"ERROR: {key} must be of type datetime.datetime")

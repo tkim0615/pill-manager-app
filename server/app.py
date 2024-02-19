@@ -117,16 +117,105 @@ class PrescriptionsById(Resource):
             db.session.commit()
             return make_response({}, 204)
         return make_response({'error': 'Prescription not found'}, 404)
-        
-
-
-                
-
 
 
 api.add_resource(PrescriptionsById, '/prescriptions/<int:id>')
 api.add_resource(Prescriptions, '/prescriptions')
 
+class Dosage_histories(Resource):
+    def get(self):
+        dhs = [dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')) for dh in Dosage_history.query.all()]
+        return make_response(dhs, 200)
+    def post(self):
+            try:
+                data = request.get_json()
+                dhs = Dosage_history(
+                    date_taken= data['date_taken'],
+                    user_id= data['user_id'],
+                    prescription_id= data['prescription_id']
+                )
+                db.session.add(dhs)
+                db.session.commit()
+                return make_response(dhs.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 201)
+            except ValueError:
+                return make_response({'error': 'Failed to add new dosage history, try again!'}, 400)  
+class Dosage_historiesById(Resource):
+    def get(self, id):
+        dh = Dosage_history.query.filter(Dosage_history.id == id).first()
+        if dh:
+            return make_resposne(dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 200)
+        return make_response({'error': 'Dosage history not found'},404)
+
+    def patch(self, id):
+        dh = Dosage_history.query.filter(Dosage_history.id == id).first()
+        if dh:
+            try:
+                data = request.get_json()
+                for attr in data:
+                    setattr(dh, attr, data[attr])
+                db.session.commit()
+                return make_response(dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 202)
+            except ValueError:
+                return make_response({'error': 'Dosage history failed to edit'},400)
+        else:
+            return make_response({'error': 'Dosage history not found'},404)
+    def delete(self, id):
+        dh = Dosage_history.query.filter(Dosage_history.id == id).first()
+        if dh:
+            db.session.delete(dh)
+            db.session.commit()
+            return make_response({}, 204)
+        return make_response({'error': 'Dosage history not found'}, 404)
+
+api.add_resource(Dosage_histories, '/dosage_histories')
+api.add_resource(Dosage_historiesById, '/dosage_histories/<int:id>')
+
+
+class Doctors(Resource):
+    def get(self):  
+        mds = [mds.to_dict(only=('name',)) for mds in Doctor.query.all()]
+        return make_response(mds, 200)
+    
+    def post(self):
+        try:
+            data = request.get_json()
+            md = Doctor(
+                name= data['name']
+                    )            
+            db.session.add(md)
+            db.session.commit()
+            return make_response(md.to_dict(only=('name',)), 201)
+        except ValueError:
+            return make_response({'error': 'Failed to add new doctor, try again!'}, 400)  
+
+class DoctorsById(Resource):
+    def get(self, id):
+        md = Doctor.query.filter(Doctor.id == id).first()
+        if md:
+            return make_response(md.to_dict(only=('name',)), 200)
+        return make_response({'error': 'Doctor not found'},404)
+    def patch(self, id):
+        md = Doctor.query.filter(Doctor.id == id).first()
+        if md:
+            try:
+                data = request.get_json()
+                for attr in data:
+                    setattr(md, attr, data[attr])
+                db.session.commit()
+                return make_response(md.to_dict(only=('name',)), 202)
+            except ValueError:
+                return make_response({'error': 'Failed to edit doctor'}, 400)
+
+    def delete(self, id):
+        doctor = Doctor.query.filter(Doctor.id == id).first()
+        if doctor:
+            db.session.delete(doctor)
+            db.session.commit()
+            return make_response({}, 204)
+        return make_response({'error': 'Doctor not found'}, 404)
+           
+api.add_resource(DoctorsById, '/doctors/<int:id>')
+api.add_resource(Doctors, '/doctors')
 
 
 #authentification
