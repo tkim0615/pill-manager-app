@@ -70,11 +70,62 @@ class Prescriptions(Resource):
     def get(self):
         rxs = [r.to_dict() for r in Prescription.query.all()]
         return make_response(rxs, 200)
-    
+
+    def post(self):
+        try:
+            data = request.get_json()
+            new_prescription = Prescription(
+                name = data['name'],
+                direction = data['direction'],
+                start_date = data['start_date'],
+                end_date= data['end_date'],
+                completed=data['completed'],
+                user_id= data['user_id'],
+                doctor_id=data['doctor_id']
+            )
+            db.session.add(new_prescription)
+            db.session.commit()
+            return make_response(new_prescription.to_dict(only=('name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 201) 
+        except ValueError:
+            return make_response({'error': 'Failed to add new user, try again!'}, 400)
+
+class PrescriptionsById(Resource):
+    def get(self, id):
+        rx = Prescription.query.filter(Prescription.id == id).first()
+        if rx:
+            return make_response(rx.to_dict(only=('name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 200)
+        else:
+            return make_response({'error': 'Prescription not found'},404)
+
+    def patch(self, id):
+        rx = Prescription.query.filter(Prescription.id == id).first()
+        if rx:
+            try:
+                data = request.get_json()
+                for attr in data:
+                    setattr(rx, attr, data[attr])
+                db.session.commit()
+                return make_response(rx.to_dict(only=('name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 202)
+            except ValueError:
+                return make_response({'error': 'Prescription failed to edit'},400)
+        else:
+            return make_response({'error': 'Prescription not found'},404)
+    def delete(self, id):
+        rx = Prescription.query.filter(Prescription.id == id).first()
+        if rx:
+            db.session.delete(rx)
+            db.session.commit()
+            return make_response({}, 204)
+        return make_response({'error': 'Prescription not found'}, 404)
+        
 
 
+                
+
+
+
+api.add_resource(PrescriptionsById, '/prescriptions/<int:id>')
 api.add_resource(Prescriptions, '/prescriptions')
-
 
 
 

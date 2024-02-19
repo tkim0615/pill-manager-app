@@ -43,7 +43,7 @@ def create_prescriptions(users, doctors):
     start_date = fake.date_this_year(before_today=True, after_today=True)
     end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
 
-    for _ in range(3):
+    for _ in range(10):
         start_date = fake.date_this_year(before_today=True, after_today=True)
         end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
         p = Prescription(

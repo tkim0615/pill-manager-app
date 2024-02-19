@@ -65,7 +65,7 @@ class Prescription(db.Model, SerializerMixin):
     dosage_histories = db.relationship('Dosage_history', backref='prescription', cascade = 'all, delete')
 
         # Add serialization rules
-    serialize_rules=('-user.prescriptions', '-doctors.prescriptions')
+    serialize_rules=('-user.prescriptions', '-doctor.prescriptions', '-dosage_histories.prescription')
 
 
         #validations
