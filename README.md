@@ -44,22 +44,6 @@ U. Update users, prescriptions, side effects, dosage history
 
 D. Delete users, prescriptions, side effects, dosage history
 
-
-## BACKEND (API)
-### MODELS
-* many-to-many relationship
-* A `User` has many `Prescription`s through `Side effect`
-* A `Prescription` has many `users`s through `Side effect`
-* A `Side effect` belongs to a `User` and belongs to a `Prescription`
-* A `Dosage history` belongs to a `User` and belongs to a `Prescription`
-
-
-
-### validations 
-* Add validations to the `user` model:
-* - must have a `name`, `username`, and `password`
-
-
 ## CONTROLLERS
 ​​API routes 
 RESTful conventions 
@@ -85,6 +69,20 @@ POST /trainers/<int:id>
 ```
 GET /dosage_history/
 POST /dosage_history/<int:id>
+
+
+## BACKEND (API)
+### MODELS
+* many-to-many relationship
+* A `User` has many `Prescription`s through `Side effect`
+* A `Prescription` has many `users`s through `Side effect`
+* A `Side effect` belongs to a `User` and belongs to a `Prescription`
+* A `Dosage history` belongs to a `User` and belongs to a `Prescription`
+
+
+### validations 
+* Add validations to the `user` model:
+* - must have a `name`, `username`, and `password`
 
 
 ## FRONTEND (REACT)

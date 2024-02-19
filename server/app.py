@@ -20,7 +20,7 @@ def index():
 
 class Users(Resource):
     def get(self):  
-        users = [User.to_dict() for user in User.query.all()]
+        users = [user.to_dict(only=('name', 'username')) for user in User.query.all()]
         return make_response(users, 200)
     
     def post(self):
@@ -41,7 +41,7 @@ class UserById(Resource):
     def get(self, id):
         user = User.query.filter(User.id == id).first()
         if user:
-            return make_response(user.to_dict(), 200)
+            return make_response(user.to_dict(only=('name', 'username')), 200)
         return make_response({'error': 'user not found'},404)
     def patch(self, id):
         user = User.query.filter(User.id == id).first()
@@ -51,12 +51,30 @@ class UserById(Resource):
                 for attr in data:
                     setattr(user, attr, data[attr])
                 db.session.commit()
-                return make_response(user.to_dict(), 202)
+                return make_response(user.to_dict(only=('name', 'username')), 202)
             except ValueError:
                 return make_response({'error': 'Failed to edit user'}, 400)
-            
+
+    def delete(self, id):
+        user = User.query.filter(User.id == id).first()
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return make_response({}, 204)
+        return make_response({'error': 'User not found'}, 404)
+           
 api.add_resource(UserById, '/users/<int:id>')
-api.add_resource(Users, '/user')
+api.add_resource(Users, '/users')
+
+class Prescriptions(Resource):
+    def get(self):
+        rxs = [r.to_dict() for r in Prescription.query.all()]
+        return make_response(rxs, 200)
+    
+
+
+api.add_resource(Prescriptions, '/prescriptions')
+
 
 
 

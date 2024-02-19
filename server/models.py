@@ -93,7 +93,7 @@ class Doctor(db.Model, SerializerMixin):
 
     prescriptions = db.relationship('Prescription', backref='doctor', cascade='all, delete')
 
-    serialize_rules=('-prescriptions.doctor')
+    serialize_rules=('-prescriptions.doctor',)
 
     
 # class Side_effect(db.Model, SerializerMixin):
