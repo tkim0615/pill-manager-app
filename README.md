@@ -62,9 +62,10 @@ PATCH /classes/<int:id>
 
 ```
 ```
-GET /side_effects/
-PATCH /side_effects/<int:id>
-POST /trainers/<int:id>
+GET /doctors/
+PATCH /doctors/<int:id>
+POST /doctors/<int:id>
+DELETE /doctors/<int:id>
 ```
 ```
 GET /dosage_history/
@@ -74,9 +75,8 @@ POST /dosage_history/<int:id>
 ## BACKEND (API)
 ### MODELS
 * many-to-many relationship
-* A `User` has many `Prescription`s through `Side effect`
-* A `Prescription` has many `users`s through `Side effect`
-* A `Side effect` belongs to a `User` and belongs to a `Prescription`
+* A `User` has many `Doctor`s through `Prescription`
+* A `Doctor` has many `User`s through `Prescription`
 * A `Dosage history` belongs to a `User` and belongs to a `Prescription`
 
 
@@ -86,7 +86,7 @@ POST /dosage_history/<int:id>
 
 
 ## FRONTEND (REACT)
-- User, prescription, side effect and dosage history components will fetch data from backend
+- User, doctor, prescription, and dosage history components will fetch data from backend
 - There are five different React Routes to manage organization in the app 
 
 
