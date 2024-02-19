@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from './Home'
+import Signup from './Signup'
 
-function App() {
-  return (
-    <Home></Home>
-    )
-
+function Home() {
+  return(
+    <Signup></Signup>
+  ) 
 }
 
-export default App;
+export default Home;
