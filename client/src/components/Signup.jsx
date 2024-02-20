@@ -26,6 +26,9 @@ const handleSubmit =(e) =>{
       })
       .then(user =>{
         window.alert('Sign up Successful! Please log in')
+        setUsername('')
+        setPassword('')
+        setName('')
       })
       .catch(error =>{
         if(error.message === 'Invalid username or password'){
@@ -67,7 +70,7 @@ const handleSubmit =(e) =>{
                 </Button>
             </Form>
             Already a member? 
-            <Link to={'/Login'}>
+            <Link to={'/'}>
             <Button variant="link">Login</Button>
             </Link>
             

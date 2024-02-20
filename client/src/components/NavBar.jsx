@@ -1,7 +1,7 @@
 import React from 'react'
 import {Navbar, Container, Nav} from 'react-bootstrap'
 
-const NavBar = ({user}) => {
+const NavBar = () => {
   return (
     <>
     <Navbar bg="dark" data-bs-theme="dark">

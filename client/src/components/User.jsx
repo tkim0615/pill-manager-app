@@ -37,7 +37,6 @@ const User = ({user}) => {
       ...(password && { password }), 
       ...(username && { username })
     };
-    console.log(requestBody)
     if (!password && !username) {
       
       alert("Please provide both (password or username).");

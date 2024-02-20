@@ -17,10 +17,8 @@ function Home() {
     const onLogOut = ()=>{
       setUser(null)
     }
-//rather than having login vs signup, have signup render at all times? in login page, make small link for sign up
   return(
     <>
-      <NavBar user={user}/>
 
       {user ? 
               (<div>
