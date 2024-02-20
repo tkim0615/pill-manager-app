@@ -10,7 +10,6 @@ function Home() {
 
 
 
-
 const onSignup =(newUser) =>{
     setUser(newUser)
 }
@@ -19,11 +18,12 @@ const onSignedUp = () =>{
 }
 console.log(signedUp)
 
-
+//rather than having login vs signup, have signup render at all times? in login page, make small link for sign up
   return(
     <div>
 
-    {signedUp? <Login /> : <Signup user={user} onSignup={onSignup} onSignedUp={onSignedUp} /> }
+        <Login /> 
+        {/* <Signup user={user} onSignup={onSignup} onSignedUp={onSignedUp} />  */}
     </div>
 
   ) 
