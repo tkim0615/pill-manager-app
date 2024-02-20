@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Signup from './Signup'
 import Login from './Login'
 import Logout from './Logout'
+import NavBar from './NavBar'
 
 
 function Home() {
@@ -18,19 +19,21 @@ function Home() {
 //rather than having login vs signup, have signup render at all times? in login page, make small link for sign up
   return(
     <>
-    {user ? 
-            (<div>
-            <p>Welcome {user.name}!</p>
-            <Logout onLogOut={onLogOut}/>
-            </div>) 
-            : 
-            (<div>
-            <p>Please login</p>
-            <Login onLogin={onLogin} />
-            </div>)
-            
-        }
-</>
+      <NavBar user={user}/>
+
+      {user ? 
+              (<div>
+              <p>Welcome {user.name}!</p>
+              <Logout onLogOut={onLogOut}/>
+              </div>) 
+              : 
+              (<div>
+              <p>Please login</p>
+              <Login onLogin={onLogin} />
+              </div>)
+              
+          }
+    </>
 
   ) 
 }

@@ -4,15 +4,17 @@ import Home from './Home'
 import Signup from './Signup'
 import Login from './Login'
 import NavBar from './NavBar'
+import User from './User'
 
 function App() {
   return (
     <>
-      <NavBar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/users/:id" element={<User />} />
+
 
 
       </Routes>
