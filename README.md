@@ -5,9 +5,7 @@
 ### Phase and Cohort:  Phase5 SE111323
 
 ## App Description:
-Manage your prescriptions with ease! You will be able to login and manage current prescriptions, see history of prescriptions and 
-help you to take your dose!
-
+Manage your prescriptions with ease! You will be able to login and manage current prescriptions, see history of prescriptions and mark doses taken!
 
 ## Domain ERD: 
 ![ERD](Pill-manager.png)
@@ -77,6 +75,7 @@ POST /dosage_history/<int:id>
 * many-to-many relationship
 * A `User` has many `Doctor`s through `Prescription`
 * A `Doctor` has many `User`s through `Prescription`
+* A `Prescription` belongs to a `User` and belongs to a `Doctor`
 * A `Dosage history` belongs to a `User` and belongs to a `Prescription`
 
 
@@ -92,6 +91,8 @@ POST /dosage_history/<int:id>
 
 ## EXTRA!
 Stretch goals:
+- Fetch drug information from public API to inform drug interactions
+-
 
 
 ## FIGMA BOARD
