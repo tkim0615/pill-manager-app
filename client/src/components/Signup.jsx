@@ -5,17 +5,35 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
 
-function Signup() {
-const [fullName, setFullName] = useState('')
+function Signup({onSignup}) {
+const [name, setName] = useState('')
 const [username, setUsername] = useState('')
 const [password, setPassword] = useState('')
-
-
 
 
 const handleSubmit =(e) =>{
     e.preventDefault()
     console.log('helo')
+    fetch('/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({name, username, password}),
+      })
+      .then(r =>{
+        if (r.ok){
+            r.json()
+        } else if( r.status === 401 || r.status === 500 || r.status === 400){
+            throw new Error('Invalid username or password')
+        }
+      })
+      .then(user =>{
+        onSignup(user)
+      })
+      .catch(error =>{
+        if(error.message === 'Invalid username or password'){
+            window.alert('Invalid username or password. Please try again.')
+        }
+      })
 }
   return (
     <Container>
@@ -25,13 +43,16 @@ const handleSubmit =(e) =>{
                 <Form.Group className="mb-3" controlId="fullName">
                     <Form.Label>Full name</Form.Label>
                     <Form.Control type="text" placeholder="Enter full name"
-                    onChange={e=>setFullName(e.target.value)}/>
+                    onChange={e=>setName(e.target.value)}
+                    value = {name}
+                    />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                     <Form.Label>Username</Form.Label>
                     <Form.Control type="text" placeholder="Enter username" 
                     onChange={e=>setUsername(e.target.value)}
+                    value = {username}
                     />
                 </Form.Group>
 
@@ -39,6 +60,7 @@ const handleSubmit =(e) =>{
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Enter password"
                 onChange={e=>setPassword(e.target.value)}
+                value = {password}
 
                  />
                 </Form.Group>
@@ -47,7 +69,6 @@ const handleSubmit =(e) =>{
                 </Button>
             </Form>
         </Container>
-    )
-}
+    )}
 
 export default Signup;
