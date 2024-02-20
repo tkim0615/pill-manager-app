@@ -8,7 +8,7 @@
 Effortlessly take control of your prescriptions! With our user-friendly app, you can log in to efficiently manage your current prescriptions, track the history of medications, and easily mark doses as taken. Never forget or double up your doses!
 
 ## Domain ERD: 
-![Domain_Model](Pill.drawio)
+![Domain_Model](Pill.png)
 
 ![ERD](Pill-manager.png)
 
