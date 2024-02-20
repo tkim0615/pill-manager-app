@@ -6,13 +6,13 @@ import Container from 'react-bootstrap/Container';
 
 
 
-const User = () => {
+const User = ({user}) => {
   const [fetchedUser, setFetchedUser] = useState({})
   const { id } = useParams();
 
     
   useEffect(() => {
-    fetch(`/users/${id}`)
+    fetch(`/users/${user.id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

@@ -4,6 +4,7 @@ import Signup from './Signup'
 import Login from './Login'
 import Logout from './Logout'
 import NavBar from './NavBar'
+import User from './User'
 
 
 function Home() {
@@ -31,8 +32,13 @@ function Home() {
               <p>Please login</p>
               <Login onLogin={onLogin} />
               </div>)
-              
           }
+            {user && (
+          <div>
+            <User user={user} />
+          </div>
+      )}
+
     </>
 
   ) 
