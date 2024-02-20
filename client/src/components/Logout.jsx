@@ -1,9 +1,22 @@
-import React from 'react'
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
-const Logout = () => {
-  return (
-    <div>Logout</div>
-  )
-}
+
+function Logout({onLogOut}){
+
+    function handleLogout() {
+        fetch("/logout", {
+          method: "DELETE",
+        }).then(() => onLogOut());
+      }
+    
+      return (
+        <Container>
+          <Button onClick={handleLogout}>Logout</Button>
+        </Container>
+      )}
+
+
 
 export default Logout

@@ -12,14 +12,16 @@ function Home() {
     setUser(user)
     }
 
-
+    const onLogOut = ()=>{
+      setUser(null)
+    }
 //rather than having login vs signup, have signup render at all times? in login page, make small link for sign up
   return(
     <>
     {user ? 
             (<div>
             <p>Welcome {user.name}!</p>
-            <Logout/>
+            <Logout onLogOut={onLogOut}/>
             </div>) 
             : 
             (<div>
