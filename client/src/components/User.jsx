@@ -18,6 +18,7 @@ const User = ({user}) => {
 
     
   useEffect(() => {
+  
     fetch(`/users/${user.id}`)
       .then((response) => {
         if (!response.ok) {
@@ -32,11 +33,21 @@ const User = ({user}) => {
 
   const handleSubmit = (e) =>{
     e.preventDefault()
+    const requestBody = {
+      ...(password && { password }), 
+      ...(username && { username })
+    };
+    console.log(requestBody)
+    if (!password && !username) {
+      
+      alert("Please provide both (password or username).");
+      return;
+    }
     fetch(`/users/${user.id}`,{
       
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({username, password})
+        body: JSON.stringify(requestBody)
     })
       .then((r) => r.json())
       .then((editedUser) => {

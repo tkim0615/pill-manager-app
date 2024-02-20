@@ -25,7 +25,7 @@ const handleSubmit =(e) =>{
         }
       })
       .then(user =>{
-        window.alert(user.name, 'Please log in')
+        window.alert('Sign up Successful! Please log in')
       })
       .catch(error =>{
         if(error.message === 'Invalid username or password'){

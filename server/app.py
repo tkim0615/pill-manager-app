@@ -15,7 +15,7 @@ from models import db, User, Prescription, Doctor, Dosage_history
 app.secret_key = b'\x8c\xbb\xa9\xa5\xf0\x8c01c\xc1\xec\xa4\x9fs\xbf=\x83(\xd5Z8\xa5A\xd3'
 @app.before_request        #allows any users to see all dogs and login 
 def check_if_logged_in():
-    allowed_endpoints = ['login', 'logout']
+    allowed_endpoints = ['login', 'logout', 'users']
     user_id = session.get('user_id')
     if not user_id and request.endpoint not in allowed_endpoints :
         return {'error': 'Unauthorized, Please Login'}, 401
@@ -53,6 +53,9 @@ class UserById(Resource):
         if user:
             try:
                 data = request.get_json()
+                if 'password' in data:
+                    user.password_hash = data['password']
+                    del data['password']
                 for attr in data:
                     setattr(user, attr, data[attr])
                 db.session.commit()
@@ -69,7 +72,7 @@ class UserById(Resource):
         return make_response({'error': 'User not found'}, 404)
            
 api.add_resource(UserById, '/users/<int:id>')
-api.add_resource(Users, '/users')
+api.add_resource(Users, '/users', endpoint='users')
 
 class Prescriptions(Resource):
     def get(self):
