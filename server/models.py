@@ -26,7 +26,7 @@ class User(db.Model, SerializerMixin):
     # Add validation
     @validates('name', 'username', 'password_hash')
     def validate_user(self, key, value):
-        if not value:
+        if not value or None:
             raise ValueError('Name, username, and password must exist!')
         return value
 
