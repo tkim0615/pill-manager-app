@@ -5,10 +5,21 @@
 ### Phase and Cohort:  Phase5 SE111323
 
 ## App Description:
-Manage your prescriptions with ease! You will be able to login and manage current prescriptions, see history of prescriptions and mark doses taken!
+Effortlessly take control of your prescriptions! With our user-friendly app, you can log in to efficiently manage your current prescriptions, track the history of medications, and easily mark doses as taken. Never forget or double up your doses!
 
 ## Domain ERD: 
+![Domain_Model](Pill.drawio)
+
 ![ERD](Pill-manager.png)
+
+## BACKEND (API)
+### MODELS
+* many-to-many relationship
+* A `User` has many `Doctor`s through `Prescription`
+* A `Doctor` has many `User`s through `Prescription`
+* A `Prescription` belongs to a `User` and belongs to a `Doctor`
+* A `Dosage history` belongs to a `User` and belongs to a `Prescription` 
+
 
 
 ## Deploy Application
@@ -70,18 +81,12 @@ GET /dosage_history/
 POST /dosage_history/<int:id>
 
 
-## BACKEND (API)
-### MODELS
-* many-to-many relationship
-* A `User` has many `Doctor`s through `Prescription`
-* A `Doctor` has many `User`s through `Prescription`
-* A `Prescription` belongs to a `User` and belongs to a `Doctor`
-* A `Dosage history` belongs to a `User` and belongs to a `Prescription`
-
-
 ### validations 
 * Add validations to the `user` model:
 * - must have a `name`, `username`, and `password`
+* Add validations to the `dosage history` model:
+* - user and prescription `name`, `username`, and `password`
+
 
 
 ## FRONTEND (REACT)
@@ -92,10 +97,10 @@ POST /dosage_history/<int:id>
 ## EXTRA!
 Stretch goals:
 - Fetch drug information from public API to inform drug interactions
--
 
 
-## FIGMA BOARD
+## Frontend Outline BOARD
+https://excalidraw.com/#json=0UCaC7P4JPFx2KFazpqXg,V2Y9Ts7UCIi6i5U-zASfDw
 
 
 
