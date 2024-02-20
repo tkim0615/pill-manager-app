@@ -10,36 +10,32 @@ function Login({onLogin}){
     const [username, setUsername]= useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        
-        fetch('/login', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-        })
-        .then((response) => {
-            console.log(response);
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        try {
+            const response = await fetch('/login', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+    
             if (response.ok) {
-                // Successful response (status code in the range 200-299)
-                return response.json();
+                const user = await response.json();
+                onLogin(user);
             } else if (response.status === 401 || response.status === 500) {
-                throw new Error('Invalid username or password')
-            }            
-        })
-        .then((user) => {
-            onLogin(user)
-        })
-        .catch((error) => {    
-            // Show a pop-up alert for the invalid username error
-            if (error.message === 'Invalid username or password') {
-                window.alert('Invalid username or password. Please try again.')
-                setUsername('') 
+                throw new Error('Invalid username or password');
             }
-        })}
+        } catch (error) {
+            if (error.message === 'Invalid username or password') {
+                window.alert('Invalid username or password. Please try again.');
+                setUsername('');
+            }
+        }
+    };
+    
     
     return (
         <Container>
