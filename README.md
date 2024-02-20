@@ -1,4 +1,4 @@
-# Pill Application
+# Pill manager
 
 ### Owner: Tyler Kim
 
