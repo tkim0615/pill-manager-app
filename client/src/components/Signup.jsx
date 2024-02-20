@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
 
-function Signup({onSignup}) {
+function Signup({onSignup, onSignedUp}) {
 const [name, setName] = useState('')
 const [username, setUsername] = useState('')
 const [password, setPassword] = useState('')
@@ -21,13 +21,14 @@ const handleSubmit =(e) =>{
       })
       .then(r =>{
         if (r.ok){
-            r.json()
+            return r.json()
         } else if( r.status === 401 || r.status === 500 || r.status === 400){
             throw new Error('Invalid username or password')
         }
       })
       .then(user =>{
         onSignup(user)
+        onSignedUp()
       })
       .catch(error =>{
         if(error.message === 'Invalid username or password'){
