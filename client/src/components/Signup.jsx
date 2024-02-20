@@ -4,8 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
-
-function Signup({onSignup, onSignedUp}) {
+function Signup({onSignup}) {
 const [name, setName] = useState('')
 const [username, setUsername] = useState('')
 const [password, setPassword] = useState('')
@@ -13,7 +12,6 @@ const [password, setPassword] = useState('')
 
 const handleSubmit =(e) =>{
     e.preventDefault()
-    console.log('helo')
     fetch('/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -28,7 +26,6 @@ const handleSubmit =(e) =>{
       })
       .then(user =>{
         onSignup(user)
-        onSignedUp()
       })
       .catch(error =>{
         if(error.message === 'Invalid username or password'){
@@ -69,6 +66,10 @@ const handleSubmit =(e) =>{
                 Submit
                 </Button>
             </Form>
+            Already a member? 
+            <Link to={'/Login'}>
+            <Button variant="link">Login</Button>
+            </Link>
             
         </Container>
     )}
