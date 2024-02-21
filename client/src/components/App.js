@@ -5,7 +5,8 @@ import Signup from './Signup'
 import Login from './Login'
 import NavBar from './NavBar'
 import User from './User'
-import Prescription from './Prescription';
+import Prescription from './Prescription'
+import Doctor from './Doctor'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -41,6 +42,8 @@ function App() {
         <Route path="/login" element={<Login onLogin={onLogin}/>} />
         <Route path="/users/:id" element={<User user={user} />} />
         <Route path="/prescriptions" element={<Prescription user={user} />} />
+        <Route path="/doctors" element={<Doctor user={user} />} />
+
         {/* <Route path="/prescriptions/:id" element={<Prescription />} /> */}
       </Routes>
     </>

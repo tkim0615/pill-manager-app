@@ -169,7 +169,7 @@ class Dosage_historiesById(Resource):
     def get(self, id):
         dh = Dosage_history.query.filter(Dosage_history.id == id).first()
         if dh:
-            return make_resposne(dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 200)
+            return make_response(dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 200)
         return make_response({'error': 'Dosage history not found'},404)
 
     def patch(self, id):
@@ -197,10 +197,26 @@ api.add_resource(Dosage_histories, '/dosage_histories')
 api.add_resource(Dosage_historiesById, '/dosage_histories/<int:id>')
 
 
+#return unique list of doctors associated with logged in user
 class Doctors(Resource):
-    def get(self):  
-        mds = [mds.to_dict(only=('name',)) for mds in Doctor.query.all()]
-        return make_response(mds, 200)
+    def get(self): 
+        user_id = session.get('user_id')
+        if user_id:
+            user = User.query.get(user_id)
+            if user:
+                prescriptions = user.prescriptions
+                doc= [prescription.doctor for prescription in prescriptions]
+                unique_doc =  list(set(doc))
+                dict_unique_doc = [doc.to_dict(only=('id', 'name')) for doc in unique_doc]
+
+                return make_response(dict_unique_doc, 200)
+                
+            else:
+                return make_response({'error': 'User not found'}, 404)
+        else:
+            return make_response({'error': 'Not authorized, please log in'}, 401)
+
+
     
     def post(self):
         try:
