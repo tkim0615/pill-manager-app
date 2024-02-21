@@ -150,8 +150,28 @@ api.add_resource(Prescriptions, '/prescriptions')
 
 class Dosage_histories(Resource):
     def get(self):
-        dhs = [dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')) for dh in Dosage_history.query.all()]
-        return make_response(dhs, 200)
+        user_id = session.get('user_id')
+        if user_id:
+            user = User.query.get(user_id)
+            if user:
+                dosage_histories_list = user.dosage_histories
+
+                dhs = [
+                    {
+                        **dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')),
+                        'prescription_name': dh.prescription.name if dh.prescription else None,
+                        'doctor_name': Prescription.query.get(dh.prescription_id).doctor.name
+
+                    }
+                    for dh in dosage_histories_list
+                ]
+                return make_response(dhs, 200)
+            else:
+                return make_response({'error': 'User not found'}, 404)
+        else:
+            return make_response({'error': 'Not authorized, please log in'}, 401)
+        
+
     def post(self):
             try:
                 data = request.get_json()
