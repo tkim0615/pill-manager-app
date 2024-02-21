@@ -25,6 +25,7 @@ function Login({onLogin}){
             if (response.ok) {
                 const user = await response.json();
                 onLogin(user);
+                
             } else if (response.status === 401 || response.status === 500) {
                 throw new Error('Invalid username or password');
             }

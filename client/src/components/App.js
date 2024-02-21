@@ -36,7 +36,7 @@ function App() {
       <NavBar user={user}/>
 
       <Routes>
-        <Route path="/" element={<Home user={user} onLogOut={onLogOut} />} />
+        <Route path="/" element={<Home user={user} onLogin={onLogin}onLogOut={onLogOut} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login onLogin={onLogin}/>} />
         <Route path="/users/:id" element={<User user={user} />} />
