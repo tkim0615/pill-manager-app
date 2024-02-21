@@ -85,7 +85,7 @@ class Prescriptions(Resource):
                 for rx in prescriptions:
                     # Access the associated doctor's name using the relationship
                     doctor_name = rx.doctor.name if rx.doctor else None
-                    rx_data = rx.to_dict(only=('name', 'direction', 'start_date', 'end_date', 'completed', 'user_id', 'doctor_id'))
+                    rx_data = rx.to_dict(only=('id','name', 'direction', 'start_date', 'end_date', 'completed', 'user_id', 'doctor_id'))
                     rx_data['doctor_name'] = doctor_name
                     rxs.append(rx_data)
                 return make_response(rxs, 200)
@@ -119,7 +119,7 @@ class PrescriptionsById(Resource):
     def get(self, id):
         rx = Prescription.query.filter(Prescription.id == id).first()
         if rx:
-            return make_response(rx.to_dict(only=('name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 200)
+            return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 200)
         else:
             return make_response({'error': 'Prescription not found'},404)
 
@@ -131,7 +131,7 @@ class PrescriptionsById(Resource):
                 for attr in data:
                     setattr(rx, attr, data[attr])
                 db.session.commit()
-                return make_response(rx.to_dict(only=('name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 202)
+                return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 202)
             except ValueError:
                 return make_response({'error': 'Prescription failed to edit'},400)
         else:
