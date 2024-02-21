@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-
+import ListGroup from 'react-bootstrap/ListGroup'
+import Container from 'react-bootstrap/Container'
 
 function Doctor() {
     const [doctors, setDoctors] = useState([])
@@ -13,12 +14,23 @@ function Doctor() {
             return r.json();
           })
           .then((data) => setDoctors(data))
-      }, []);
+      }, [])
 
-
-  return (
-    <div>Doctor</div>
-  )
+      return (
+        <Container>
+            <h1>Your doctors</h1>
+            <ListGroup>
+                {doctors.map((md) => (
+                    <ListGroup.Item key={md.id}>
+                            Name: Dr. {md.name}
+                            Doctor ID: {md.id}
+                        <div>
+                      </div>
+                    </ListGroup.Item>
+                ))}
+            </ListGroup>
+        </Container>
+    )
 }
 
 export default Doctor
