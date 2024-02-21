@@ -25,7 +25,7 @@ def index():
 
 class Users(Resource):
     def get(self):  
-        users = [user.to_dict(only=('name', 'username')) for user in User.query.all()]
+        users = [user.to_dict(only=('id', 'name', 'username')) for user in User.query.all()]
         return make_response(users, 200)
     
     def post(self):
@@ -33,12 +33,12 @@ class Users(Resource):
             data = request.get_json()
             user = User(
                 name= data['name'],
-                username= data['username'],
+                username= data['username']
             )
             user.password_hash = data['password'] ######################3
             db.session.add(user)
             db.session.commit()
-            return make_response(user.to_dict(), 201)
+            return make_response(user.to_dict(only=('id', 'name', 'username')), 201)
         except ValueError:
             return make_response({'error': 'Failed to add new user, try again!'}, 400)  
 
@@ -76,11 +76,23 @@ api.add_resource(Users, '/users', endpoint='users')
 
 class Prescriptions(Resource):
     def get(self):
-        rxs = [r.to_dict() for r in Prescription.query.all()]
-        return make_response(rxs, 200)
+        user_id = session.get('user_id')
+        if user_id:
+            user = User.query.get(user_id)
+            if user:
+                prescriptions = user.prescriptions
+                rxs = [rx.to_dict() for rx in prescriptions]
+                return make_response(rxs, 200)
+            else:
+                return make_response({'error': 'User not found'}, 404)
+        else:
+            return make_response({'error': 'Not authorized, please log in'}, 401)
 
     def post(self):
         try:
+            user_id = session.get('user_id')
+            if not user_id:
+                return make_response({'error': 'Not authorized, please log in'}, 401)
             data = request.get_json()
             new_prescription = Prescription(
                 name = data['name'],
@@ -88,7 +100,7 @@ class Prescriptions(Resource):
                 start_date = data['start_date'],
                 end_date= data['end_date'],
                 completed=data['completed'],
-                user_id= data['user_id'],
+                user_id= user_id,
                 doctor_id=data['doctor_id']
             )
             db.session.add(new_prescription)
@@ -231,7 +243,7 @@ class CheckSession(Resource):
     def get(self):
         user = User.query.filter(User.id == session.get('user_id')).first()
         if user:
-            return user.to_dict()
+            return user.to_dict(only=('id','name', 'username'))
         else:
             return {'message': '401: Not Authorized'}, 401
 
@@ -245,7 +257,7 @@ class Login(Resource):
             if user:
                 if user.authenticate(password):
                     session['user_id'] = user.id
-                    return user.to_dict(), 200
+                    return user.to_dict(only=('id', 'name', 'username')), 200
             return {'error': 'Invalid username or password'}, 401
             
         except ValueError:

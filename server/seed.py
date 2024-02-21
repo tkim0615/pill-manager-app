@@ -16,19 +16,19 @@ fake = Faker()
 
 def create_users():
     users = []
-    for _ in range(3):
+    for _ in range(2):
         u = User(
             name=fake.name(),
             username = fake.first_name()
         )
-        u.password_hash = 'abc1'
+        u.password_hash = 'asd'
         users.append(u)
 
     return users
 
 def create_doctors():
     doctors = []
-    for _ in range(7):
+    for _ in range(2):
         d = Doctor(
             name=fake.name()
         )
@@ -43,7 +43,7 @@ def create_prescriptions(users, doctors):
     start_date = fake.date_this_year(before_today=True, after_today=True)
     end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
 
-    for _ in range(10):
+    for _ in range(6):
         start_date = fake.date_this_year(before_today=True, after_today=True)
         end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
         p = Prescription(
@@ -90,7 +90,7 @@ def create_dh(users, rxs):
             # Skip creating dosage histories if the prescription's user is not found in the provided user list
             continue
 
-        for _ in range(3):  # Adjust the number of dosage histories per prescription as needed
+        for _ in range(6):  # Adjust the number of dosage histories per prescription as needed
             date_taken = fake.date_between_dates(date_start=rx.start_date, date_end=rx.end_date)
             date_taken = datetime.combine(date_taken, time())
             
