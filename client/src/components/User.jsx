@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -14,7 +13,6 @@ const User = ({user}) => {
   const [fetchedUser, setFetchedUser] = useState({})
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { id } = useParams();
 
     
   useEffect(() => {
@@ -28,7 +26,7 @@ const User = ({user}) => {
       })
       .then((data) => setFetchedUser(data))
       .catch((error) => console.error("Error fetching user details:", error));
-  }, [id]);
+  }, [user.id]);
 
 
   const handleSubmit = (e) =>{
@@ -66,9 +64,9 @@ const User = ({user}) => {
           <h1>User account info</h1>
         </Card.Header>
         <Card.Body>
-          <Card.Title>{fetchedUser.name}</Card.Title>
+          <Card.Title>Name: {fetchedUser.name}</Card.Title>
           <Card.Text>
-            User: {fetchedUser.username}
+            Username: {fetchedUser.username}
           </Card.Text>          
         </Card.Body>
       </Card>

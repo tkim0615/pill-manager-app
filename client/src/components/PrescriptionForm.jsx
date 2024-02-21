@@ -31,7 +31,16 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(prescription);
+    onSubmit(prescription)
+    setPrescription({
+        name: '',
+        direction: '',
+        start_date: '',
+        end_date: '',
+        completed: false,
+        doctor_id: '',
+      });
+
     
   };
 

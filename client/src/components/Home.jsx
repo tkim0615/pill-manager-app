@@ -5,10 +5,23 @@ import Login from './Login'
 import Logout from './Logout'
 import NavBar from './NavBar'
 import User from './User'
+import Prescription from './Prescription'
 
 
 function Home() {
     const [user, setUser] = useState(null)
+
+    useEffect(() => {
+      fetch('/check_session')
+        .then((r) => {
+          if (!r.ok) {
+            throw new Error('Session check failed');
+          }
+          return r.json();
+        })
+        .then((user) => setUser(user))
+        .catch(() => setUser(null));
+    }, []);
 
     const onLogin =(user) =>{
     setUser(user)
@@ -19,6 +32,7 @@ function Home() {
     }
   return(
     <>
+      <NavBar user={user}/>
 
       {user ? 
               (<div>
@@ -35,8 +49,11 @@ function Home() {
           <div>
             <User user={user} />
           </div>
+          
       )}
-
+       <div>
+            <Prescription user={user} />
+          </div>
     </>
 
   ) 
