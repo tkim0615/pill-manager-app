@@ -81,7 +81,13 @@ class Prescriptions(Resource):
             user = User.query.get(user_id)
             if user:
                 prescriptions = user.prescriptions
-                rxs = [rx.to_dict() for rx in prescriptions]
+                rxs = []
+                for rx in prescriptions:
+                    # Access the associated doctor's name using the relationship
+                    doctor_name = rx.doctor.name if rx.doctor else None
+                    rx_data = rx.to_dict(only=('name', 'direction', 'start_date', 'end_date', 'completed', 'user_id', 'doctor_id'))
+                    rx_data['doctor_name'] = doctor_name
+                    rxs.append(rx_data)
                 return make_response(rxs, 200)
             else:
                 return make_response({'error': 'User not found'}, 404)
