@@ -7,33 +7,10 @@ import NavBar from './NavBar'
 import User from './User'
 import Prescription from './Prescription'
 
-
-function Home() {
-    const [user, setUser] = useState(null)
-
-    useEffect(() => {
-      fetch('/check_session')
-        .then((r) => {
-          if (!r.ok) {
-            throw new Error('Session check failed');
-          }
-          return r.json();
-        })
-        .then((user) => setUser(user))
-        .catch(() => setUser(null));
-    }, []);
-
-    const onLogin =(user) =>{
-    setUser(user)
-    }
-
-    const onLogOut = ()=>{
-      setUser(null)
-    }
+function Home({user, onLogin, onLogOut}) {
+    
   return(
     <>
-      <NavBar user={user}/>
-
       {user ? 
               (<div>
               <p>Welcome {user.name}!</p>
@@ -45,15 +22,10 @@ function Home() {
               <Login onLogin={onLogin} />
               </div>)
           }
-            {user && (
-          <div>
-            <User user={user} />
-          </div>
           
-      )}
-       <div>
-            <Prescription user={user} />
-          </div>
+          
+      
+      
     </>
 
   ) 

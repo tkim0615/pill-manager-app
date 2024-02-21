@@ -14,7 +14,7 @@ const User = ({user}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-    
+    console.log(user)
   useEffect(() => {
   
     fetch(`/users/${user.id}`)

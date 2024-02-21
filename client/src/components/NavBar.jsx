@@ -16,6 +16,11 @@ const NavBar = ({user}) => {
               Prescriptions
             </Nav.Link>          
             <Nav.Link href="/doctors">Doctors</Nav.Link>
+            <Nav.Link as={Link} to={`/users/${user?.id}`}>
+              Account
+            </Nav.Link>
+
+
   
         </Nav>
       </Container>
