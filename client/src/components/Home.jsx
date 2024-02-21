@@ -22,13 +22,8 @@ function Home({user, onLogin, onLogOut}) {
               <Login onLogin={onLogin} />
               </div>)
           }
-          
-          
-      
-      
+    
     </>
-
-  ) 
-}
+  )}
 
 export default Home;

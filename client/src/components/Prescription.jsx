@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 import PrescriptionForm from './PrescriptionForm';
 
 const Prescription = ({user}) => {
@@ -45,7 +43,6 @@ const Prescription = ({user}) => {
       setEditIndex(prescription.id)
       setEditedPrescription(prescription)
     }
-
 
 
   const onSubmit = async (prescriptionData) => {
@@ -98,8 +95,19 @@ const Prescription = ({user}) => {
     } catch (error) {
         console.error('Error submitting prescription:', error.message);
     }
-};
+}
 
+const handleDeleteRx = (deletedRx) => {
+    fetch(`/prescriptions/${deletedRx.id}`, {
+        method: 'DELETE',
+    })
+    .then((response) => {
+        if (response.ok) {
+            setPrescriptions(prescriptions.filter((rx) => rx.id !== deletedRx.id));
+        }
+    })
+    .catch((error) => console.error("Error:", error));
+  };
 
 
     return (
@@ -121,7 +129,7 @@ const Prescription = ({user}) => {
                         </Link>
                         <div>
                     <Button onClick ={()=>handleEditClick(prescription)} variant="outline-secondary" size="sm" >Edit</Button>
-                    <Button variant="outline-danger" size="sm" >Delete</Button>
+                    <Button onClick ={()=>handleDeleteRx(prescription)} variant="outline-danger" size="sm" >Delete</Button>
             </div>
                     </ListGroup.Item>
                 ))}
@@ -135,7 +143,6 @@ const Prescription = ({user}) => {
                     <PrescriptionForm user={user} onSubmit={onSubmit} />
                 )}
 
-          
         </Container>
     );
 };

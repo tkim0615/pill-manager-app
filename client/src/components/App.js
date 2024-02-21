@@ -44,14 +44,6 @@ function App() {
         {/* <Route path="/prescriptions/:id" element={<Prescription />} /> */}
       </Routes>
     </>
-    
-
-    
-
-
-
-    )
-
-}
+    )}
 
 export default App;

@@ -4,8 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container'
 import {Link} from 'react-router-dom'
 
-
-
 function Login({onLogin}){
     const [username, setUsername]= useState('')
     const [password, setPassword] = useState('')
@@ -37,7 +35,6 @@ function Login({onLogin}){
         }
     };
     
-    
     return (
         <Container>
             <Form onSubmit={handleSubmit}>
@@ -66,7 +63,6 @@ function Login({onLogin}){
 
         </Container>
 
-      
       )}
 
 export default Login
