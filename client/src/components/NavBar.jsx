@@ -2,7 +2,6 @@ import React from 'react'
 import {Navbar, Container, Nav} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 
-
 const NavBar = ({user}) => {
   console.log(user)
   return (
@@ -19,9 +18,6 @@ const NavBar = ({user}) => {
             <Nav.Link as={Link} to={`/users/${user?.id}`}>
               Account
             </Nav.Link>
-
-
-  
         </Nav>
       </Container>
     </Navbar>
