@@ -9,22 +9,22 @@ import Prescription from './Prescription'
 import Doctor from './Doctor'
 import DosageHistory from './DosageHistory'
 
+
 function App() {
   const [user, setUser] = useState(null)
   const [dosageHistories, setDosageHistories] = useState([])
-
 
   useEffect(() => {
     fetch('/check_session')
       .then((r) => {
         if (!r.ok) {
-          throw new Error('Session check failed');
+          throw new Error('Session check failed')
         }
-        return r.json();
+        return r.json()
       })
       .then((user) => setUser(user))
-      .catch(() => setUser(null));
-  }, []);
+      .catch(() => setUser(null))
+  }, [])
 
 
   const onLogin =(user) =>{
@@ -55,10 +55,9 @@ function App() {
     setDosageHistories((prevDosageHistories) => {
       return prevDosageHistories.map((dh) =>
         dh.id === editedDh.id ? editedDh : dh
-      );
-    });
-  };
-
+      )
+    })
+  }
 
 
   return (
@@ -73,11 +72,8 @@ function App() {
         <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} />} />
         <Route path="/doctors" element={<Doctor user={user} />} />
         <Route path="/dosage_history" element={<DosageHistory user={user} handleEditedDh={handleEditedDh} dosageHistories={dosageHistories} />} />
-
-
-        {/* <Route path="/prescriptions/:id" element={<Prescription />} /> */}
       </Routes>
     </>
-    )}
+      )}
 
 export default App;
