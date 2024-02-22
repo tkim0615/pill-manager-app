@@ -13,7 +13,7 @@ import DosageHistory from './DosageHistory'
 function App() {
   const [user, setUser] = useState(null)
   const [dosageHistories, setDosageHistories] = useState([])
-
+console.log(dosageHistories)
   useEffect(() => {
     fetch('/check_session')
       .then((r) => {
@@ -35,18 +35,20 @@ function App() {
       setUser(null)
     }
 
-    useEffect(()=>{
-      {user &&
-      fetch('/dosage_histories')
-          .then(r =>{
-              if (!r.ok){
-                  throw new Error('Failed to load dosage history')
-              }
-              return r.json()
+    useEffect(() => {
+      if (user) {
+        fetch('/dosage_histories')
+          .then(r => {
+            if (!r.ok) {
+              throw new Error('Failed to load dosage history')
+            }
+            return r.json()
           })
-          .then(data =>setDosageHistories(data))  
-        }
-  },[])
+          .then(data => setDosageHistories(data))
+          .catch(error => console.error('Error fetching dosage history:', error));
+      }
+    }, [user]); // This dependency ensures the effect runs when 'user' changes
+    
 
   const handleDH = (newDosageHx) =>{
     setDosageHistories([...dosageHistories, newDosageHx])

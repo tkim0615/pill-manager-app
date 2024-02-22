@@ -38,7 +38,7 @@ def create_doctors():
 
 def create_prescriptions(users, doctors):
     rxs = []
-    drugs = ['Lipitor 20mg', 'Crestor 5mg', 'Tylenol 325mg', 'Aspirin 81mg', 'Enalapril 5mg', 'Amoxicillin 500mg', 'Metformin 500mg']
+    drugs = ['Lipitor 20mg', 'Crestor 5mg', 'Tylenol 325mg', 'Aspirin 81mg', 'Enalapril 5mg', 'Amoxicillin 500mg', 'Metformin 500mg', 'Warfarin 10mg', 'Tamsulosin 75mg', 'Finasteride 5mg', 'dutasteride 5 mg']
     directions = ['Take 1 tablet once a day', 'Take 1 tablet twice a day', 'Take 1 tablet three times a day']
     start_date = fake.date_this_year(before_today=True, after_today=True)
     end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
