@@ -51,6 +51,7 @@ function App() {
   }
 
   const handleEditedDh = (editedDh) => {
+    console.log(editedDh)
     setDosageHistories((prevDosageHistories) => {
       return prevDosageHistories.map((dh) =>
         dh.id === editedDh.id ? editedDh : dh

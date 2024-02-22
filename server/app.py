@@ -188,6 +188,7 @@ class Dosage_histories(Resource):
 class Dosage_historiesById(Resource):
     def get(self, id):
         dh = Dosage_history.query.filter(Dosage_history.id == id).first()
+        
         if dh:
             return make_response(dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 200)
         return make_response({'error': 'Dosage history not found'},404)
@@ -200,11 +201,22 @@ class Dosage_historiesById(Resource):
                 for attr in data:
                     setattr(dh, attr, data[attr])
                 db.session.commit()
-                return make_response(dh.to_dict(only=('id','user_id', 'date_taken', 'prescription_id')), 202)
+                # Get prescription and doctor names
+                prescription_name = dh.prescription.name if dh.prescription else None
+                doctor_name = dh.prescription.doctor.name if dh.prescription and dh.prescription.doctor else None
+
+                # Include prescription and doctor names in the response
+                response_data = dh.to_dict(only=('id', 'user_id', 'date_taken', 'prescription_id'))
+                response_data['prescription_name'] = prescription_name
+                response_data['doctor_name'] = doctor_name
+
+                return make_response(response_data, 202)            
             except ValueError:
                 return make_response({'error': 'Dosage history failed to edit'},400)
+            
         else:
             return make_response({'error': 'Dosage history not found'},404)
+        
     def delete(self, id):
         dh = Dosage_history.query.filter(Dosage_history.id == id).first()
         if dh:

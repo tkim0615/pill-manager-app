@@ -20,9 +20,8 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
     const handleSubmit =(e) =>{
         e.preventDefault()
         const editedTime = {
-            time_taken: timeTaken
+            date_taken: timeTaken
         }
-        console.log(editedTime, editedId)
         fetch(`/dosage_histories/${editedId}`,{
             method:'PATCH',
             headers: {
@@ -42,6 +41,9 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
                 handleEditedDh(editedDh)
                 console.log(editedDh)
             })
+            .catch((error) => {
+                console.error('Error:', error.message);
+            });
             
             
     }
