@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
@@ -7,7 +7,8 @@ import Form from 'react-bootstrap/Form'
 
 const DosageHistory = ({dosageHistories}) => {
     const [editedId, setEditedId] = useState(null)
-    
+    const [timeTaken, setTimeTaken] = useState('')
+    console.log(timeTaken)
 
     const handleEditClick = (editedDh) =>{
         setEditedId(editedDh.id)
@@ -32,7 +33,12 @@ const DosageHistory = ({dosageHistories}) => {
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Edit time taken</Form.Label>
-                                <Form.Control type="text" placeholder="Enter YYYY-MM-DD HH:MM format" />
+                                <Form.Control 
+                                type="text" 
+                                placeholder="Enter YYYY-MM-DD HH:MM format"
+                                value = {timeTaken}
+                                onChange={e=>setTimeTaken(e.target.value)}
+                                />
                                 <Form.Text className="text">
                                 </Form.Text>
                             </Form.Group>
