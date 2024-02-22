@@ -48,8 +48,15 @@ function App() {
 
   const handleDH = (newDosageHx) =>{
     console.log(newDosageHx)
-
   }
+
+  const handleEditedDh = (editedDh) => {
+    setDosageHistories((prevDosageHistories) => {
+      return prevDosageHistories.map((dh) =>
+        dh.id === editedDh.id ? editedDh : dh
+      );
+    });
+  };
 
 
 
@@ -64,7 +71,7 @@ function App() {
         <Route path="/users/:id" element={<User user={user} />} />
         <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} />} />
         <Route path="/doctors" element={<Doctor user={user} />} />
-        <Route path="/dosage_history" element={<DosageHistory user={user} dosageHistories={dosageHistories} />} />
+        <Route path="/dosage_history" element={<DosageHistory user={user} handleEditedDh={handleEditedDh} dosageHistories={dosageHistories} />} />
 
 
         {/* <Route path="/prescriptions/:id" element={<Prescription />} /> */}

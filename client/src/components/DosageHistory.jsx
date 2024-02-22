@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
 
-const DosageHistory = ({dosageHistories}) => {
+const DosageHistory = ({dosageHistories, handleEditedDh}) => {
     const [editedId, setEditedId] = useState(null)
     const [timeTaken, setTimeTaken] = useState('')
     console.log(timeTaken)
@@ -22,6 +22,7 @@ const DosageHistory = ({dosageHistories}) => {
         const editedTime = {
             time_taken: timeTaken
         }
+        console.log(editedTime, editedId)
         fetch(`/dosage_histories/${editedId}`,{
             method:'PATCH',
             headers: {
@@ -30,11 +31,19 @@ const DosageHistory = ({dosageHistories}) => {
             body:JSON.stringify(editedTime) 
         })
             .then(r =>{
+                console.log(r)
                 if (!r.ok) {
                     throw new Error('Failed to edit date taken');
+                }else{
+                    return r.json()
                 }
-                
             })
+            .then(editedDh =>{
+                handleEditedDh(editedDh)
+                console.log(editedDh)
+            })
+            
+            
     }
     
     return (
