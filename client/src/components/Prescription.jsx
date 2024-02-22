@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-
-import PrescriptionForm from './PrescriptionForm';
+import React, { useState, useEffect } from 'react'
+import ListGroup from 'react-bootstrap/ListGroup'
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import SideEffect from './SideEffect'
+import PrescriptionForm from './PrescriptionForm'
 
 const Prescription = ({user, handleDH}) => {
     const [prescriptions, setPrescriptions] = useState([])
@@ -147,7 +147,7 @@ const handleDeleteRx = (deletedRx) => {
                             direction: {prescription.direction}
                             Start date: {prescription.start_date}
                             End date: {prescription.end_date}
-                            Completed? {prescription.completed.toString()}
+                            Completed: {prescription.completed.toString()}
                             Dr. {prescription.doctor_name}
 
                             <div>
@@ -164,6 +164,7 @@ const handleDeleteRx = (deletedRx) => {
                             >
                                 Create Dosage History
                             </Button>
+                            <SideEffect prescription={prescription}/>
                         </div>
 
                     </ListGroup.Item>

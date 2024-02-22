@@ -10,7 +10,6 @@ Effortlessly take control of your prescriptions! With our user-friendly app, you
 ## Domain ERD: 
 ![Domain_Model](Pill.png)
 
-
 ![ERD](Pill-manager.png)
 
 ## BACKEND (API)
