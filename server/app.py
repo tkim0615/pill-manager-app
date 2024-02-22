@@ -158,7 +158,7 @@ class Dosage_histories(Resource):
 
                 dhs = [
                     {
-                        **dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')),
+                        **dh.to_dict(only=('id','user_id', 'date_taken', 'prescription_id')),
                         'prescription_name': dh.prescription.name if dh.prescription else None,
                         'doctor_name': Prescription.query.get(dh.prescription_id).doctor.name
 
@@ -200,7 +200,7 @@ class Dosage_historiesById(Resource):
                 for attr in data:
                     setattr(dh, attr, data[attr])
                 db.session.commit()
-                return make_response(dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 202)
+                return make_response(dh.to_dict(only=('id','user_id', 'date_taken', 'prescription_id')), 202)
             except ValueError:
                 return make_response({'error': 'Dosage history failed to edit'},400)
         else:

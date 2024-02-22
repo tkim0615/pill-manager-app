@@ -1,9 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+
 
 const DosageHistory = ({dosageHistories}) => {
+    const [editedId, setEditedId] = useState(null)
+    
 
+    const handleEditClick = (editedDh) =>{
+        setEditedId(editedDh.id)
+    }
+    const handleCancelEdit = () =>{
+        setEditedId(null)
+    }
     
     return (
         <Container>
@@ -16,8 +27,30 @@ const DosageHistory = ({dosageHistories}) => {
                             Doctor: Dr. {dh.doctor_name}
                         <div>
                       </div>
+                        <Button onClick={()=> handleEditClick(dh)} variant="outline-secondary" size="sm">Edit</Button>
+                        {dh.id === editedId? 
+                        <Form>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Edit time taken</Form.Label>
+                                <Form.Control type="text" placeholder="Enter YYYY-MM-DD HH:MM format" />
+                                <Form.Text className="text">
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Button variant="primary" type="submit">
+                                Submit
+                            </Button>
+                            <Button variant="secondary" onClick={handleCancelEdit}>
+                                Cancel
+                            </Button>
+                        </Form>
+                        : null
+                    
+                        }
+                        
                     </ListGroup.Item>
                 ))}
+                
             </ListGroup>
         </Container>
     )
