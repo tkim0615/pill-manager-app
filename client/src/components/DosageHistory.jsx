@@ -16,6 +16,26 @@ const DosageHistory = ({dosageHistories}) => {
     const handleCancelEdit = () =>{
         setEditedId(null)
     }
+
+    const handleSubmit =(e) =>{
+        e.preventDefault()
+        const editedTime = {
+            time_taken: timeTaken
+        }
+        fetch(`/dosage_histories/${editedId}`,{
+            method:'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(editedTime) 
+        })
+            .then(r =>{
+                if (!r.ok) {
+                    throw new Error('Failed to edit date taken');
+                }
+                
+            })
+    }
     
     return (
         <Container>
@@ -30,7 +50,7 @@ const DosageHistory = ({dosageHistories}) => {
                       </div>
                         <Button onClick={()=> handleEditClick(dh)} variant="outline-secondary" size="sm">Edit</Button>
                         {dh.id === editedId? 
-                        <Form>
+                        <Form onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Edit time taken</Form.Label>
                                 <Form.Control 
