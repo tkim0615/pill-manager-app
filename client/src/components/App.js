@@ -11,6 +11,8 @@ import DosageHistory from './DosageHistory'
 
 function App() {
   const [user, setUser] = useState(null)
+  const [dosageHistories, setDosageHistories] = useState([])
+
 
   useEffect(() => {
     fetch('/check_session')
@@ -33,6 +35,24 @@ function App() {
       setUser(null)
     }
 
+    useEffect(()=>{
+      fetch('/dosage_histories')
+          .then(r =>{
+              if (!r.ok){
+                  throw new Error('Failed to load dosage history')
+              }
+              return r.json()
+          })
+          .then(data =>setDosageHistories(data))  
+  },[])
+
+  const handleDH = (newDosageHx) =>{
+    console.log(newDosageHx)
+
+  }
+
+
+
   return (
     <>
       <NavBar user={user}/>
@@ -42,9 +62,9 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login onLogin={onLogin}/>} />
         <Route path="/users/:id" element={<User user={user} />} />
-        <Route path="/prescriptions" element={<Prescription user={user} />} />
+        <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} />} />
         <Route path="/doctors" element={<Doctor user={user} />} />
-        <Route path="/dosage_history" element={<DosageHistory user={user} />} />
+        <Route path="/dosage_history" element={<DosageHistory user={user} dosageHistories={dosageHistories} />} />
 
 
         {/* <Route path="/prescriptions/:id" element={<Prescription />} /> */}

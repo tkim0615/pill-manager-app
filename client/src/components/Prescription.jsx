@@ -6,8 +6,7 @@ import Container from 'react-bootstrap/Container';
 
 import PrescriptionForm from './PrescriptionForm';
 
-const Prescription = ({user}) => {
-  console.log(user)
+const Prescription = ({user, handleDH}) => {
     const [prescriptions, setPrescriptions] = useState([])
     const [editIndex, setEditIndex] = useState(null)
     const [editedPrescription, setEditedPrescription] = useState(null)
@@ -39,16 +38,13 @@ const Prescription = ({user}) => {
     }, []); // The empty dependency array ensures this effect runs only once
 
     const handleEditClick = (prescription) =>{
-      console.log(prescription.id)
       setEditIndex(prescription.id)
       setEditedPrescription(prescription)
     }
 
 
   const onSubmit = async (prescriptionData) => {
-    console.log(prescriptionData);
-    console.log(editIndex);
-    console.log(prescriptionData.id)
+    
     try {
         let response;
         // Determine whether it's an edit or add operation
@@ -107,7 +103,42 @@ const handleDeleteRx = (deletedRx) => {
         }
     })
     .catch((error) => console.error("Error:", error));
-  };
+  }
+
+  const handleCreateDosageHistory = async (prescriptionId) => {
+    const originalDate = new Date();
+    const formattedDate = originalDate.toISOString().slice(0, 16).replace('T', ' ');
+    console.log(formattedDate)
+
+    try {
+        const response = await fetch('/dosage_histories', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                date_taken: formattedDate, // Use the current date/time
+                user_id: user.id,
+                prescription_id: prescriptionId
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error('Failed to create dosage history');
+        }
+
+        const createdDosageHistory = await response.json()
+            handleDH(createdDosageHistory)
+        // You can handle the created dosage history as needed
+    } catch (error) {
+        console.error('Error creating dosage history:', error.message);
+    }
+}
+
+
+
+// do i need to call any function
+
 
 
     return (
@@ -118,7 +149,6 @@ const handleDeleteRx = (deletedRx) => {
                 {prescriptions.map((prescription, index) => (
                     <ListGroup.Item key={prescription.id}>
                         {/* Display prescription details */}
-                        <Link to={`/prescriptions/${prescription.id}`}>
                             name: {prescription.name}
                             direction: {prescription.direction}
                             Start date: {prescription.start_date}
@@ -126,11 +156,22 @@ const handleDeleteRx = (deletedRx) => {
                             Completed? {prescription.completed.toString()}
                             Dr. {prescription.doctor_name}
 
-                        </Link>
-                        <div>
-                    <Button onClick ={()=>handleEditClick(prescription)} variant="outline-secondary" size="sm" >Edit</Button>
-                    <Button onClick ={()=>handleDeleteRx(prescription)} variant="outline-danger" size="sm" >Delete</Button>
-            </div>
+                            <div>
+                            <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
+                                Edit
+                            </Button>
+                            <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
+                                Delete
+                            </Button>
+                            <Button
+                                onClick={() => handleCreateDosageHistory(prescription.id)}
+                                variant="outline-primary"
+                                size="sm"
+                            >
+                                Create Dosage History
+                            </Button>
+                        </div>
+
                     </ListGroup.Item>
                 ))}
             </ListGroup>

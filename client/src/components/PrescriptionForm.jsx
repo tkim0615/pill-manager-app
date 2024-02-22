@@ -3,7 +3,6 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
-    console.log(user)
   const [prescription, setPrescription] = useState({
     name: '',
     direction: '',

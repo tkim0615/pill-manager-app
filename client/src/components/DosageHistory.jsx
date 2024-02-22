@@ -2,20 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Container from 'react-bootstrap/Container'
 
-const DosageHistory = () => {
-    const [dosageHistories, setDosageHistories] = useState([])
-    console.log(dosageHistories)
-
-    useEffect(()=>{
-        fetch('/dosage_histories')
-            .then(r =>{
-                if (!r.ok){
-                    throw new Error('Failed to load dosage history')
-                }
-                return r.json()
-            })
-            .then(data =>setDosageHistories(data))  
-    },[])
+const DosageHistory = ({dosageHistories}) => {
 
     
     return (
