@@ -135,11 +135,6 @@ const handleDeleteRx = (deletedRx) => {
 }
 
 
-
-// do i need to call any function
-
-
-
     return (
         <Container>
             <h1>Prescriptions</h1>

@@ -175,16 +175,25 @@ class Dosage_histories(Resource):
     def post(self):
             try:
                 data = request.get_json()
-                dhs = Dosage_history(
+                dh = Dosage_history(
                     date_taken= data['date_taken'],
                     user_id= data['user_id'],
                     prescription_id= data['prescription_id']
                 )
-                db.session.add(dhs)
+                db.session.add(dh)
                 db.session.commit()
-                return make_response(dhs.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 201)
+                prescription_name = dh.prescription.name if dh.prescription else None
+                doctor_name = dh.prescription.doctor.name if dh.prescription and dh.prescription.doctor else None
+
+                # Include prescription and doctor names in the response
+                response_data = dh.to_dict(only=('id', 'user_id', 'date_taken', 'prescription_id'))
+                response_data['prescription_name'] = prescription_name
+                response_data['doctor_name'] = doctor_name
+
+                return make_response(response_data, 201)
             except ValueError:
                 return make_response({'error': 'Failed to add new dosage history, try again!'}, 400)  
+            
 class Dosage_historiesById(Resource):
     def get(self, id):
         dh = Dosage_history.query.filter(Dosage_history.id == id).first()

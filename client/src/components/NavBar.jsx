@@ -9,12 +9,12 @@ const NavBar = ({user}) => {
       <Container>
         <Navbar.Brand href="/">Pill Manager</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link as={Link} to="/">Home</Nav.Link>
           <Nav.Link as={Link} to={{ pathname: '/prescriptions', state: { user } }}>
               Prescriptions
             </Nav.Link>      
-            <Nav.Link href="/dosage_history">Dosage Tracker</Nav.Link>
-            <Nav.Link href="/doctors">Doctors</Nav.Link>
+            <Nav.Link as={Link} to="dosage_history">Dosage Tracker</Nav.Link>
+            <Nav.Link as={Link} to="/doctors">Doctors</Nav.Link>
             <Nav.Link as={Link} to={`/users/${user?.id}`}>
               Account
             </Nav.Link>

@@ -47,7 +47,7 @@ function App() {
   },[])
 
   const handleDH = (newDosageHx) =>{
-    console.log(newDosageHx)
+    setDosageHistories([...dosageHistories, newDosageHx])
   }
 
   const handleEditedDh = (editedDh) => {
