@@ -136,9 +136,10 @@ const handleDeleteRx = (deletedRx) => {
 
 
     return (
+        user?
+
         <Container>
             <h1>Prescriptions</h1>
-            {/* Render your prescriptions here using the 'prescriptions' state */}
             <ListGroup>
                 {prescriptions.map((prescription, index) => (
                     <ListGroup.Item key={prescription.id}>
@@ -169,6 +170,7 @@ const handleDeleteRx = (deletedRx) => {
 
                     </ListGroup.Item>
                 ))}
+
             </ListGroup>
                   
                 {/* Conditionally render PrescriptionForm */}
@@ -178,8 +180,10 @@ const handleDeleteRx = (deletedRx) => {
                 ) : (
                     <PrescriptionForm user={user} onSubmit={onSubmit} />
                 )}
-
         </Container>
+        :
+        null
+
     );
 };
 

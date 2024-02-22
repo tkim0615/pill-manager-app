@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Container from 'react-bootstrap/Container'
 
-function Doctor() {
+function Doctor({user}) {
     const [doctors, setDoctors] = useState([])
 
     useEffect(() => {
+      {user &&
         fetch('/doctors')
           .then((r) => {
             if (!r.ok) {
@@ -14,7 +15,7 @@ function Doctor() {
             return r.json();
           })
           .then((data) => setDoctors(data))
-      }, [])
+      }}, [])
 
       return (
         <Container>

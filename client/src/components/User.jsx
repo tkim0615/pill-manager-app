@@ -13,10 +13,13 @@ const User = ({user}) => {
   const [fetchedUser, setFetchedUser] = useState({})
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  if(user === null){
+    window.alert('Please login')
+    
+  }
 
-    console.log(user)
   useEffect(() => {
-  
+    {user &&
     fetch(`/users/${user.id}`)
       .then((response) => {
         if (!response.ok) {
@@ -26,7 +29,7 @@ const User = ({user}) => {
       })
       .then((data) => setFetchedUser(data))
       .catch((error) => console.error("Error fetching user details:", error));
-  }, [user.id]);
+  }}, [user.id]);
 
 
   const handleSubmit = (e) =>{

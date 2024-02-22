@@ -36,6 +36,7 @@ function App() {
     }
 
     useEffect(()=>{
+      {user &&
       fetch('/dosage_histories')
           .then(r =>{
               if (!r.ok){
@@ -44,6 +45,7 @@ function App() {
               return r.json()
           })
           .then(data =>setDosageHistories(data))  
+        }
   },[])
 
   const handleDH = (newDosageHx) =>{

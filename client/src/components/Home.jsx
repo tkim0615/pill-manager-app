@@ -18,7 +18,6 @@ function Home({user, onLogin, onLogOut}) {
               </div>) 
               : 
               (<div>
-              <p>Please login</p>
               <Login onLogin={onLogin} />
               </div>)
           }

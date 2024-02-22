@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Container from 'react-bootstrap/Container'
 
-
 const SideEffect = ({prescription}) => {
     const [sideEffects, setSideEffects] = useState([])
     const [btnIsClicked, setBtnIsClicked] = useState(false)
