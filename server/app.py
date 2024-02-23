@@ -174,7 +174,6 @@ class Dosage_histories(Resource):
         else:
             return make_response({'error': 'Not authorized, please log in'}, 401)
         
-
     def post(self):
             try:
                 data = request.get_json()
@@ -196,12 +195,42 @@ class Dosage_histories(Resource):
                 return make_response(response_data, 201)
             except ValueError:
                 return make_response({'error': 'Failed to add new dosage history, try again!'}, 400)  
-            
+
+class Dosage_historiesByRxId(Resource):
+    def get(self, id):
+        user_id = session.get('user_id')
+        if user_id:
+            user = User.query.get(user_id)            
+            if user:
+                dosage_histories_list = user.dosage_histories
+                user_prescriptions = user.prescriptions
+
+                dhs = [
+                    {
+                        **dh.to_dict(only=('id','user_id', 'date_taken', 'prescription_id')),
+                        'prescription_name': dh.prescription.name if dh.prescription else None,
+                        'doctor_name': Prescription.query.get(dh.prescription_id).doctor.name
+
+                    }
+                    for dh in dosage_histories_list if dh.prescription_id == id
+                ]
+                print(dhs, user.prescriptions)
+                return make_response(dhs, 200)
+            else:
+                return make_response({'error': 'User not found'}, 404)
+        else:
+            return make_response({'error': 'Not authorized, please log in'}, 401)
+        
+api.add_resource(Dosage_historiesByRxId, '/dosage_histories_by_rx/<int:id>')    
 class Dosage_historiesById(Resource):
     def get(self, id):
         dh = Dosage_history.query.filter(Dosage_history.id == id).first()
         
         if dh:
+            prescription_name = dh.prescription.name if dh.prescription else None
+            doctor_name = dh.prescription.doctor.name if dh.prescription and dh.prescription.doctor else None
+            dh['prescription_name'] = prescription_name
+            dh['doctor_name'] = doctor_name
             return make_response(dh.to_dict(only=('user_id', 'date_taken', 'prescription_id')), 200)
         return make_response({'error': 'Dosage history not found'},404)
 
@@ -241,6 +270,7 @@ api.add_resource(Dosage_histories, '/dosage_histories')
 api.add_resource(Dosage_historiesById, '/dosage_histories/<int:id>')
 
 
+
 #return unique list of doctors associated with logged in user
 class Doctors(Resource):
     def get(self): 
@@ -261,7 +291,6 @@ class Doctors(Resource):
             return make_response({'error': 'Not authorized, please log in'}, 401)
 
 
-    
     def post(self):
         try:
             data = request.get_json()
@@ -337,10 +366,6 @@ class Logout(Resource):
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
-
-
-
-
 
 
 
