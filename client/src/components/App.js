@@ -13,7 +13,7 @@ import DosageHistory from './DosageHistory'
 function App() {
   const [user, setUser] = useState(null)
   const [dosageHistories, setDosageHistories] = useState([])
-console.log(dosageHistories)
+
   useEffect(() => {
     fetch('/check_session')
       .then((r) => {
@@ -54,6 +54,11 @@ console.log(dosageHistories)
     setDosageHistories([...dosageHistories, newDosageHx])
   }
 
+  const handleDeleteDh =(deletedDh) =>{
+    const filteredDh = dosageHistories.filter(dh => dh.id !== deletedDh.id)
+    setDosageHistories(filteredDh)
+  }
+
   const handleEditedDh = (editedDh) => {
     console.log(editedDh)
     setDosageHistories((prevDosageHistories) => {
@@ -73,7 +78,7 @@ console.log(dosageHistories)
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login onLogin={onLogin}/>} />
         <Route path="/users/:id" element={<User user={user} />} />
-        <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} />} />
+        <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} handleDeleteDh={handleDeleteDh} />} />
         <Route path="/doctors" element={<Doctor user={user} />} />
         <Route path="/dosage_history" element={<DosageHistory user={user} handleEditedDh={handleEditedDh} dosageHistories={dosageHistories} />} />
       </Routes>

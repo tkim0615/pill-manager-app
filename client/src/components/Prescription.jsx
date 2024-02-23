@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container'
 import SideEffect from './SideEffect'
 import PrescriptionForm from './PrescriptionForm'
 
-const Prescription = ({user, handleDH}) => {
+const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [prescriptions, setPrescriptions] = useState([])
     const [editIndex, setEditIndex] = useState(null)
     const [editedPrescription, setEditedPrescription] = useState(null)
@@ -153,6 +153,24 @@ const handleDeleteRx = (deletedRx) => {
     }
     console.log(dosageHx)
 
+    const handleDhDelete =(dh) =>{
+        console.log(dh)
+        fetch(`/dosage_histories/${dh.id}`,{
+            method: 'DELETE',
+            })
+            .then(r =>{
+                if(r.ok){
+                    const filteredDh = dosageHx.filter(d =>d.id !== dh.id)
+                    setDosageHx(filteredDh)
+                    handleDeleteDh(dh)
+            }
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+
+
+
+
     return (
         user?
 
@@ -209,6 +227,9 @@ const handleDeleteRx = (deletedRx) => {
                                                     <div>
                                                         <strong>Doctor:</strong> Dr. {dh.doctor_name}
                                                     </div>
+                                                    <Button onClick={()=>handleDhDelete(dh)} variant="outline-danger" size="sm">
+                                                        Delete
+                                                    </Button>
                                                 </ListGroup.Item>
                                             </div>
                                         ))
