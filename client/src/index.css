@@ -5,3 +5,26 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+/* In your CSS file */
+.prescription-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px; /* Adjust the margin as needed for spacing between list items */
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px;
+  margin-bottom: -10px; /* Add margin-bottom to move the button group downward */
+  
+}
+
+.prescription-details {
+  flex: 1; /* Take remaining space */
+}
+.side-effect-button {
+  margin-top: -24px; /* Adjust the margin as needed to move the button upward */
+  margin-left: -14px
+}

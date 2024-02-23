@@ -56,9 +56,16 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
                 .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
                 .map((dh) => (
                     <ListGroup.Item key={dh.id}>
-                        Date Taken: {dh.date_taken}
-                        Drug Name: {dh.prescription_name}
-                        Doctor: Dr. {dh.doctor_name}
+                        <div>
+                            <strong>Date Taken:</strong> {dh.date_taken}
+                        </div>
+                        <div>
+                            <strong>Name:</strong> {dh.prescription_name}
+                        </div>
+                        <div>
+                            <strong>Doctor:</strong> Dr. {dh.doctor_name}
+                        </div>
+
                       <div>
                       </div>
                         <Button onClick={()=> handleEditClick(dh)} variant="outline-secondary" size="sm">Edit</Button>

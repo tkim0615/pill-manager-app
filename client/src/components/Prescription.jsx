@@ -142,31 +142,36 @@ const handleDeleteRx = (deletedRx) => {
             <h1>Prescriptions</h1>
             <ListGroup>
                 {prescriptions.map((prescription, index) => (
-                    <ListGroup.Item key={prescription.id}>
-                        {/* Display prescription details */}
-                            name: {prescription.name}
-                            direction: {prescription.direction}
-                            Start date: {prescription.start_date}
-                            End date: {prescription.end_date}
-                            Completed: {prescription.completed.toString()}
-                            Dr. {prescription.doctor_name}
+                    <ListGroup.Item key={prescription.id} className="prescription-item">
 
-                            <div>
-                            <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
+                            <div className="prescription-details">
+                                <div><strong>Name:</strong> {prescription.name}</div>
+                                <div><strong>Direction:</strong> {prescription.direction}</div>
+                                <div><strong>Start date:</strong> {prescription.start_date}</div>
+                                <div><strong>End date:</strong> {prescription.end_date}</div>
+                                <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
+                                <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
+                            </div>
+
+                            <div className="button-group">
+                                <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
                                 Edit
-                            </Button>
-                            <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
+                                </Button>
+                                <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
                                 Delete
-                            </Button>
-                            <Button
+                                </Button>
+                                <Button
                                 onClick={() => handleCreateDosageHistory(prescription.id)}
                                 variant="outline-primary"
                                 size="sm"
-                            >
+                                >
                                 Create Dosage History
-                            </Button>
-                            <SideEffect prescription={prescription}/>
-                        </div>
+                                </Button>
+                            </div>
+                            <div className="side-effect-button">
+                                <SideEffect prescription={prescription} />
+                            </div>
+
 
                     </ListGroup.Item>
                 ))}
@@ -188,4 +193,3 @@ const handleDeleteRx = (deletedRx) => {
 };
 
 export default Prescription;
-//conditionally render prescriptionForm component..with edit or add state
