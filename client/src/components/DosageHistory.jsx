@@ -17,11 +17,6 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
     const totalDuration = Math.floor(dateDiffInDays) + 1
     console.log(totalDuration)
 
-
-
-
-
-
     const handleEditClick = (editedDh) =>{
         setEditedId(editedDh.id)
     }

@@ -9,6 +9,7 @@ const Prescription = ({user, handleDH}) => {
     const [prescriptions, setPrescriptions] = useState([])
     const [editIndex, setEditIndex] = useState(null)
     const [editedPrescription, setEditedPrescription] = useState(null)
+    const [dosageHx, setDosageHx] = useState([])
 
     useEffect(() => {
         // Function to fetch current user's prescriptions
@@ -160,6 +161,10 @@ const handleDeleteRx = (deletedRx) => {
                                 <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
                                 Delete
                                 </Button>
+                                {/* <Button onClick={()=>handleDhHx(prescription)} variant="outline-danger" size="sm">
+                                See dosage history
+                                </Button> */}
+                                
                                 <Button
                                 onClick={() => handleCreateDosageHistory(prescription.id)}
                                 variant="outline-primary"
