@@ -23,7 +23,6 @@ const SideEffect = ({prescription}) => {
             .then(se => setSideEffects(se.results))
     }
     const fiveSe = sideEffects.slice(0, 5)
-    console.log(fiveSe)
 
 
   return (

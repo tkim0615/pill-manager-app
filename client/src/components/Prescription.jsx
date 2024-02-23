@@ -10,6 +10,7 @@ const Prescription = ({user, handleDH}) => {
     const [editIndex, setEditIndex] = useState(null)
     const [editedPrescription, setEditedPrescription] = useState(null)
     const [dosageHx, setDosageHx] = useState([])
+    const [dhOn, setDhOn] = useState(false)
 
     useEffect(() => {
         // Function to fetch current user's prescriptions
@@ -135,6 +136,20 @@ const handleDeleteRx = (deletedRx) => {
     }
 }
 
+    const handleDhHx =(rxId) =>{
+        setDhOn(dhOn=>!dhOn)
+        console.log(rxId)
+        fetch(`/dosage_histories_by_rx/${rxId}`)
+            .then(r =>{
+                if(!r.ok){
+                    throw new Error('Failed to load dosage history')
+                }else{
+                    return r.json()
+                }
+            })
+            .then(fetchedDh => setDosageHx(fetchedDh))
+    }
+    console.log(dosageHx)
 
     return (
         user?
@@ -153,6 +168,24 @@ const handleDeleteRx = (deletedRx) => {
                                 <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
                                 <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
                             </div>
+                            {dosageHx && dhOn ?
+                                dosageHx
+                                    .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
+                                    .map((dh) => (
+                                        <ListGroup.Item key={dh.id}>
+                                            <div>
+                                                <strong>Date Taken:</strong> {dh.date_taken}
+                                            </div>
+                                            <div>
+                                                <strong>Name:</strong> {dh.prescription_name}
+                                            </div>
+                                            <div>
+                                                <strong>Doctor:</strong> Dr. {dh.doctor_name}
+                                            </div>
+                                        </ListGroup.Item>
+                                    ))
+                                : null
+                            }
 
                             <div className="button-group">
                                 <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
@@ -161,9 +194,9 @@ const handleDeleteRx = (deletedRx) => {
                                 <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
                                 Delete
                                 </Button>
-                                {/* <Button onClick={()=>handleDhHx(prescription)} variant="outline-danger" size="sm">
+                                <Button onClick={()=> handleDhHx(prescription.id)} variant="outline-primary" size="sm">
                                 See dosage history
-                                </Button> */}
+                                </Button>
                                 
                                 <Button
                                 onClick={() => handleCreateDosageHistory(prescription.id)}
