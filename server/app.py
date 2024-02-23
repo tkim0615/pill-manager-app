@@ -111,7 +111,10 @@ class Prescriptions(Resource):
             )
             db.session.add(new_prescription)
             db.session.commit()
-            return make_response(new_prescription.to_dict(only=('id','name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 201) 
+            doctor_name = new_prescription.doctor.name if new_prescription and new_prescription.doctor else None
+            rx_data = new_prescription.to_dict(only=('id','name', 'direction', 'start_date', 'end_date', 'completed','doctor'))
+            rx_data['doctor_name'] = doctor_name
+            return make_response(rx_data, 201)
         except ValueError:
             return make_response({'error': 'Failed to add new user, try again!'}, 400)
 

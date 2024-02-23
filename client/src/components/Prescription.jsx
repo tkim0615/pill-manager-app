@@ -83,7 +83,7 @@ const Prescription = ({user, handleDH}) => {
             setPrescriptions(updatedPrescriptions);
         } else {
             // Add the new prescription to the array
-            setPrescriptions([...prescriptions, updatedPrescription]);
+            setPrescriptions((prevPrescriptions) => [...prevPrescriptions, updatedPrescription]);
         }
 
         setEditIndex(null); // Reset edit mode

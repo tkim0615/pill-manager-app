@@ -9,6 +9,18 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
     const [editedId, setEditedId] = useState(null)
     const [timeTaken, setTimeTaken] = useState('')
     console.log(timeTaken)
+    const date1 = new Date('2024-02-02')
+    const date2 = new Date('2024-02-01')   
+    const dateDiffInMilliseconds = date1 - date2;
+    console.log(dateDiffInMilliseconds)
+    const dateDiffInDays = dateDiffInMilliseconds / (24 * 60 * 60 * 1000);
+    const totalDuration = Math.floor(dateDiffInDays) + 1
+    console.log(totalDuration)
+
+
+
+
+
 
     const handleEditClick = (editedDh) =>{
         setEditedId(editedDh.id)
