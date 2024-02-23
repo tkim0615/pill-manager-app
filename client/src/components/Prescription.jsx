@@ -137,20 +137,52 @@ const handleDeleteRx = (deletedRx) => {
     }
 }
 
-    const handleDhHx =(rxId) =>{
-        setDhOn(dhOn=>!dhOn)
-        setRxId(rxId)
-        console.log(rxId)
+    // const handleDhHx =(rxId) =>{
+    //     setDhOn(dhOn=>!dhOn)
+    //     setRxId(rxId)
+    //     console.log(rxId)
+    //     // if()
+    //     fetch(`/dosage_histories_by_rx/${rxId}`)
+    //         .then(r =>{
+    //             if(!r.ok){
+    //                 throw new Error('Failed to load dosage history')
+    //             }else{
+    //                 return r.json()
+    //             }
+    //         })
+    //         .then(fetchedDh => setDosageHx(fetchedDh))
+    // }
+
+    const handleDhHx = (rxId) => {
+        setDhOn(dhOn => !dhOn);
+        setRxId(rxId);
+        setDosageHx([]);
+
+        
         fetch(`/dosage_histories_by_rx/${rxId}`)
-            .then(r =>{
-                if(!r.ok){
-                    throw new Error('Failed to load dosage history')
-                }else{
-                    return r.json()
+            .then(r => {
+                if (!r.ok) {
+                    throw new Error('Failed to load dosage history');
+                } else {
+                    return r.json();
                 }
             })
-            .then(fetchedDh => setDosageHx(fetchedDh))
-    }
+            .then(fetchedDh => {
+                setDosageHx(fetchedDh);
+    
+                // Check if fetchedDh is empty and show an alert
+                if (fetchedDh.length === 0) {
+                    alert('No dosage history available.');
+                    setDhOn(false)
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle error as needed, e.g., show an error message
+            });
+    };
+    
+  
     console.log(dosageHx)
 
     const handleDhDelete =(dh) =>{
