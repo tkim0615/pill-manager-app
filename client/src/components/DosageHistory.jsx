@@ -64,7 +64,7 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
                 .map((dh) => (
                     <ListGroup.Item key={dh.id}>
                         <div>
-                            <strong>Date Taken:</strong> {dh.date_taken}
+                            <strong>Date Taken:</strong> {dh.date_taken.slice(0,-3)}
                         </div>
                         <div>
                             <strong>Name:</strong> {dh.prescription_name}

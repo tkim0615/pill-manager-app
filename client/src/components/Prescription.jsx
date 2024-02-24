@@ -228,7 +228,7 @@ const handleDeleteRx = (deletedRx) => {
                                 Delete
                                 </Button>
                                 <Button onClick={()=> handleDhHx(prescription.id)} variant="outline-primary" size="sm">
-                                See dosage history
+                                {dhOn && prescription.id === rxId? 'Close dosage history': 'See dosage history'}
                                 </Button>
                                 
                                 <Button
@@ -243,15 +243,15 @@ const handleDeleteRx = (deletedRx) => {
                             <SideEffect prescription={prescription} />
 
                             
-                            <div className="dosage-history-list">
+                            <div className="dosage-history-list" >
                                 {dosageHx && dhOn && rxId === prescription.id ?
                                     dosageHx
                                         .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
                                         .map((dh) => (
-                                            <div key={dh.id}>
-                                                <ListGroup.Item>
+                                            <div key={dh.id} style={{ border: '4px solid yellow'}}>
+                                                <ListGroup.Item >
                                                     <div>
-                                                        <strong>Date Taken:</strong> {dh.date_taken}
+                                                        <strong>Date Taken:</strong> {dh.date_taken.slice(0, -3)} 
                                                     </div>
                                                     <div>
                                                         <strong>Name:</strong> {dh.prescription_name}
