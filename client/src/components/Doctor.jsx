@@ -23,10 +23,13 @@ function Doctor({user}) {
             <ListGroup>
                 {doctors.map((md) => (
                     <ListGroup.Item key={md.id}>
-                            Name: Dr. {md.name}
-                            Doctor ID: {md.id}
-                        <div>
+                      <div>
+                            <strong>Name:</strong> Dr. {md.name} 
                       </div>
+                      <div>
+                            <strong>Doctor Id:</strong> Dr.{md.id} 
+                      </div>
+                            
                     </ListGroup.Item>
                 ))}
             </ListGroup>
