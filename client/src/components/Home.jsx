@@ -5,7 +5,6 @@ import Login from './Login'
 import Logout from './Logout'
 import NavBar from './NavBar'
 import User from './User'
-import Prescription from './Prescription'
 
 function Home({user, onLogin, onLogOut}) {
     
