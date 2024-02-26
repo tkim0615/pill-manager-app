@@ -5,6 +5,9 @@ import Container from 'react-bootstrap/Container'
 import SideEffect from './SideEffect'
 import PrescriptionForm from './PrescriptionForm'
 import PrescriptionProgressBar from './PrescriptionProgressBar'
+import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
+import Row from 'react-bootstrap/Row'
 
 const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [prescriptions, setPrescriptions] = useState([])
@@ -14,6 +17,7 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [dhOn, setDhOn] = useState(false)
     const [rxId, setRxId] = useState(null)
 
+console.log(prescriptions)
 
 
     useEffect(() => {
@@ -214,7 +218,6 @@ const handleDeleteRx = (deletedRx) => {
             return durationInDays * dosageMultiplier;
         };
 
-
     return (
         user?
 
@@ -232,6 +235,14 @@ const handleDeleteRx = (deletedRx) => {
                                 <div><strong>End date:</strong> {prescription.end_date}</div>
                                 <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
                                 <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
+                            </div>
+
+                            <div>
+                            <Row>
+                                <Col xs={6} md={4}>
+                                <Image src={prescription.image} rounded />
+                                </Col>
+                            </Row>
                             </div>
 
                             <div className="button-group">
@@ -254,7 +265,7 @@ const handleDeleteRx = (deletedRx) => {
                                 </Button>
                             </div>
                             <div className="side-effect-button">
-                                
+
                             <SideEffect prescription={prescription} />
 
                             {dhOn?

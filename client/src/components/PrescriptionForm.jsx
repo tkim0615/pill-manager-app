@@ -11,7 +11,9 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
     end_date: '',
     completed: false,
     doctor_id: '',
-  });
+    image:''
+  })
+  console.log(prescription)
 
   useEffect(() => {
     if (editedPrescription) {
@@ -38,6 +40,7 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         end_date: '',
         completed: false,
         doctor_id: '',
+        image: ''
       });
 
     
@@ -118,6 +121,16 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
           value={prescription.doctor_id}
           onChange={handleChange}
           required
+        />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>Image url:</Form.Label>
+        <Form.Control
+          type="text"
+          name="image"
+          value={prescription.image}
+          onChange={handleChange}
         />
       </Form.Group>
 

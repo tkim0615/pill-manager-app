@@ -7,7 +7,7 @@ const SideEffect = ({prescription}) => {
     const [sideEffects, setSideEffects] = useState([])
     const [btnIsClicked, setBtnIsClicked] = useState(false)
     const wikiUrl = 'https://en.wikipedia.org/wiki'
-console.log(btnIsClicked)
+    
     const handleClick =() =>{
         setBtnIsClicked(btnIsClicked=>!btnIsClicked)
         const drugName = prescription.name

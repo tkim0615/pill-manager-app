@@ -85,7 +85,7 @@ class Prescriptions(Resource):
                 for rx in prescriptions:
                     # Access the associated doctor's name using the relationship
                     doctor_name = rx.doctor.name if rx.doctor else None
-                    rx_data = rx.to_dict(only=('id','name', 'direction', 'start_date', 'end_date', 'completed', 'user_id', 'doctor_id'))
+                    rx_data = rx.to_dict(only=('id','name', 'direction', 'start_date', 'end_date', 'completed', 'user_id', 'doctor_id', 'image'))
                     rx_data['doctor_name'] = doctor_name
                     rxs.append(rx_data)
                 return make_response(rxs, 200)
@@ -107,12 +107,13 @@ class Prescriptions(Resource):
                 end_date= data['end_date'],
                 completed=data['completed'],
                 user_id= user_id,
-                doctor_id=data['doctor_id']
+                doctor_id=data['doctor_id'],
+                image=data['image']
             )
             db.session.add(new_prescription)
             db.session.commit()
             doctor_name = new_prescription.doctor.name if new_prescription and new_prescription.doctor else None
-            rx_data = new_prescription.to_dict(only=('id','name', 'direction', 'start_date', 'end_date', 'completed','doctor'))
+            rx_data = new_prescription.to_dict(only=('id','name', 'direction', 'start_date', 'end_date', 'completed','doctor', 'image'))
             rx_data['doctor_name'] = doctor_name
             return make_response(rx_data, 201)
         except ValueError:
@@ -122,7 +123,7 @@ class PrescriptionsById(Resource):
     def get(self, id):
         rx = Prescription.query.filter(Prescription.id == id).first()
         if rx:
-            return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 200)
+            return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor','image')), 200)
         else:
             return make_response({'error': 'Prescription not found'},404)
 
@@ -134,7 +135,7 @@ class PrescriptionsById(Resource):
                 for attr in data:
                     setattr(rx, attr, data[attr])
                 db.session.commit()
-                return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor')), 202)
+                return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor', 'image')), 202)
             except ValueError:
                 return make_response({'error': 'Prescription failed to edit'},400)
         else:
