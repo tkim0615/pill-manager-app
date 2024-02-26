@@ -8,7 +8,6 @@ import PrescriptionProgressBar from './PrescriptionProgressBar'
 
 const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [prescriptions, setPrescriptions] = useState([])
-    const [totalDose, setTotalDose] = useState(0)
     const [editIndex, setEditIndex] = useState(null)
     const [editedPrescription, setEditedPrescription] = useState(null)
     const [dosageHx, setDosageHx] = useState([])
@@ -184,38 +183,18 @@ const handleDeleteRx = (deletedRx) => {
     
     console.log(dosageHx)
 
-    // const handleDhDelete =(dh) =>{
-    //     fetch(`/dosage_histories/${dh.id}`,{
-    //         method: 'DELETE',
-    //         })
-    //         .then(r =>{
-    //             if(r.ok){
-    //                 const filteredDh = dosageHx.filter(d =>d.id !== dh.id)
-    //                 setDosageHx(filteredDh)
-    //                 handleDeleteDh(dh)
-    //         }})
-    //         .catch((error) => console.error("Error:", error))
-    //     }
-
-    const handleDhDelete = async(dh) => {
-        try{
-        const response = await fetch(`/dosage_histories/${dh.id}`,{
-                    method: 'DELETE',
-                    })
-        const data = await response.json()
-        if (!response.ok){
-            throw new Error ('Error deleting dosage history')
+    const handleDhDelete =(dh) =>{
+        fetch(`/dosage_histories/${dh.id}`,{
+            method: 'DELETE',
+            })
+            .then(r =>{
+                if(r.ok){
+                    const filteredDh = dosageHx.filter(d =>d.id !== dh.id)
+                    setDosageHx(filteredDh)
+                    handleDeleteDh(dh)
+            }})
+            .catch((error) => console.error("Error:", error))
         }
-        else{
-            const filteredDh = dosageHx.filter(d =>d.id !== dh.id)
-            setDosageHx(filteredDh)
-        }}
-        catch(error){
-            console.error('there was a problem', error.message)
-        }
-
-    }
-
 
 
 

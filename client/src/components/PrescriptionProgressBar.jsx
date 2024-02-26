@@ -7,7 +7,7 @@ const PrescriptionProgressBar = ({dosageTaken, totalDose}) => {
 
     return (
 
-        <ProgressBar now={progress} label={`${progress}%`} />
+        <ProgressBar now={progress} label={`${progress}% (${dosageTaken} of ${totalDose} doses taken)`} />
   )
 }
 
