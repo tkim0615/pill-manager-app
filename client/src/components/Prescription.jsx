@@ -4,9 +4,11 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import SideEffect from './SideEffect'
 import PrescriptionForm from './PrescriptionForm'
+import PrescriptionProgressBar from './PrescriptionProgressBar'
 
 const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [prescriptions, setPrescriptions] = useState([])
+    const [totalDose, setTotalDose] = useState(0)
     const [editIndex, setEditIndex] = useState(null)
     const [editedPrescription, setEditedPrescription] = useState(null)
     const [dosageHx, setDosageHx] = useState([])
@@ -21,9 +23,8 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Add any necessary authorization headers if required
                     }
-                  });
+                  })
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch prescriptions');
@@ -36,8 +37,8 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
             }
         };
 
-        fetchPrescriptions(); // Call the function to fetch prescriptions when the component mounts
-    }, []); // The empty dependency array ensures this effect runs only once
+        fetchPrescriptions()
+    }, [])
 
     const handleEditClick = (prescription) =>{
       setEditIndex(prescription.id)
@@ -71,25 +72,25 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
         }
 
         if (!response.ok) {
-            throw new Error('Failed to submit prescription');
+            throw new Error('Failed to submit prescription')
         }
 
-        const updatedPrescription = await response.json();
-        console.log('Updated Prescription:', updatedPrescription);
+        const updatedPrescription = await response.json()
+        console.log('Updated Prescription:', updatedPrescription)
         
         // Update the prescriptions state based on the operation
         if (editIndex !== null) {
             // Replace the edited prescription in the array
-            const updatedPrescriptions = prescriptions.map((presc, index) => {
-                return presc.id === editIndex ? updatedPrescription : presc;
+            const updatedPrescriptions = prescriptions.map((presc) => {
+                return presc.id === editIndex ? updatedPrescription : presc
             });
             setPrescriptions(updatedPrescriptions);
         } else {
-            // Add the new prescription to the array
-            setPrescriptions((prevPrescriptions) => [...prevPrescriptions, updatedPrescription]);
+            // for Post - Add the new prescription to the array
+            setPrescriptions((prevPrescriptions) => [...prevPrescriptions, updatedPrescription])
         }
 
-        setEditIndex(null); // Reset edit mode
+        setEditIndex(null)// Reset edit mode
     } catch (error) {
         console.error('Error submitting prescription:', error.message);
     }
@@ -148,8 +149,7 @@ const handleDeleteRx = (deletedRx) => {
     //                 throw new Error('Failed to load dosage history')
     //             }else{
     //                 return r.json()
-    //             }
-    //         })
+    //             }})
     //         .then(fetchedDh => setDosageHx(fetchedDh))
     // }
 
@@ -177,28 +177,71 @@ const handleDeleteRx = (deletedRx) => {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error:', error)
                 // Handle error as needed, e.g., show an error message
-            });
-    };
+            })
+    }
     
-  
     console.log(dosageHx)
 
-    const handleDhDelete =(dh) =>{
-        console.log(dh)
-        fetch(`/dosage_histories/${dh.id}`,{
-            method: 'DELETE',
-            })
-            .then(r =>{
-                if(r.ok){
-                    const filteredDh = dosageHx.filter(d =>d.id !== dh.id)
-                    setDosageHx(filteredDh)
-                    handleDeleteDh(dh)
-            }
-            })
-            .catch((error) => console.error("Error:", error));
+    // const handleDhDelete =(dh) =>{
+    //     fetch(`/dosage_histories/${dh.id}`,{
+    //         method: 'DELETE',
+    //         })
+    //         .then(r =>{
+    //             if(r.ok){
+    //                 const filteredDh = dosageHx.filter(d =>d.id !== dh.id)
+    //                 setDosageHx(filteredDh)
+    //                 handleDeleteDh(dh)
+    //         }})
+    //         .catch((error) => console.error("Error:", error))
+    //     }
+
+    const handleDhDelete = async(dh) => {
+        try{
+        const response = await fetch(`/dosage_histories/${dh.id}`,{
+                    method: 'DELETE',
+                    })
+        const data = await response.json()
+        if (!response.ok){
+            throw new Error ('Error deleting dosage history')
         }
+        else{
+            const filteredDh = dosageHx.filter(d =>d.id !== dh.id)
+            setDosageHx(filteredDh)
+        }}
+        catch(error){
+            console.error('there was a problem', error.message)
+        }
+
+    }
+
+
+
+
+
+
+
+        const calculateTotalDosage = (prescription) => {
+            const startDate = new Date(prescription.start_date)
+            const endDate = new Date(prescription.end_date)
+            const durationInDays = (endDate - startDate) / (24 * 60 * 60 * 1000) + 1
+        
+            // Declare dosageMultiplier outside the if statements
+            let dosageMultiplier = 1
+        
+            // Adjust total dosage based on the direction
+            if (prescription.direction.includes('once')) {
+                dosageMultiplier = 1
+            } else if (prescription.direction.includes('twice')) {
+                dosageMultiplier = 2
+            } else if (prescription.direction.includes('three')) {
+                dosageMultiplier = 3
+            }
+        
+            return durationInDays * dosageMultiplier;
+        };
+
 
 
 
@@ -209,8 +252,9 @@ const handleDeleteRx = (deletedRx) => {
         <Container>
             <h1>Prescriptions</h1>
             <ListGroup>
-                {prescriptions.map((prescription, index) => (
+                {prescriptions.map((prescription) => (
                     <ListGroup.Item key={prescription.id} className="prescription-item">
+
 
                             <div className="prescription-details">
                                 <div><strong>Name:</strong> {prescription.name}</div>
@@ -220,6 +264,7 @@ const handleDeleteRx = (deletedRx) => {
                                 <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
                                 <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
                             </div>
+
                             <div className="button-group">
                                 <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
                                 Edit
@@ -241,6 +286,10 @@ const handleDeleteRx = (deletedRx) => {
                             </div>
                             <div className="side-effect-button">
                             <SideEffect prescription={prescription} />
+                            <PrescriptionProgressBar
+                                dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}
+                                totalDose={calculateTotalDosage(prescription)}
+                            />
 
                             
                             <div className="dosage-history-list" >
