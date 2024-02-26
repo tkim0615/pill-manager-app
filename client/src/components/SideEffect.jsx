@@ -6,7 +6,8 @@ import Container from 'react-bootstrap/Container'
 const SideEffect = ({prescription}) => {
     const [sideEffects, setSideEffects] = useState([])
     const [btnIsClicked, setBtnIsClicked] = useState(false)
-
+    const wikiUrl = 'https://en.wikipedia.org/wiki'
+console.log(btnIsClicked)
     const handleClick =() =>{
         setBtnIsClicked(btnIsClicked=>!btnIsClicked)
         const drugName = prescription.name
@@ -24,20 +25,28 @@ const SideEffect = ({prescription}) => {
     }
     const fiveSe = sideEffects.slice(0, 5)
 
-
   return (
-
         <Container>
             <Button onClick={handleClick} variant="warning" size="sm">
                     See common side effects
             </Button> 
 
             <ListGroup>
-                {btnIsClicked && fiveSe.map(se => (
-                    <ListGroup.Item key={se.term}>
-                        Side effect: {se.term}
-                    </ListGroup.Item>
-                ))}
+                {btnIsClicked?
+                    <div style={{ border: '4px solid red'}}>
+                        {fiveSe.map(se => (
+                            <ListGroup.Item key={se.term} >
+                                <strong>Side effect</strong>: {''}
+                                <a  style={{ textDecoration: "none" }}
+                                    href={`${wikiUrl}/${se.term.toLowerCase()}`} target="_blank" rel="noopener noreferrer">
+                                    {se.term}
+                                </a>
+                            </ListGroup.Item>
+                        ))}
+                    </div>
+                    :
+                    null
+                }   
             </ListGroup>
         </Container>
 

@@ -254,7 +254,9 @@ const handleDeleteRx = (deletedRx) => {
                                 </Button>
                             </div>
                             <div className="side-effect-button">
+                                
                             <SideEffect prescription={prescription} />
+
                             {dhOn?
                             <PrescriptionProgressBar
                                 dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}

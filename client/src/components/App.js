@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import Home from './Home'
 import Signup from './Signup'
 import Login from './Login'
@@ -85,4 +85,4 @@ function App() {
     </>
       )}
 
-export default App;
+export default App
