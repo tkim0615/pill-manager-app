@@ -57,6 +57,7 @@ class Prescription(db.Model, SerializerMixin):
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
     completed = db.Column(db.Boolean)
+    image = db.Column(db.String)
 
         # Add relationship
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
