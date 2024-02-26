@@ -217,109 +217,201 @@ const handleDeleteRx = (deletedRx) => {
         
             return durationInDays * dosageMultiplier;
         };
-
-    return (
-        user?
-
-        <Container>
-            <h1>Prescriptions</h1>
-            <ListGroup>
-                {prescriptions.map((prescription) => (
-                    <ListGroup.Item key={prescription.id} className="prescription-item">
-
-
-                            <div className="prescription-details">
-                                <div><strong>Name:</strong> {prescription.name}</div>
-                                <div><strong>Direction:</strong> {prescription.direction}</div>
-                                <div><strong>Start date:</strong> {prescription.start_date}</div>
-                                <div><strong>End date:</strong> {prescription.end_date}</div>
-                                <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
-                                <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
-                            </div>
-
-                            <div>
-                            <Row>
-                                <Col xs={6} md={4}>
-                                <Image src={prescription.image} rounded />
+        return (
+            user ?
+        
+                <Container>
+                    <h1>Prescriptions</h1>
+                    {prescriptions.map((prescription) => (
+                <ListGroup.Item key={prescription.id} className="prescription-item" style={{ border: '1px solid #ddd', borderRadius: '5px', margin: '5px 0' }}>
+                        <Row className="align-items-start">
+                                <Col xs={12} md={8}>
+                                    <div className="prescription-details">
+                                        <div><strong>Name:</strong> {prescription.name}</div>
+                                        <div><strong>Direction:</strong> {prescription.direction}</div>
+                                        <div><strong>Start date:</strong> {prescription.start_date}</div>
+                                        <div><strong>End date:</strong> {prescription.end_date}</div>
+                                        <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
+                                        <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
+                                    </div>
                                 </Col>
+        
+                                <Col xs={{ span: 6, order: 12 }} md={{ span: 4, order: 12 }}>
+                                    <Image src={prescription.image} rounded />
+                                </Col>
+        
+                                <div className="button-group">
+                                    <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
+                                        Edit
+                                    </Button>
+                                    <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
+                                        Delete
+                                    </Button>
+                                    <Button onClick={() => handleDhHx(prescription.id)} variant="outline-primary" size="sm">
+                                        {dhOn && prescription.id === rxId ? 'Close dosage history' : 'See dosage history / Progress'}
+                                    </Button>
+                                    <Button
+                                        onClick={() => handleCreateDosageHistory(prescription.id)}
+                                        variant="outline-primary"
+                                        size="sm"
+                                    >
+                                        Create Dosage History
+                                    </Button>
+                                </div>
+        
+                                    <SideEffect prescription={prescription} />
+        
+                                    {dhOn ?
+                                        <PrescriptionProgressBar
+                                            dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}
+                                            totalDose={calculateTotalDosage(prescription)}
+                                        />
+                                        :
+                                        null
+                                    }
+        
+                                    <div className="dosage-history-list" >
+                                        {dosageHx && dhOn && rxId === prescription.id ?
+                                            dosageHx
+                                                .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
+                                                .map((dh) => (
+                                                    <div key={dh.id} style={{ border: '4px solid yellow' }}>
+                                                        <ListGroup.Item >
+                                                            <div>
+                                                                <strong>Date Taken:</strong> {dh.date_taken.slice(0, -3)}
+                                                            </div>
+                                                            <div>
+                                                                <strong>Name:</strong> {dh.prescription_name}
+                                                            </div>
+                                                            <div>
+                                                                <strong>Doctor:</strong> Dr. {dh.doctor_name}
+                                                            </div>
+                                                            <Button onClick={() => handleDhDelete(dh)} variant="outline-danger" size="sm">
+                                                                Delete
+                                                            </Button>
+                                                        </ListGroup.Item>
+                                                    </div>
+                                                ))
+                                            : null
+                                        }
+                                    </div>
                             </Row>
-                            </div>
+                        </ListGroup.Item>
+                    ))}
+                    {/* Conditionally render PrescriptionForm */}
+                    {editIndex !== null ? (
+                        <PrescriptionForm user={user} editedPrescription={editedPrescription} onSubmit={onSubmit} />
+                    ) : (
+                        <PrescriptionForm user={user} onSubmit={onSubmit} />
+                    )}
+                </Container>
+                :
+                null
+        );
+        
 
-                            <div className="button-group">
-                                <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
-                                Edit
-                                </Button>
-                                <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
-                                Delete
-                                </Button>
-                                <Button onClick={()=> handleDhHx(prescription.id)} variant="outline-primary" size="sm">
-                                {dhOn && prescription.id === rxId? 'Close dosage history': 'See dosage history / Progress'}
-                                </Button>
+    // // return (
+    // //     user?
+
+    // //     <Container>
+    // //         <h1>Prescriptions</h1>
+    // //         <ListGroup>
+    // //             {prescriptions.map((prescription) => (
+    // //                 <ListGroup.Item key={prescription.id} className="prescription-item">
+    // //                     <Row>
+    // //                     <Col xs={12} md={8}>
+
+
+    // //                         <div className="prescription-details">
+    // //                             <div><strong>Name:</strong> {prescription.name}</div>
+    // //                             <div><strong>Direction:</strong> {prescription.direction}</div>
+    // //                             <div><strong>Start date:</strong> {prescription.start_date}</div>
+    // //                             <div><strong>End date:</strong> {prescription.end_date}</div>
+    // //                             <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
+    // //                             <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
+    // //                         </div>
+
+    // //                             <Col xs={{ span: 6, order: 12 }} md={{ span: 4, order: 12 }}>
+    // //                                 <Image src={prescription.image} rounded />
+    // //                             </Col>
+
+    // //                         <div className="button-group">
+    // //                             <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
+    // //                             Edit
+    // //                             </Button>
+    // //                             <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
+    // //                             Delete
+    // //                             </Button>
+    // //                             <Button onClick={()=> handleDhHx(prescription.id)} variant="outline-primary" size="sm">
+    // //                             {dhOn && prescription.id === rxId? 'Close dosage history': 'See dosage history / Progress'}
+    // //                             </Button>
                                 
-                                <Button
-                                onClick={() => handleCreateDosageHistory(prescription.id)}
-                                variant="outline-primary"
-                                size="sm"
-                                >
-                                Create Dosage History
-                                </Button>
-                            </div>
-                            <div className="side-effect-button">
+    // //                             <Button
+    // //                             onClick={() => handleCreateDosageHistory(prescription.id)}
+    // //                             variant="outline-primary"
+    // //                             size="sm"
+    // //                             >
+    // //                             Create Dosage History
+    // //                             </Button>
+    // //                         </div>
+    // //                         <div className="side-effect-button">
 
-                            <SideEffect prescription={prescription} />
+    // //                         <SideEffect prescription={prescription} />
 
-                            {dhOn?
-                            <PrescriptionProgressBar
-                                dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}
-                                totalDose={calculateTotalDosage(prescription)}
-                            />
-                            :
-                            null
-                            }
-                            <div className="dosage-history-list" >
-                                {dosageHx && dhOn && rxId === prescription.id ?
-                                    dosageHx
-                                        .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
-                                        .map((dh) => (
-                                            <div key={dh.id} style={{ border: '4px solid yellow'}}>
-                                                <ListGroup.Item >
-                                                    <div>
-                                                        <strong>Date Taken:</strong> {dh.date_taken.slice(0, -3)} 
-                                                    </div>
-                                                    <div>
-                                                        <strong>Name:</strong> {dh.prescription_name}
-                                                    </div>
-                                                    <div>
-                                                        <strong>Doctor:</strong> Dr. {dh.doctor_name}
-                                                    </div>
-                                                    <Button onClick={()=>handleDhDelete(dh)} variant="outline-danger" size="sm">
-                                                        Delete
-                                                    </Button>
-                                                </ListGroup.Item>
-                                            </div>
-                                        ))
-                                    : null
-                                }
-                            </div>
+    // //                         {dhOn?
+    // //                         <PrescriptionProgressBar
+    // //                             dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}
+    // //                             totalDose={calculateTotalDosage(prescription)}
+    // //                         />
+    // //                         :
+    // //                         null
+    // //                         }
+    // //                         <div className="dosage-history-list" >
+    // //                             {dosageHx && dhOn && rxId === prescription.id ?
+    // //                                 dosageHx
+    // //                                     .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
+    // //                                     .map((dh) => (
+    // //                                         <div key={dh.id} style={{ border: '4px solid yellow'}}>
+    // //                                             <ListGroup.Item >
+    // //                                                 <div>
+    // //                                                     <strong>Date Taken:</strong> {dh.date_taken.slice(0, -3)} 
+    // //                                                 </div>
+    // //                                                 <div>
+    // //                                                     <strong>Name:</strong> {dh.prescription_name}
+    // //                                                 </div>
+    // //                                                 <div>
+    // //                                                     <strong>Doctor:</strong> Dr. {dh.doctor_name}
+    // //                                                 </div>
+    // //                                                 <Button onClick={()=>handleDhDelete(dh)} variant="outline-danger" size="sm">
+    // //                                                     Delete
+    // //                                                 </Button>
+    // //                                             </ListGroup.Item>
+    // //                                         </div>
+    // //                                     ))
+    // //                                 : null
+    // //                             }
+    // //                         </div>
 
-                            </div>
+    // //                         </div>
+    // //                         </Col>
 
-                    </ListGroup.Item>
-                ))}
+    // //                     </Row>
+    // //                 </ListGroup.Item>
+    // //             ))}
 
-            </ListGroup>
+    // //         </ListGroup>
                   
-                {/* Conditionally render PrescriptionForm */}
-                {editIndex !== null ? (
-                    <PrescriptionForm user={user} editedPrescription={editedPrescription} onSubmit={onSubmit}
-                    />
-                ) : (
-                    <PrescriptionForm user={user} onSubmit={onSubmit} />
-                )}
-        </Container>
-        :
-        null
-    )
+    // //             {/* Conditionally render PrescriptionForm */}
+    // //             {editIndex !== null ? (
+    // //                 <PrescriptionForm user={user} editedPrescription={editedPrescription} onSubmit={onSubmit}
+    // //                 />
+    // //             ) : (
+    // //                 <PrescriptionForm user={user} onSubmit={onSubmit} />
+    // //             )}
+    // //     </Container>
+    // //     :
+    // //     null
+    // )
 }
 
 export default Prescription

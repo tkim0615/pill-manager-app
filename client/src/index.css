@@ -24,7 +24,7 @@
 .prescription-details {
   flex: 1; /* Take remaining space */
 }
-.side-effect-button {
-  margin-top: -24px; /* Adjust the margin as needed to move the button upward */
-  margin-left: -14px
+.side-effect-button{
+  margin-top: -10px; /* Add margin-bottom to move the button group downward */
+
 }
