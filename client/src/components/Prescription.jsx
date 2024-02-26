@@ -14,8 +14,9 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [dhOn, setDhOn] = useState(false)
     const [rxId, setRxId] = useState(null)
 
+
+
     useEffect(() => {
-        // Function to fetch current user's prescriptions
         const fetchPrescriptions = async () => {
             try {
                 const response = await fetch('/prescriptions', {
@@ -108,7 +109,8 @@ const handleDeleteRx = (deletedRx) => {
   }
 
   const handleCreateDosageHistory = async (prescriptionId) => {
-    const originalDate = new Date();
+    const originalDate = new Date()
+    console.log(originalDate)
     const formattedDate = originalDate.toISOString().slice(0, 16).replace('T', ' ');
     console.log(formattedDate)
 
@@ -157,7 +159,6 @@ const handleDeleteRx = (deletedRx) => {
         setRxId(rxId);
         setDosageHx([]);
 
-        
         fetch(`/dosage_histories_by_rx/${rxId}`)
             .then(r => {
                 if (!r.ok) {
@@ -177,12 +178,9 @@ const handleDeleteRx = (deletedRx) => {
             })
             .catch(error => {
                 console.error('Error:', error)
-                // Handle error as needed, e.g., show an error message
             })
     }
     
-    console.log(dosageHx)
-
     const handleDhDelete =(dh) =>{
         fetch(`/dosage_histories/${dh.id}`,{
             method: 'DELETE',
@@ -195,11 +193,6 @@ const handleDeleteRx = (deletedRx) => {
             }})
             .catch((error) => console.error("Error:", error))
         }
-
-
-
-
-
 
         const calculateTotalDosage = (prescription) => {
             const startDate = new Date(prescription.start_date)
@@ -220,9 +213,6 @@ const handleDeleteRx = (deletedRx) => {
         
             return durationInDays * dosageMultiplier;
         };
-
-
-
 
 
     return (
@@ -252,7 +242,7 @@ const handleDeleteRx = (deletedRx) => {
                                 Delete
                                 </Button>
                                 <Button onClick={()=> handleDhHx(prescription.id)} variant="outline-primary" size="sm">
-                                {dhOn && prescription.id === rxId? 'Close dosage history': 'See dosage history'}
+                                {dhOn && prescription.id === rxId? 'Close dosage history': 'See dosage history / Progress'}
                                 </Button>
                                 
                                 <Button
@@ -265,12 +255,14 @@ const handleDeleteRx = (deletedRx) => {
                             </div>
                             <div className="side-effect-button">
                             <SideEffect prescription={prescription} />
+                            {dhOn?
                             <PrescriptionProgressBar
                                 dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}
                                 totalDose={calculateTotalDosage(prescription)}
                             />
-
-                            
+                            :
+                            null
+                            }
                             <div className="dosage-history-list" >
                                 {dosageHx && dhOn && rxId === prescription.id ?
                                     dosageHx
@@ -299,7 +291,6 @@ const handleDeleteRx = (deletedRx) => {
 
                             </div>
 
-
                     </ListGroup.Item>
                 ))}
 
@@ -315,8 +306,7 @@ const handleDeleteRx = (deletedRx) => {
         </Container>
         :
         null
+    )
+}
 
-    );
-};
-
-export default Prescription;
+export default Prescription

@@ -10,14 +10,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px; /* Adjust the margin as needed for spacing between list items */
+  margin-bottom: 5px; /* Adjust the margin as needed for spacing between list items */
 }
 
 .button-group {
   display: flex;
   justify-content: flex-end; /* Align buttons to the right */
-  gap: 10px;
-  margin-bottom: -10px; /* Add margin-bottom to move the button group downward */
+  gap: 4px;
+  margin-bottom: -5px; /* Add margin-bottom to move the button group downward */
   
 }
 
