@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import db, User, Prescription, Doctor, Dosage_history
+from models import db, User, Prescription, Doctor, Dosage_history, Allergy
 
 # Views go here!
 app.secret_key = b'\x8c\xbb\xa9\xa5\xf0\x8c01c\xc1\xec\xa4\x9fs\xbf=\x83(\xd5Z8\xa5A\xd3'
@@ -332,6 +332,50 @@ class DoctorsById(Resource):
            
 api.add_resource(DoctorsById, '/doctors/<int:id>')
 api.add_resource(Doctors, '/doctors')
+
+
+class Allergies(Resource):
+    def get(self):
+        user_id = session.get('user_id')
+        if user_id:
+            user = User.query.get(user_id)
+            if user:
+                allergies = user.allergies
+                allergy_list = [
+                    {
+                        **allergy.to_dict(only=('id', 'drug_allergy', 'symptoms')),
+                        'user_name': allergy.user.name if allergy.user else None
+                    }
+                    for allergy in allergies
+                    ]
+
+                return make_response(allergy_list, 200)
+            return make_response({'error': 'User not found'}, 404)
+        return make_response({'error': 'Not authorized, please log in'}, 401)
+
+
+    def post(self):
+        user_id = session.get('user_id')
+        if user_id:
+            try:
+                data = request.get_json()
+                allergy = Allergy(
+                    drug_allergy= data['drug_allergy'],
+                    symptoms= data['symptoms'],
+                    user_id= user_id
+                        )            
+                db.session.add(allergy)
+                db.session.commit()
+                user_name = allergy.user.name if allergy.user else None
+                response_data = allergy.to_dict(only=('drug_allergy', 'symptoms','user_id'))
+                response_data['user_name'] = user_name
+                return make_response(response_data, 201)
+            except ValueError:
+                return make_response({'error': 'Failed to add new doctor, try again!'}, 400)  
+
+api.add_resource(Allergies, '/allergies')
+
+
 
 
 #authentification
