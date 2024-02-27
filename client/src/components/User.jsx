@@ -49,13 +49,22 @@ const User = ({user}) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody)
     })
-      .then((r) => r.json())
+    .then((r) => {
+      if (!r.ok) {
+          throw new Error('Unable to edit user info');
+      }
+      alert('User info edited successfully')
+      return r.json()})
+
       .then((editedUser) => {
         setFetchedUser(editedUser)
         setUsername('')
         setPassword('')
       })
-      .catch((error) => console.error('Error:', error));
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Unable to edit user info'); // Move alert here
+    });
   };
   
 
@@ -85,7 +94,7 @@ const User = ({user}) => {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>New Password</Form.Label>
-                <Form.Control type="password" placeholder="Enter new password" value={password}
+                <Form.Control type="password" placeholder="New Password. Must be 6 to 12 characters, contain lowercase and numbers" value={password}
                     onChange={e => setPassword(e.target.value)}/>
                 </Form.Group>
                 <Button variant="primary" type="submit">
