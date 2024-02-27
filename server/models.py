@@ -22,8 +22,10 @@ class User(db.Model, SerializerMixin):
     # Add relationship
     dosage_histories = db.relationship('Dosage_history', backref='user', cascade = 'all, delete')
     prescriptions = db.relationship('Prescription', backref='user', cascade = 'all, delete')
+    allergies = db.relationship('Allergy', backref='user', cascade = 'all, delete')
+
     # Add serialization rules
-    serialize_rules=('-side_effects.user', '-dosage_histories.user', '-prescriptions.user')
+    serialize_rules=('-side_effects.user', '-dosage_histories.user', '-prescriptions.user', '-allergies.user')
 
     # Add validation
     @validates('name', 'username', 'password_hash')
@@ -179,3 +181,15 @@ class Dosage_history(db.Model, SerializerMixin):
                 raise ValueError('User ID must match the User ID associated with the Prescription.')
 
             return value
+        
+
+class Allergy(db.Model, SerializerMixin):
+    __tablename__ = 'allergies'
+
+    id = db.Column(db.Integer, primary_key=True)
+    drug_allergy = db.Column(db.String)
+    symptoms = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    serialize_rules =('-user.allergies',)
+
