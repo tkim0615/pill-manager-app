@@ -4,6 +4,8 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import date, datetime, time
 from config import db, metadata, bcrypt
+import re
+
 
 
 from config import db, metadata
@@ -26,8 +28,12 @@ class User(db.Model, SerializerMixin):
     # Add validation
     @validates('name', 'username', 'password_hash')
     def validate_user(self, key, value):
-        if not value or None:
+        if value is None or (not value.strip()):
             raise ValueError('Name, username, and password must exist!')
+        if key == 'password_hash':
+            if (len(value) < 5 or len(value) > 12) or (not re.search("[a-z]", value)) or (not any(char.isdigit() for char in value)):
+                raise ValueError("Invalid password. Must be 6 to 12 characters, contain lowercase and numbers")
+
         return value
 
     @hybrid_property
@@ -36,13 +42,13 @@ class User(db.Model, SerializerMixin):
 #removed decode, encoding
     @password_hash.setter
     def password_hash(self, password):
-        password_hash = bcrypt.generate_password_hash(
-            password.encode('utf-8'))
+        self.validate_user('password_hash', password)  # Validate the password
+
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):
-        return bcrypt.check_password_hash(
-            self._password_hash, password.encode('utf-8'))
+        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
     def __repr__(self):
         return f'<User {self.id}: {self.name} username:{self.username}>'

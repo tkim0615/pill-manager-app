@@ -21,7 +21,8 @@ def create_users():
             name=fake.name(),
             username = fake.first_name()
         )
-        u.password_hash = 'asd'
+        u.password_hash = 'asdas1'
+
         users.append(u)
 
     return users
