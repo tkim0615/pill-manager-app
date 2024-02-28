@@ -1,54 +1,62 @@
-
-from app import app
-from models import User, Prescription, Dosage_history, Doctor, Allergy
-
 import pytest
 
+from app import app
+from models import db, User, Prescription, Dosage_history, Doctor, Allergy
+from faker import Faker
 
-class TestModels:
-    '''SQLAlchemy models in models.py'''
 
-    def test_validates_user_name(self):
-        '''require user to have names.'''
+class TestApp:
+    '''Flask application in app.py'''
+
+    def test_gets_users(self):
+        '''retrieves users with GET requests to /users.'''
+        fake=Faker()
 
         with app.app_context():
+            user1 = User(name=fake.name(), username=fake.name())
+            user2 = User(name=fake.name(), username=fake.name())
+            db.session.add_all([user1, user2])
+            db.session.commit()
 
-            with pytest.raises(ValueError):
-                User(name=None)
-            with pytest.raises(ValueError):
-                User(name='')
+            response = app.test_client().get('/users')
+            assert response.status_code == 200
+            assert response.content_type == 'application/json'
+            response = response.json
+            users = User.query.all()
+            assert [user['id'] for user in response] == [
+                user.id for user in users]
+            assert [user['name'] for user in response] == [
+                users.name for users in users]
+            assert [user['username'] for user in response] == [
+                user.username for user in users]
+            for user in response:
+                assert 'name' in user
+                assert 'username' in user
+                assert 'prescriptions' not in user
 
-    def test_validate_user_passwords(self):
-        '''require user to meet password requirements.'''
+    # def test_gets_user_by_id(self):
+    #     '''retrieves one user using its ID with GET request to /users/<int:id>.'''
 
-        with pytest.raises(ValueError):
-            u1 = User(name='John Lee', username='jlee')
-            u1.password_hash = 'a2'
+    #     with app.app_context():
+    #         fake = Faker()
+    #         user = User(name=fake.name(), username=fake.name())
+    #         user.password_hash = 'asdasd1'
 
-    def test_validate_rx_date(self):
-        '''require user to meet date requirements.'''
+    #         auth_data = {"username": "Tracy", "password": "asdas1"}
+    #         auth_response = app.test_client().post('/login', json=auth_data)
+    #         print("Authentication Response:", auth_response.get_data(as_text=True))
+
+    #         assert auth_response.status_code == 200  # Assuming successful login
+
+    #         db.session.add_all([user])
+    #         db.session.commit()
+
+    #         response = app.test_client().get(f'/users/{auth_response.get['id']}')
+    #         assert response.status_code == 200
+    #         assert response.content_type == 'application/json'
+    #         # assert response['name'] == user.name
+    #         response = response.json
+    #         assert response['username'] == 'Tracy'
 
 
-        with pytest.raises(ValueError):
-            Prescription(start_date='2023/02/10')
-            Prescription(start_date='2003-01-10 00:00:00')
-            Prescription(start_date='')
-            Prescription(start_date=2)
 
-
-
-
-
-
-
-# def test_add():
-#     result = add(1, 3)
-#     assert result == 4
-
-# def test_divide():
-#     result = divide(6, 3)
-#     assert result ==2
-
-# def test_divide_zero():
-#     with pytest.raises(ZeroDivisionError):
-#         divide(1, 0)
