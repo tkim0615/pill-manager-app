@@ -78,15 +78,21 @@ class Prescription(db.Model, SerializerMixin):
 
 
         #validations
-    @validates('start_date', 'end_date')
+    @validates('start_date', 'end_date', 'name')
     def validate_rx_date(self, key, value):
+        if key == 'start_date' or key == 'end_date':
             if isinstance(value, str): 
                 value = datetime.strptime(value, '%Y-%m-%d').date()
             elif isinstance(value, datetime):
                 value = value.date()
             elif not isinstance(value, date):
                 raise ValueError(f"ERROR: {key} must be of type datetime.date")
+        if key == 'name':
+            if not value or value == None:
+                raise ValueError('Name must exist')
             return value
+        return value
+                
 
     def __repr__(self):
         return f'<Med : {self.name} direction:{self.direction} start: {self.start_date} end: self.end_date>'

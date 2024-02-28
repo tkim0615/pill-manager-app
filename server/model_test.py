@@ -24,8 +24,6 @@ class TestModels:
             User(username='')
             User(username=None)
 
-
-
     def test_validate_user_password_not_be_able_to_see(self):
         with pytest.raises(Exception) as exc_info:
             u1 = User(name='John Lee', username='jl2')
@@ -33,7 +31,6 @@ class TestModels:
             _ = u1.password_hash  # Attempting to access the hash should raise an exception
 
         assert 'Password hashes may not be viewed' in str(exc_info.value)
-    
 
     def test_validate_user_passwords(self):
         '''require user to meet password requirements.'''
@@ -50,6 +47,15 @@ class TestModels:
             Prescription(start_date='2003-01-10 00:00:00')
             Prescription(start_date='')
             Prescription(start_date=2)
+
+    def test_validate_rx_name(self):
+        '''require prescription to have name'''
+        with pytest.raises(ValueError) as exc_info:
+            Prescription(name='',start_date='2003-01-10')
+            Prescription(name=None,start_date='2003-01-10')
+        assert 'Name must exist' in str(exc_info.value)
+
+        
 
 
 
