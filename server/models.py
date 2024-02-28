@@ -110,38 +110,7 @@ class Doctor(db.Model, SerializerMixin):
 
     serialize_rules=('-prescriptions.doctor',)
 
-    
-# class Side_effect(db.Model, SerializerMixin):
-#     __tablename__ = 'side_effects'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     symptom = db.Column(db.String)
-    
-#     # Add relationship 
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     prescription_id = db.Column(db.Integer, db.ForeignKey('prescriptions.id'))
-
-    
-#      # Add serialization rules
-#     serialize_rules=('-user.side_effects', '-prescription.side_effects')
-    
-#         #validations
-
-#     @validates('user_id', 'prescription_id')
-#     def validate_se(self, key, value):
-#         if key == 'user_id':
-#             user = User.query.filter(User.id == value).first()
-#             if not user:
-#                 raise ValueError('User must exist!')
-#             return value
-#         if key == 'prescription_id':
-#             p = Prescription.query.filter(Prescription.id == value).first()
-#             if not p:
-#                 raise ValueError('Prescription must exist!')
-#             if self.user_id != p.user_id:
-#                 raise ValueError('User ID must match the User ID associated with the Prescription.(User can only report side effects on medication user took)')
-
-#             return value
 
 class Dosage_history(db.Model, SerializerMixin):
     __tablename__ = 'dosage_histories'

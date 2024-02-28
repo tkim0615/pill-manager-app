@@ -4,6 +4,38 @@ from app import app
 from models import db, User, Prescription, Dosage_history, Doctor, Allergy
 from faker import Faker
 
+class TestSignup:
+    '''Signup resource in app.py'''
+
+    def test_creates_users_at_signup(self):
+        '''creates user records with usernames and passwords at /signup.'''
+        
+        with app.app_context():
+            
+            User.query.delete()
+            db.session.commit()
+        
+        with app.test_client() as client:
+
+            response = client.post('/users', json={
+                'name': 'John Kim',
+                'username': 'jk1',
+                'password': 'asdasd1'
+            })
+
+            assert(response.status_code == 201)
+            new_user = User.query.filter(User.username == 'jk1').first()
+            assert(new_user)
+            assert(new_user.username)
+            assert(new_user.authenticate('asdasd1'))
+
+
+
+
+
+
+
+
 
 class TestApp:
     '''Flask application in app.py'''

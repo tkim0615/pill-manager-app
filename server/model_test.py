@@ -1,6 +1,6 @@
 
 from app import app
-from models import User, Prescription, Dosage_history, Doctor, Allergy
+from models import db, User, Prescription, Dosage_history, Doctor, Allergy
 
 import pytest
 
@@ -55,22 +55,18 @@ class TestModels:
             Prescription(name=None,start_date='2003-01-10')
         assert 'Name must exist' in str(exc_info.value)
 
+
+    def test_validate_dosage(self):
+        '''require dosage to meet date requirements.'''
+        with pytest.raises(ValueError):
+            Dosage_history(date_taken='2023-02-10 12:12:02')
+        with pytest.raises(ValueError):
+            Dosage_history(date_taken='2023/02/10')
+
+
+
+
         
 
 
 
-
-
-
-
-# def test_add():
-#     result = add(1, 3)
-#     assert result == 4
-
-# def test_divide():
-#     result = divide(6, 3)
-#     assert result ==2
-
-# def test_divide_zero():
-#     with pytest.raises(ZeroDivisionError):
-#         divide(1, 0)
