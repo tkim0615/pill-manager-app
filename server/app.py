@@ -417,3 +417,10 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 if __name__ == '__main__':
     app.run(port=8888, debug=True)
 
+
+def add(num1, num2):
+    return num1 + num2
+def divide(num1, num2):
+  
+    return num1 / num2
+
