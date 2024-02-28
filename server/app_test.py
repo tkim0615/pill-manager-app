@@ -29,9 +29,24 @@ class TestSignup:
             assert(new_user.username)
             assert(new_user.authenticate('asdasd1'))
 
+    def test_422s_invalid_users_at_signup(self):
+        '''422s invalid usernames at /signup.'''
+        
+        with app.app_context():
+            
+            User.query.delete()
+            db.session.commit()
+        
+        with app.test_client() as client:
 
+            response = client.post('/users', json={
+                'name': 'John Kim',
+                'username':'jk1',
+                'password': ''
 
+            })
 
+            assert(response.status_code == 400)
 
 
 
