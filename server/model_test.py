@@ -10,19 +10,25 @@ class TestModels:
 
     def test_validates_user_name(self):
         '''require user to have names.'''
-
         with app.app_context():
 
             with pytest.raises(ValueError):
                 User(name=None)
-            with pytest.raises(ValueError):
+            
+    def test_validates_user_name_string(self):
+        with pytest.raises(ValueError):
                 User(name='')
+
     def test_validate_user_username(self):
         '''require user to have username'''
 
         with pytest.raises(ValueError):
             User(username='')
+
+    def test_validate_user_username_none(self):
+        with pytest.raises(ValueError):
             User(username=None)
+
 
     def test_validate_user_password_not_be_able_to_see(self):
         with pytest.raises(Exception) as exc_info:
@@ -44,9 +50,16 @@ class TestModels:
 
         with pytest.raises(ValueError):
             Prescription(start_date='2023/02/10')
-            Prescription(start_date='2003-01-10 00:00:00')
             Prescription(start_date='')
-            Prescription(start_date=2)
+
+    def test_validate_rx_date_time_included(self):
+        with pytest.raises(ValueError):
+            Prescription(start_date='2003-01-10 00:00:00')
+    
+    def test_validate_rx_non_date(self):
+        with pytest.raises(ValueError):
+                Prescription(start_date=2)
+
 
     def test_validate_rx_name(self):
         '''require prescription to have name'''
@@ -62,11 +75,3 @@ class TestModels:
             Dosage_history(date_taken='2023-02-10 12:12:02')
         with pytest.raises(ValueError):
             Dosage_history(date_taken='2023/02/10')
-
-
-
-
-        
-
-
-

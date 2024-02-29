@@ -43,9 +43,9 @@ class TestSignup:
                 'name': 'John Kim',
                 'username':'jk1',
                 'password': ''
-
             })
             assert(response.status_code == 400)
+
 
 class TestCheckSession:
     '''CheckSession resource in app.py'''
