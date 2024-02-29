@@ -10,7 +10,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Prescription, Doctor, Dosage_history
+from models import db, User, Prescription, Doctor, Dosage_history, Allergy
 fake = Faker()
 
 
@@ -36,6 +36,22 @@ def create_doctors():
         doctors.append(d)
 
     return doctors
+
+def create_allergies(users):
+
+    allergies = []
+    drugs = ['Amoxicillin', 'Losartan','Aspirin', 'Cipro','Warfarin', 'Tylenol']
+    symptom_list = ['Stomache', 'Headache', 'Cough', 'Nausea', 'Diarrhea']
+
+    for _ in range(10):
+        a = Allergy(
+            drug_allergy= rc(drugs),
+            symptoms= rc(symptom_list),
+            user_id=rc([user.id for user in users])
+        )
+        allergies.append(a)
+    return allergies
+
 
 def create_prescriptions(users, doctors):
     rxs = []
@@ -112,6 +128,11 @@ if __name__ == '__main__':
         print("Seeding rxs...")
         rxs = create_prescriptions(users, doctors)
         db.session.add_all(rxs)
+        db.session.commit()
+
+        print("Seeding allergies...")
+        allergies = create_allergies(users)
+        db.session.add_all(allergies)
         db.session.commit()
 
         # print("Seeding dosage_history...")
