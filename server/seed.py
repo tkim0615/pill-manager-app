@@ -16,7 +16,7 @@ fake = Faker()
 
 def create_users():
     users = []
-    for _ in range(5):
+    for _ in range(3):
         u = User(
             name=fake.name(),
             username = fake.first_name()
@@ -40,10 +40,10 @@ def create_doctors():
 def create_allergies(users):
 
     allergies = []
-    drugs = ['Amoxicillin', 'Losartan','Aspirin', 'Cipro','Warfarin', 'Tylenol']
+    drugs = ['telmisartan 80mg','Lipitor 20mg', 'Crestor 5mg', 'Tylenol 325mg', 'Aspirin 81mg', 'Enalapril 5mg', 'Amoxicillin 500mg', 'Metformin 500mg', 'Warfarin 10mg', 'Tamsulosin 75mg', 'Finasteride 5mg', 'dutasteride 5 mg']
     symptom_list = ['Stomache', 'Headache', 'Cough', 'Nausea', 'Diarrhea']
 
-    for _ in range(10):
+    for _ in range(7):
         a = Allergy(
             drug_allergy= rc(drugs),
             symptoms= rc(symptom_list),
@@ -60,7 +60,7 @@ def create_prescriptions(users, doctors):
     start_date = fake.date_this_year(before_today=True, after_today=True)
     end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
 
-    for _ in range(30):
+    for _ in range(15):
         start_date = fake.date_this_year(before_today=True, after_today=True)
         end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
         p = Prescription(
@@ -76,31 +76,31 @@ def create_prescriptions(users, doctors):
     return rxs
 
     
-# def create_dh(users, rxs):
-#     dosage_hxs = []
+def create_dh(users, rxs):
+    dosage_hxs = []
 
-#     for rx in rxs:
-#         user_ids_for_rx = [user.id for user in users if user.id == rx.user_id]
+    for rx in rxs:
+        user_ids_for_rx = [user.id for user in users if user.id == rx.user_id]
 
-#         if not user_ids_for_rx:
-#             # Skip creating dosage histories if the prescription's user is not found in the provided user list
-#             continue
+        if not user_ids_for_rx:
+            # Skip creating dosage histories if the prescription's user is not found in the provided user list
+            continue
 
-#         for _ in range(10):  # Adjust the number of dosage histories per prescription as needed
-#             date_taken = fake.date_between_dates(date_start=rx.start_date, date_end=rx.end_date)
-#             date_taken = datetime.combine(date_taken, time())
+        for _ in range(10):  # Adjust the number of dosage histories per prescription as needed
+            date_taken = fake.date_between_dates(date_start=rx.start_date, date_end=rx.end_date)
+            date_taken = datetime.combine(date_taken, time())
             
-#             # Randomly select a user from the list of users associated with the prescription
-#             user_id = rc(user_ids_for_rx)
+            # Randomly select a user from the list of users associated with the prescription
+            user_id = rc(user_ids_for_rx)
 
-#             dh = Dosage_history(
-#                 date_taken=date_taken,
-#                 user_id=user_id,
-#                 prescription_id=rx.id
-#             )
-#             dosage_hxs.append(dh)
+            dh = Dosage_history(
+                date_taken=date_taken,
+                user_id=user_id,
+                prescription_id=rx.id
+            )
+            dosage_hxs.append(dh)
 
-#     return dosage_hxs
+    return dosage_hxs
 
 
 
@@ -135,10 +135,10 @@ if __name__ == '__main__':
         db.session.add_all(allergies)
         db.session.commit()
 
-        # print("Seeding dosage_history...")
-        # dosage = create_dh(users, rxs)
-        # db.session.add_all(dosage)
-        # db.session.commit()
+        print("Seeding dosage_history...")
+        dosage = create_dh(users, rxs)
+        db.session.add_all(dosage)
+        db.session.commit()
     
 
         print("Done seeding!")
