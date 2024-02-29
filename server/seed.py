@@ -40,10 +40,10 @@ def create_doctors():
 def create_allergies(users):
 
     allergies = []
-    drugs = ['telmisartan 80mg','Lipitor 20mg', 'Crestor 5mg', 'Tylenol 325mg', 'Aspirin 81mg', 'Enalapril 5mg', 'Amoxicillin 500mg', 'Metformin 500mg', 'Warfarin 10mg', 'Tamsulosin 75mg', 'Finasteride 5mg', 'dutasteride 5 mg']
+    drugs = ['telmisartan 80mg','Lipitor 20mg', 'Crestor 5mg', 'Tylenol 325mg', 'Enalapril 5mg', 'Amoxicillin 500mg', 'Metformin 500mg', 'Warfarin 10mg', 'Tamsulosin 75mg', 'Finasteride 5mg', 'dutasteride 5 mg']
     symptom_list = ['Stomache', 'Headache', 'Cough', 'Nausea', 'Diarrhea']
 
-    for _ in range(7):
+    for _ in range(6):
         a = Allergy(
             drug_allergy= rc(drugs),
             symptoms= rc(symptom_list),
@@ -60,7 +60,7 @@ def create_prescriptions(users, doctors):
     start_date = fake.date_this_year(before_today=True, after_today=True)
     end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
 
-    for _ in range(15):
+    for _ in range(20):
         start_date = fake.date_this_year(before_today=True, after_today=True)
         end_date = fake.date_between_dates(date_start=start_date, date_end=start_date + timedelta(days=365))
         p = Prescription(
@@ -113,6 +113,7 @@ if __name__ == '__main__':
         Doctor.query.delete()
         Prescription.query.delete()
         Dosage_history.query.delete()
+        Allergy.query.delete()
 
   
         print("Seeding users...")
