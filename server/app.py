@@ -375,6 +375,16 @@ class Allergies(Resource):
 
 api.add_resource(Allergies, '/allergies')
 
+class AllergyById(Resource):
+    def delete(self, id):
+        allergy = Allergy.query.filter(Allergy.id == id).first()
+        if allergy:
+            db.session.delete(allergy)
+            db.session.commit()
+            return make_response({}, 204)
+        return make_response({'error': 'Allergy not found'}, 404)
+           
+api.add_resource(AllergyById, '/allergies/<int:id>')
 
 
 
