@@ -5,7 +5,7 @@ import Alert from 'react-bootstrap/Alert'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-function Allergy({allergies, user, handleAllergySubmit}){
+function Allergy({allergies, user, handleAllergySubmit, handleDeleteAllergy}){
     const [prescriptions, setPrescriptions] = useState([])
     const [allergyName, setAllergyName] = useState('')
     const [symptom, setSymptom] = useState('')
@@ -76,6 +76,9 @@ const handleSubmit = (e)=>{
                         <Alert key={allergy.id} variant='success'>
                             You have no allergy interactions with your prescriptions.
                         </Alert>}
+                        <Button onClick={() => handleDeleteAllergy(allergy)} variant="outline-danger" size="sm">
+                                            Delete
+                        </Button>
                     </ListGroup.Item>
                 ))}
             </ListGroup>

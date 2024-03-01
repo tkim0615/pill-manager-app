@@ -106,6 +106,20 @@ function App() {
       })
   }
 
+
+  const handleDeleteAllergy = (deletedAllergy) => {
+    fetch(`/allergies/${deletedAllergy.id}`, {
+        method: 'DELETE',
+    })
+    .then((response) => {
+        if (response.ok) {
+            setAllergies(allergies.filter((allergy) => allergy.id !== deletedAllergy.id));
+        }
+    })
+    .catch((error) => console.error("Error:", error));
+  }
+
+
   return (
     <>
       <NavBar user={user}/>
@@ -118,7 +132,7 @@ function App() {
         <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} handleDeleteDh={handleDeleteDh} />} />
         <Route path="/doctors" element={<Doctor user={user} />} />
         <Route path="/dosage_history" element={<DosageHistory user={user} handleEditedDh={handleEditedDh} dosageHistories={dosageHistories} />} />
-        <Route path="/allergy" element={<Allergy user={user} allergies={allergies} handleAllergySubmit={handleAllergySubmit}/>} />
+        <Route path="/allergy" element={<Allergy user={user} allergies={allergies} handleAllergySubmit={handleAllergySubmit} handleDeleteAllergy={handleDeleteAllergy}/>} />
       </Routes>
 
     </>
