@@ -5,7 +5,6 @@ import Alert from 'react-bootstrap/Alert'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-
 function Allergy({allergies, user, handleAllergySubmit}){
     const [prescriptions, setPrescriptions] = useState([])
     const [allergyName, setAllergyName] = useState('')
@@ -19,7 +18,6 @@ const allergyMatch = rxNames.filter(rx => allergieName.includes(rx))
 const uniqueAllergy = new Set(allergyMatch)
 const uniqueAllergyArray = Array.from(uniqueAllergy)
 console.log(uniqueAllergyArray)
-
 
 useEffect(() => {
     const fetchPrescriptions = async () => {
@@ -55,7 +53,6 @@ const handleSubmit = (e)=>{
     setAllergyName('')
     setSymptom('')
 }
-
 
     return (
         <Container>

@@ -18,7 +18,6 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [rxId, setRxId] = useState(null)
 
 
-
     useEffect(() => {
         const fetchPrescriptions = async () => {
             try {

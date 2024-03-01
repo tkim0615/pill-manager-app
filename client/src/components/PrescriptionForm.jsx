@@ -6,7 +6,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
   const [prescription, setPrescription] = useState({
     name: '',
     direction: '',
-    user_id: user ? user.id : '',
     start_date: '',
     end_date: '',
     completed: false,
@@ -43,7 +42,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         image: ''
       });
 
-    
   };
 
   return (
@@ -108,9 +106,7 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-      {/* User ID (You can use a hidden field if the user is logged in) */}
-      <Form.Label>USER ID:</Form.Label>
-      <Form.Control type="number" name="user_id" value={user ? user.id : ''} />
+
 
       {/* Doctor ID */}
       <Form.Group>
