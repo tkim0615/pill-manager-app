@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Container from 'react-bootstrap/Container'
-import Alert from 'react-bootstrap/Alert';
+import Alert from 'react-bootstrap/Alert'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 
-function Allergy({allergies}){
+function Allergy({allergies, user, handleAllergySubmit}){
     const [prescriptions, setPrescriptions] = useState([])
+    const [allergyName, setAllergyName] = useState('')
+    const [symptom, setSymptom] = useState('')
 
 const rxNames = prescriptions.map(rx => rx.name)
 const allergieName = allergies.map(a => a.drug_allergy)
@@ -38,18 +42,17 @@ useEffect(() => {
     fetchPrescriptions()
 }, [])
 
+const handleSubmit = (e)=>{
+    e.preventDefault()
+    const newAllergy = {
+        drug_allergy: allergyName,
+        symptoms: symptom,
+        user_id: user.id
+    }
+    handleAllergySubmit(newAllergy)
 
+}
 
-
-
-
- const alert = [
-    'warning'
-  ].map((variant) => (
-    <Alert key={variant} variant={variant}>
-      This is a {variant} alert—check it out!
-    </Alert>
-  ))
 
     return (
         <Container>
@@ -66,18 +69,45 @@ useEffect(() => {
                     
                     {uniqueAllergyArray.includes(allergy.drug_allergy) ? (
                         <Alert key={allergy.id} variant="danger">
-                            You have a history {allergy.drug_allergy} allergic reaction. Please consult with a doctor.
+                            WARNING: {allergy.drug_allergy} medication is in your prescription history. Please consult with a doctor.
                         </Alert>
                         ) 
                         : 
                         <Alert key={allergy.id} variant='success'>
                             You have no allergy interactions with your prescriptions.
                         </Alert>}
-
-                            
                     </ListGroup.Item>
                 ))}
             </ListGroup>
+
+            <Form onSubmit={handleSubmit}>
+                <h1>Add new drug allergy</h1>
+                <Form.Group>
+                    <Form.Label>Drug allergy:</Form.Label>
+                    <Form.Control
+                    type="text"
+                    name="drug allergy"
+                    value={allergyName}
+                    onChange={e=> setAllergyName(e.target.value)}
+                    required
+                    />
+                </Form.Group>
+
+                <Form.Group>
+                    <Form.Label>Symptom:</Form.Label>
+                    <Form.Control
+                    type="text"
+                    name="symptom"
+                    value={symptom}
+                    onChange={e=> setSymptom(e.target.value)}
+                    required
+                    />
+                </Form.Group>
+                {/* Submit Button */}
+                <Button variant="primary" type="submit">
+                    Add Prescription
+                </Button>
+            </Form>
         </Container>
     )
     }

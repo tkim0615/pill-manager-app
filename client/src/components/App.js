@@ -86,6 +86,26 @@ function App() {
   }
 
 
+
+  const handleAllergySubmit = (newAllergy) => {
+    fetch('/allergies',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newAllergy),
+    })
+      .then(r=>{
+        if(r.status === 201){
+        return r.json()
+      }else{
+        throw new Error('failed to post new allergy')
+      }})
+      .then(newAllergy => {
+        setAllergies([...allergies, newAllergy])
+      })
+  }
+
   return (
     <>
       <NavBar user={user}/>
@@ -98,7 +118,7 @@ function App() {
         <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} handleDeleteDh={handleDeleteDh} />} />
         <Route path="/doctors" element={<Doctor user={user} />} />
         <Route path="/dosage_history" element={<DosageHistory user={user} handleEditedDh={handleEditedDh} dosageHistories={dosageHistories} />} />
-        <Route path="/allergy" element={<Allergy user={user} allergies={allergies}/>} />
+        <Route path="/allergy" element={<Allergy user={user} allergies={allergies} handleAllergySubmit={handleAllergySubmit}/>} />
       </Routes>
 
     </>
