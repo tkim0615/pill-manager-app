@@ -12,7 +12,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
     doctor_id: '',
     image:''
   })
-  console.log(prescription)
 
   useEffect(() => {
     if (editedPrescription) {
@@ -26,8 +25,8 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
     setPrescription((prevPrescription) => ({
       ...prevPrescription,
       [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +41,7 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         image: ''
       });
 
-  };
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -63,7 +62,7 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         <Form.Label>Direction:</Form.Label>
         <Form.Control
           as="textarea"
-          rows={4}
+          rows={2}
           name="direction"
           value={prescription.direction}
           onChange={handleChange}
@@ -106,8 +105,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-
-
       {/* Doctor ID */}
       <Form.Group>
         <Form.Label>Doctor ID:</Form.Label>
@@ -135,7 +132,7 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         Add Prescription
       </Button>
     </Form>
-  );
-};
+  )
+}
 
-export default PrescriptionForm;
+export default PrescriptionForm
