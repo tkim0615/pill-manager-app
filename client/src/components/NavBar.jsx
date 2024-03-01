@@ -19,10 +19,14 @@ const NavBar = ({user}) => {
             <Nav.Link as={Link} to={user ? '/dosage_history' : '/'} onClick={user ? null : handleNotLoggedIn}>
             Dosage Tracker
             </Nav.Link>
+            <Nav.Link as={Link} to={user ? '/allergy' : '/'} onClick={user ? null : handleNotLoggedIn}>
+              Allergy
+            </Nav.Link>
             <Nav.Link as={Link} to={user? "/doctors": "/"} onClick={user ? null : handleNotLoggedIn}>Doctors</Nav.Link>
             {user && <Nav.Link as={Link} to={`/users/${user?.id}`}>
               Account
             </Nav.Link>}
+            
         </Nav>
       </Container>
     </Navbar>

@@ -8,11 +8,13 @@ import User from './User'
 import Prescription from './Prescription'
 import Doctor from './Doctor'
 import DosageHistory from './DosageHistory'
+import Allergy from './Allergy'
 
 
 function App() {
   const [user, setUser] = useState(null)
   const [dosageHistories, setDosageHistories] = useState([])
+  const [allergies, setAllergies] = useState([])
 
   useEffect(() => {
     fetch('/check_session')
@@ -48,6 +50,21 @@ function App() {
           .catch(error => console.error('Error fetching dosage history:', error));
       }
     }, [user]); // This dependency ensures the effect runs when 'user' changes
+
+
+    useEffect(() => {
+      if (user) {
+        fetch('/allergies')
+          .then(r => {
+            if (!r.ok) {
+              throw new Error('Failed to load dosage history')
+            }
+            return r.json()
+          })
+          .then(data => setAllergies(data))
+          .catch(error => console.error('Error fetching allergies:', error));
+      }
+    }, [user])
     
 
   const handleDH = (newDosageHx) =>{
@@ -81,7 +98,9 @@ function App() {
         <Route path="/prescriptions" element={<Prescription user={user} handleDH={handleDH} handleDeleteDh={handleDeleteDh} />} />
         <Route path="/doctors" element={<Doctor user={user} />} />
         <Route path="/dosage_history" element={<DosageHistory user={user} handleEditedDh={handleEditedDh} dosageHistories={dosageHistories} />} />
+        <Route path="/allergy" element={<Allergy user={user} allergies={allergies}/>} />
       </Routes>
+
     </>
       )}
 

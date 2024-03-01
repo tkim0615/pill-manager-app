@@ -17,7 +17,6 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [dhOn, setDhOn] = useState(false)
     const [rxId, setRxId] = useState(null)
 
-console.log(prescriptions)
 
 
     useEffect(() => {
@@ -114,9 +113,7 @@ const handleDeleteRx = (deletedRx) => {
 
   const handleCreateDosageHistory = async (prescriptionId) => {
     const originalDate = new Date()
-    console.log(originalDate)
     const formattedDate = originalDate.toISOString().slice(0, 16).replace('T', ' ');
-    console.log(formattedDate)
 
     try {
         const response = await fetch('/dosage_histories', {
