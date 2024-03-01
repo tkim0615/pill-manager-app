@@ -63,7 +63,6 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
                 body: JSON.stringify(prescriptionData),
             });
         } else {
-            // Adding a new prescription
             response = await fetch('/prescriptions', {
                 method: 'POST',
                 headers: {
