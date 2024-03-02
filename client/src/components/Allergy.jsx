@@ -69,7 +69,7 @@ const handleSubmit = (e)=>{
                     
                     {uniqueAllergyArray.includes(allergy.drug_allergy.toLowerCase()) ? (
                         <Alert key={allergy.id} variant="danger">
-                            WARNING: {allergy.drug_allergy} is in your prescription history. Please consult with a doctor.
+                            WARNING: <strong>{allergy.drug_allergy}</strong> is in your prescription history. Please consult with a doctor.
                         </Alert>
                         ) 
                         : 
@@ -106,9 +106,8 @@ const handleSubmit = (e)=>{
                     required
                     />
                 </Form.Group>
-                {/* Submit Button */}
                 <Button variant="primary" type="submit">
-                    Add Prescription
+                    Add allergy
                 </Button>
             </Form>
         </Container>
