@@ -1,6 +1,7 @@
 import React from 'react'
 import {Navbar, Container, Nav} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import pill_emoji from '../pill_emoji.png'
 
 const NavBar = ({user}) => {
   const handleNotLoggedIn = () => {
@@ -8,9 +9,10 @@ const NavBar = ({user}) => {
 }
   return (
     <>
-    <Navbar bg="dark" data-bs-theme="dark">
+    <Navbar bg="dark" data-bs-theme="dark" className="pill-navbar">
       <Container>
-        <Navbar.Brand href="/">Pill Manager</Navbar.Brand>
+        <Navbar.Brand href="/">Pill Manager <img src={pill_emoji} alt="Pill Emoji" style={{ width: '30px', height: '40px', backgroundColor: 'transparent'}}/>
+        </Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link as={Link} to="/">Home</Nav.Link>
           <Nav.Link as={Link} to={user ? '/prescriptions' : '/'} onClick={user ? null : handleNotLoggedIn}>

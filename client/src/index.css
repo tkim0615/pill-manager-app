@@ -5,26 +5,38 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
-/* In your CSS file */
 .prescription-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px; /* Adjust the margin as needed for spacing between list items */
+  margin-bottom: 5px
 }
 
 .button-group {
   display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
+  justify-content: flex-end;
   gap: 4px;
-  margin-bottom: -5px; /* Add margin-bottom to move the button group downward */
+  margin-bottom: -5px
   
 }
 
 .prescription-details {
-  flex: 1; /* Take remaining space */
+  flex: 1
 }
 .side-effect-button{
-  margin-top: -10px; /* Add margin-bottom to move the button group downward */
+  margin-top: -10px
 
+}
+
+.pill-navbar {
+  background-color: transparent 
+}
+
+.brand-text {
+  margin-right: 10px
+}
+
+.pill-emoji {
+  width: 30px;
+  height: 40px;
 }

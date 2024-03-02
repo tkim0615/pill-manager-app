@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import React, { useState, useEffect } from 'react'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
   const [prescription, setPrescription] = useState({
@@ -17,11 +17,11 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
     if (editedPrescription) {
         setPrescription(editedPrescription);
     }
-}, [editedPrescription]);
+}, [editedPrescription])
 
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setPrescription((prevPrescription) => ({
       ...prevPrescription,
       [name]: type === 'checkbox' ? checked : value,
@@ -29,7 +29,7 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     onSubmit(prescription)
     setPrescription({
         name: '',
@@ -39,13 +39,12 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         completed: false,
         doctor_id: '',
         image: ''
-      });
+      })
 
   }
 
   return (
     <Form onSubmit={handleSubmit}>
-      {/* Prescription Name */}
       <Form.Group>
         <Form.Label>Prescription Name:</Form.Label>
         <Form.Control
@@ -57,7 +56,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-      {/* Prescription Direction */}
       <Form.Group>
         <Form.Label>Direction:</Form.Label>
         <Form.Control
@@ -70,7 +68,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-      {/* Start Date */}
       <Form.Group>
         <Form.Label>Start Date:</Form.Label>
         <Form.Control
@@ -82,7 +79,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-      {/* End Date */}
       <Form.Group>
         <Form.Label>End Date:</Form.Label>
         <Form.Control
@@ -94,7 +90,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-      {/* Completed Checkbox */}
       <Form.Group>
         <Form.Check
           type="checkbox"
@@ -105,7 +100,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-      {/* Doctor ID */}
       <Form.Group>
         <Form.Label>Doctor ID:</Form.Label>
         <Form.Control
@@ -127,7 +121,6 @@ const PrescriptionForm = ({ onSubmit, user, editedPrescription}) => {
         />
       </Form.Group>
 
-      {/* Submit Button */}
       <Button variant="primary" type="submit">
         Add Prescription
       </Button>

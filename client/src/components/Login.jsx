@@ -30,7 +30,8 @@ function Login({onLogin}){
         } catch (error) {
             if (error.message === 'Invalid username or password') {
                 window.alert('Invalid username or password. Please try again.');
-                setUsername('');
+                setUsername('')
+                setPassword('')
             }
         }
     };

@@ -16,6 +16,7 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [dosageHx, setDosageHx] = useState([])
     const [dhOn, setDhOn] = useState(false)
     const [rxId, setRxId] = useState(null)
+    const imageLink = 'https://www.drugs.com/imprints.php?drugname='
 
 
     useEffect(() => {
@@ -43,6 +44,8 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     }, [])
 
     const handleEditClick = (prescription) =>{
+    window.scrollTo(0, document.body.scrollHeight);
+
       setEditIndex(prescription.id)
       setEditedPrescription(prescription)
     }
@@ -228,12 +231,17 @@ const handleDeleteRx = (deletedRx) => {
                                         <div><strong>End date:</strong> {prescription.end_date}</div>
                                         <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
                                         <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
+                                        <a  style={{ textDecoration: "none" }}
+                                            href={`${imageLink}/${prescription.name.split(' ')[0]}`} target="_blank" rel="noopener noreferrer">
+                                                Click to get image
+                                        </a>
                                     </div>
-                                </Col>
-        
-                                <Col xs={{ span: 6, order: 12 }} md={{ span: 4, order: 12 }}>
-                                    <Image src={prescription.image} rounded />
-                                </Col>
+                                    </Col>
+
+                                    <Col xs={{ span: 6, order: 12 }} md={{ span: 4, order: 12 }}>
+                                        {/* Apply styles to control the image size */}
+                                        <Image src={prescription.image} rounded style={{ maxWidth: '50%', height: 'auto' }} />
+                                    </Col>
         
                                 <div className="button-group">
                                     <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
