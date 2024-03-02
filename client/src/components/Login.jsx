@@ -23,6 +23,7 @@ function Login({onLogin}){
             if (response.ok) {
                 const user = await response.json();
                 onLogin(user);
+                window.alert('Login successful')
                 
             } else if (response.status === 401 || response.status === 500) {
                 throw new Error('Invalid username or password');
@@ -39,7 +40,6 @@ function Login({onLogin}){
     return (
         <Container>
             <Form onSubmit={handleSubmit}>
-                <Form.Label as="h2">Sign in</Form.Label>
 
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                     <Form.Label>Username</Form.Label>

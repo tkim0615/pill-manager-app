@@ -5,14 +5,13 @@
 # Remote library imports
 from flask import request, make_response, session
 from flask_restful import Resource
-
+ 
 # Local imports
 from config import app, db, api
 # Add your model imports
 from models import db, User, Prescription, Doctor, Dosage_history, Allergy
 
 # Views go here!
-app.secret_key = b'\x8c\xbb\xa9\xa5\xf0\x8c01c\xc1\xec\xa4\x9fs\xbf=\x83(\xd5Z8\xa5A\xd3'
 @app.before_request        #allows any users to see all dogs and login 
 def check_if_logged_in():
     allowed_endpoints = ['login', 'logout', 'users']
