@@ -154,14 +154,14 @@ class PrescriptionsById(Resource):
 
                     # Create the response dictionary
                     rx_data = {
-                        'id': rx.id,
-                        'name': rx.name,
-                        'direction': rx.direction,
+                        'id': data['id'],
+                        'name': data['name'],
+                        'direction': data['direction'],
                         'start_date': data['start_date'],
                         'end_date': data['end_date'],
                         'completed': data['completed'],
                         'doctor_name': doctor_name,
-                        'image': rx.image,
+                        'image': data['image']
                     }
 
                     return make_response(rx_data, 202)
