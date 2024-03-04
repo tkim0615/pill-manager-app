@@ -126,19 +126,49 @@ class PrescriptionsById(Resource):
         else:
             return make_response({'error': 'Prescription not found'},404)
 
+    # def patch(self, id):
+    #     rx = Prescription.query.filter(Prescription.id == id).first()
+    #     if rx:
+    #         try:
+    #             data = request.get_json()
+    #             for attr in data:
+    #                 setattr(rx, attr, data[attr])
+    #             db.session.commit()
+    #             return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor', 'doctor.name', 'image')), 202)
+    #         except ValueError:
+    #             return make_response({'error': 'Prescription failed to edit'},400)
+    #     else:
+    #         return make_response({'error': 'Prescription not found'},404)
+
     def patch(self, id):
-        rx = Prescription.query.filter(Prescription.id == id).first()
-        if rx:
-            try:
-                data = request.get_json()
-                for attr in data:
-                    setattr(rx, attr, data[attr])
-                db.session.commit()
-                return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor', 'image')), 202)
-            except ValueError:
-                return make_response({'error': 'Prescription failed to edit'},400)
-        else:
-            return make_response({'error': 'Prescription not found'},404)
+            rx = Prescription.query.filter(Prescription.id == id).first()
+            if rx:
+                try:
+                    data = request.get_json()
+                    for attr in data:
+                        setattr(rx, attr, data[attr])
+                    db.session.commit()
+
+                    # Retrieve the doctor's name
+                    doctor_name = rx.doctor.name if rx.doctor else None
+
+                    # Create the response dictionary
+                    rx_data = {
+                        'id': rx.id,
+                        'name': rx.name,
+                        'direction': rx.direction,
+                        'start_date': data['start_date'],
+                        'end_date': data['end_date'],
+                        'completed': data['completed'],
+                        'doctor_name': doctor_name,
+                        'image': rx.image,
+                    }
+
+                    return make_response(rx_data, 202)
+                except ValueError:
+                    return make_response({'error': 'Prescription failed to edit'}, 400)
+            else:
+                return make_response({'error': 'Prescription not found'}, 404)
     def delete(self, id):
         rx = Prescription.query.filter(Prescription.id == id).first()
         if rx:
