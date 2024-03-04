@@ -9,7 +9,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px
+  margin-bottom: 5px;
+  border-color: red;
+
 }
 
 .button-group {
@@ -39,4 +41,18 @@
 .pill-emoji {
   width: 30px;
   height: 40px;
+} 
+
+.stamp {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #4caf50; /* Green background color, you can customize this */
+  color: #fff; /* White text color */
+  border-radius: 5px;
+  border: 1px solid #4caf50; /* Matching border color */
+  font-weight: bold;
+}
+
+.stamp-text {
+  font-size: 14px;
 }

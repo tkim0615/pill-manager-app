@@ -8,6 +8,7 @@ import PrescriptionProgressBar from './PrescriptionProgressBar'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/Row'
+import Completed from './Completed'
 
 const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [prescriptions, setPrescriptions] = useState([])
@@ -214,17 +215,23 @@ const handleDeleteRx = (deletedRx) => {
             }
         
             return durationInDays * dosageMultiplier;
-        };
+        }
+
+
         return (
             user ?
         
                 <Container>
                     <h1>Prescriptions</h1>
-                    {prescriptions.map((prescription) => (
-                <ListGroup.Item key={prescription.id} className="prescription-item" style={{ border: '1px solid #ddd', borderRadius: '5px', margin: '5px 0' }}>
+                    {prescriptions
+                    .sort((a, b) => new Date(b.end_date) - new Date(a.end_date))
+                    .map((prescription) => (
+                <ListGroup.Item key={prescription.id} className="prescription-item" style={{ border: '2px solid #b3d7ff', borderRadius: '5px', margin: '5px 0' }}
+                >
                         <Row className="align-items-start">
                                 <Col xs={12} md={8}>
                                     <div className="prescription-details">
+                                        {prescription.completed? <Completed/>: null}
                                         <div><strong>Name:</strong> {prescription.name}</div>
                                         <div><strong>Direction:</strong> {prescription.direction}</div>
                                         <div><strong>Start date:</strong> {prescription.start_date}</div>
@@ -239,8 +246,7 @@ const handleDeleteRx = (deletedRx) => {
                                     </Col>
 
                                     <Col xs={{ span: 6, order: 12 }} md={{ span: 4, order: 12 }}>
-                                        {/* Apply styles to control the image size */}
-                                        <Image src={prescription.image} rounded style={{ maxWidth: '50%', height: 'auto' }} />
+                                        <Image src={prescription.image} rounded style={{ maxWidth: '60%', height: 'auto' }} />
                                     </Col>
         
                                 <div className="button-group">
@@ -301,7 +307,6 @@ const handleDeleteRx = (deletedRx) => {
                             </Row>
                         </ListGroup.Item>
                     ))}
-                    {/* Conditionally render PrescriptionForm */}
                     {editIndex !== null ? (
                         <PrescriptionForm user={user} editedPrescription={editedPrescription} onSubmit={onSubmit} />
                     ) : (
