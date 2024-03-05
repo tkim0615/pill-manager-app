@@ -3,35 +3,16 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import ProgressBar from 'react-bootstrap/ProgressBar'
 
 
 const DosageHistory = ({dosageHistories, handleEditedDh}) => {
     const [editedId, setEditedId] = useState(null)
     const [timeTaken, setTimeTaken] = useState('')
-    console.log(timeTaken)
     const date1 = new Date('2024-02-02')
     const date2 = new Date('2024-02-01')
-    console.log(date1)    
     const dateDiffInMilliseconds = date1 - date2;
-    console.log(dateDiffInMilliseconds)
     const dateDiffInDays = dateDiffInMilliseconds / (24 * 60 * 60 * 1000);
     const totalDuration = Math.floor(dateDiffInDays) + 1
-    console.log('duration', totalDuration)
-    console.log(dosageHistories)
-
-    //find duration of drug. find the length of dosage history and divide by duraiton - progress bar
-    // import ProgressBar from 'react-bootstrap/ProgressBar';
-
-    // function WithLabelExample() {
-    //   const now = 60;
-    //   return <ProgressBar now={now} label={`${now}%`} />;
-    // }
-    
-    // export default WithLabelExample;
-
-
-
 
     const handleEditClick = (editedDh) =>{
         setEditedId(editedDh.id)
@@ -65,9 +46,8 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
             })
             .catch((error) => {
                 console.error('Error:', error.message);
-            });
-            
-            
+            })
+             
     }
     
     return (

@@ -5,7 +5,7 @@ const Stamp = () => {
     <div className="stamp">
       <span className="stamp-text">Completed</span>
     </div>
-  );
-};
+  )
+}
 
 export default Stamp;

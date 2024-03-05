@@ -196,8 +196,17 @@ const handleDeleteRx = (deletedRx) => {
             } else if (prescription.direction.includes('three')) {
                 dosageMultiplier = 3
             }
+
+            let dosage = 1
+
+            if (prescription.direction.includes('1')){
+                dosage = 1
+            }
+            else if (prescription.direction.includes('2')){
+                dosage = 2
+            }
         
-            return durationInDays * dosageMultiplier;
+            return (durationInDays * dosageMultiplier) * dosage
         }
 
 

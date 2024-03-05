@@ -6,16 +6,12 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 
-
-
-
 const User = ({user}) => {
   const [fetchedUser, setFetchedUser] = useState({})
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   if(user === null){
     window.alert('Please login')
-    
   }
 
   useEffect(() => {
@@ -37,7 +33,7 @@ const User = ({user}) => {
     const requestBody = {
       ...(password && { password }), 
       ...(username && { username })
-    };
+    }
     if (!password && !username) {
       
       alert("Please provide both (password or username).");
@@ -64,10 +60,9 @@ const User = ({user}) => {
       .catch((error) => {
         console.error('Error:', error);
         alert('Unable to edit user info'); // Move alert here
-    });
-  };
+    })
+  }
   
-
 
   return (
     <Container className="mt-5">
@@ -107,7 +102,3 @@ const User = ({user}) => {
   }
 
 export default User
-
-// 1. when account(navbar is clicked), `/users/${user.id}` user is the state set when user logs in
-//2. inside user component fetch id that matches user's id from user state(user.id. use param) pass down user state as prop
-//.2edit user ?(can be extra)
