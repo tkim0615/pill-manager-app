@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import  {Link} from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
-function Signup({onSignup}) {
+function Signup() {
 const [name, setName] = useState('')
 const [username, setUsername] = useState('')
 const [password, setPassword] = useState('')

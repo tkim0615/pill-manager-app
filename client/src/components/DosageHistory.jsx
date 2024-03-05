@@ -8,11 +8,6 @@ import Form from 'react-bootstrap/Form'
 const DosageHistory = ({dosageHistories, handleEditedDh}) => {
     const [editedId, setEditedId] = useState(null)
     const [timeTaken, setTimeTaken] = useState('')
-    const date1 = new Date('2024-02-02')
-    const date2 = new Date('2024-02-01')
-    const dateDiffInMilliseconds = date1 - date2;
-    const dateDiffInDays = dateDiffInMilliseconds / (24 * 60 * 60 * 1000);
-    const totalDuration = Math.floor(dateDiffInDays) + 1
 
     const handleEditClick = (editedDh) =>{
         setEditedId(editedDh.id)
