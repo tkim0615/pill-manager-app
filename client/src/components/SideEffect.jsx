@@ -34,8 +34,11 @@ const SideEffect = ({prescription}) => {
             <ListGroup>
                 {btnIsClicked?
                     <div style={{ border: '4px solid red'}}>
+                            <strong>Disclaimer</strong>: List shows 5 most common side effects. This is not a comprehensive list.
+
                         {fiveSe.map(se => (
                             <ListGroup.Item key={se.term} >
+
                                 <strong>Side effect</strong>: {''}
                                 <a  style={{ textDecoration: "none" }}
                                     href={`${wikiUrl}/${se.term.toLowerCase()}`} target="_blank" rel="noopener noreferrer">
@@ -54,4 +57,3 @@ const SideEffect = ({prescription}) => {
 }
 
 export default SideEffect
-//render for each prexcription list - when clicked fetch top 5 side effects
