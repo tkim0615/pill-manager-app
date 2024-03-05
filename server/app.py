@@ -12,7 +12,7 @@ from config import app, db, api
 from models import db, User, Prescription, Doctor, Dosage_history, Allergy
 
 # Views go here!
-@app.before_request        #allows any users to see all dogs and login 
+@app.before_request      
 def check_if_logged_in():
     allowed_endpoints = ['login', 'logout', 'users']
     user_id = session.get('user_id')
@@ -34,7 +34,7 @@ class Users(Resource):
                 name= data['name'],
                 username= data['username']
             )
-            user.password_hash = data['password'] ######################3
+            user.password_hash = data['password'] 
             db.session.add(user)
             db.session.commit()
             return make_response(user.to_dict(only=('id', 'name', 'username')), 201)
@@ -126,19 +126,6 @@ class PrescriptionsById(Resource):
         else:
             return make_response({'error': 'Prescription not found'},404)
 
-    # def patch(self, id):
-    #     rx = Prescription.query.filter(Prescription.id == id).first()
-    #     if rx:
-    #         try:
-    #             data = request.get_json()
-    #             for attr in data:
-    #                 setattr(rx, attr, data[attr])
-    #             db.session.commit()
-    #             return make_response(rx.to_dict(only=('id', 'name', 'direction', 'start_date', 'end_date', 'completed','doctor', 'doctor.name', 'image')), 202)
-    #         except ValueError:
-    #             return make_response({'error': 'Prescription failed to edit'},400)
-    #     else:
-    #         return make_response({'error': 'Prescription not found'},404)
 
     def patch(self, id):
             rx = Prescription.query.filter(Prescription.id == id).first()
@@ -300,8 +287,6 @@ api.add_resource(Dosage_histories, '/dosage_histories')
 api.add_resource(Dosage_historiesById, '/dosage_histories/<int:id>')
 
 
-
-#return unique list of doctors associated with logged in user
 class Doctors(Resource):
     def get(self): 
         user_id = session.get('user_id')
@@ -416,7 +401,6 @@ class AllergyById(Resource):
 api.add_resource(AllergyById, '/allergies/<int:id>')
 
 
-
 #authentification
 class CheckSession(Resource):
     def get(self):
@@ -452,14 +436,6 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 
 
-
 if __name__ == '__main__':
     app.run(port=8888, debug=True)
-
-
-def add(num1, num2):
-    return num1 + num2
-def divide(num1, num2):
-  
-    return num1 / num2
 

@@ -18,7 +18,6 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     const [dhOn, setDhOn] = useState(false)
     const [rxId, setRxId] = useState(null)
     const imageLink = 'https://www.drugs.com/imprints.php?drugname='
-    console.log(prescriptions)
 
 
     useEffect(() => {
