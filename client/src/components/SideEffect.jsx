@@ -7,6 +7,11 @@ const SideEffect = ({prescription}) => {
     const [sideEffects, setSideEffects] = useState([])
     const [btnIsClicked, setBtnIsClicked] = useState(false)
     const wikiUrl = 'https://en.wikipedia.org/wiki'
+
+    const handleSeClick =() =>{
+        alert('This is for informational use only. Please consult with a pharmacist for specific information on side effects');
+
+    }
     
     const handleClick =() =>{
         setBtnIsClicked(btnIsClicked=>!btnIsClicked)
@@ -41,6 +46,8 @@ const SideEffect = ({prescription}) => {
 
                                 <strong>Side effect</strong>: {''}
                                 <a  style={{ textDecoration: "none" }}
+                                    onClick={handleSeClick}
+
                                     href={`${wikiUrl}/${se.term.toLowerCase()}`} target="_blank" rel="noopener noreferrer">
                                     {se.term}
                                 </a>
