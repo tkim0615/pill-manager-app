@@ -9,7 +9,7 @@ const SideEffect = ({prescription}) => {
     const wikiUrl = 'https://en.wikipedia.org/wiki'
 
     const handleSeClick =() =>{
-        alert('This is for informational use only. Please consult with a pharmacist for specific information on side effects');
+        alert('You will be redirected to an external website. This is for informational use only. Please consult with a pharmacist for specific information on side effects');
 
     }
     

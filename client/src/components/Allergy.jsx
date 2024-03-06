@@ -10,12 +10,14 @@ function Allergy({allergies, user, handleAllergySubmit, handleDeleteAllergy}){
     const [allergyName, setAllergyName] = useState('')
     const [symptom, setSymptom] = useState('')
 
-const rxNames = prescriptions.map(rx => rx.name.toLowerCase())
-const allergieName = allergies.map(a => a.drug_allergy.toLowerCase())
+const rxNames = prescriptions.map(rx => rx.name.toLowerCase().split(' ')[0])
+const allergieName = allergies.map(a => a.drug_allergy.toLowerCase().split(' ')[0])
 console.log(rxNames, allergieName)
 
 const allergyMatch = rxNames.filter(rx => allergieName.includes(rx))
+console.log(allergyMatch)
 const uniqueAllergy = new Set(allergyMatch)
+console.log(uniqueAllergy)
 const uniqueAllergyArray = Array.from(uniqueAllergy)
 console.log(uniqueAllergyArray)
 
@@ -67,7 +69,9 @@ const handleSubmit = (e)=>{
                             <strong>symptoms:</strong> {allergy.symptoms} 
                     </div>
                     
-                    {uniqueAllergyArray.includes(allergy.drug_allergy.toLowerCase()) ? (
+                    {uniqueAllergyArray.includes(allergy.drug_allergy.toLowerCase().split(' ')[0]) 
+                    ? 
+                    (
                         <Alert key={allergy.id} variant="danger">
                             WARNING: <strong>{allergy.drug_allergy}</strong> is in your prescription history. Please consult with a doctor.
                         </Alert>

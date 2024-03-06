@@ -27,7 +27,7 @@ function Doctor({user}) {
                             <strong>Name:</strong> Dr. {md.name} 
                       </div>
                       <div>
-                            <strong>Doctor Id:</strong> Dr.{md.id} 
+                            <strong>Doctor Id:</strong> {md.id} 
                       </div>
                             
                     </ListGroup.Item>
