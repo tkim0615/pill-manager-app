@@ -12,14 +12,10 @@ function Allergy({allergies, user, handleAllergySubmit, handleDeleteAllergy}){
 
 const rxNames = prescriptions.map(rx => rx.name.toLowerCase().split(' ')[0])
 const allergieName = allergies.map(a => a.drug_allergy.toLowerCase().split(' ')[0])
-console.log(rxNames, allergieName)
 
 const allergyMatch = rxNames.filter(rx => allergieName.includes(rx))
-console.log(allergyMatch)
 const uniqueAllergy = new Set(allergyMatch)
-console.log(uniqueAllergy)
 const uniqueAllergyArray = Array.from(uniqueAllergy)
-console.log(uniqueAllergyArray)
 
 useEffect(() => {
     const fetchPrescriptions = async () => {
@@ -38,9 +34,8 @@ useEffect(() => {
             const data = await response.json();
             setPrescriptions(data);
         } catch (error) {
-            console.error('Error fetching prescriptions:', error.message);
-        }
-    }
+            console.error('Error fetching prescriptions:', error.message)
+        }}
     fetchPrescriptions()
 }, [])
 

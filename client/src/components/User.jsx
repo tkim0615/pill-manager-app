@@ -57,8 +57,8 @@ const User = ({user}) => {
         setPassword('')
       })
       .catch((error) => {
-        console.error('Error:', error);
-        alert('Unable to edit user info'); // Move alert here
+        console.error('Error:', error)
+        alert('Unable to edit user info')
     })
   }
   

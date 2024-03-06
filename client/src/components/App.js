@@ -49,7 +49,7 @@ function App() {
           .then(data => setDosageHistories(data))
           .catch(error => console.error('Error fetching dosage history:', error));
       }
-    }, [user]); // This dependency ensures the effect runs when 'user' changes
+    }, [user]) // This dependency ensures the effect runs when 'user' changes
 
 
     useEffect(() => {
@@ -113,12 +113,11 @@ function App() {
     })
     .then((response) => {
         if (response.ok) {
-            setAllergies(allergies.filter((allergy) => allergy.id !== deletedAllergy.id));
+            setAllergies(allergies.filter((allergy) => allergy.id !== deletedAllergy.id))
         }
     })
-    .catch((error) => console.error("Error:", error));
+    .catch((error) => console.error("Error:", error))
   }
-
 
   return (
     <>

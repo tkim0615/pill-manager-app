@@ -53,8 +53,7 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
 
 
   const onSubmit = async (prescriptionData) => {
-    console.log(prescriptionData)
-    
+
     try {
         let response
         if (editIndex !== null) {
@@ -138,14 +137,14 @@ const handleDeleteRx = (deletedRx) => {
             handleDH(createdDosageHistory)
         // You can handle the created dosage history as needed
     } catch (error) {
-        console.error('Error creating dosage history:', error.message);
+        console.error('Error creating dosage history:', error.message)
     }
 }
 
     const handleDhHx = (rxId) => {
-        setDhOn(dhOn => !dhOn);
-        setRxId(rxId);
-        setDosageHx([]);
+        setDhOn(dhOn => !dhOn)
+        setRxId(rxId)
+        setDosageHx([])
 
         fetch(`/dosage_histories_by_rx/${rxId}`)
             .then(r => {
