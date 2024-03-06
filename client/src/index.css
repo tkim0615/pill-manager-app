@@ -45,11 +45,11 @@
 
 .stamp {
   display: inline-block;
-  padding: 8px 12px;
-  background-color: #4caf50; /* Green background color, you can customize this */
-  color: #fff; /* White text color */
+  padding: 12px 19px;
+  background-color: #4caf50; 
+  color: #fff; 
   border-radius: 5px;
-  border: 1px solid #4caf50; /* Matching border color */
+  border: 1px solid #4caf50; 
   font-weight: bold;
 }
 
