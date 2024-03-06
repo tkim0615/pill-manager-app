@@ -65,4 +65,4 @@ instance
 .vscode
 package-lock.json
 
-server/key.py
+key.py
