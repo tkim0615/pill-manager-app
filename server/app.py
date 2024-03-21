@@ -47,6 +47,7 @@ class UserById(Resource):
         if user:
             return make_response(user.to_dict(only=('name', 'username')), 200)
         return make_response({'error': 'user not found'},404)
+    
     def patch(self, id):
         user = User.query.filter(User.id == id).first()
         if user:
@@ -54,7 +55,8 @@ class UserById(Resource):
                 data = request.get_json()
                 if 'password' in data:
                     user.password_hash = data['password']
-                    del data['password']
+                    del data['password'] 
+                    # deletes the 'password' key from the data dictionary. for security reasons to not stored in memory longer than necessary.
                 for attr in data:
                     setattr(user, attr, data[attr])
                 db.session.commit()
@@ -416,7 +418,7 @@ class Login(Resource):
             username = request.get_json()['username']
             password = request.get_json()['password']
 
-            user = User.query.filter(User.username == request.get_json()['username']).first()
+            user = User.query.filter(User.username == username).first()
             if user:
                 if user.authenticate(password):
                     session['user_id'] = user.id

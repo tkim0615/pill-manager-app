@@ -8,8 +8,6 @@ import re
 
 
 
-from config import db, metadata
-
 # Models go here!
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -33,7 +31,7 @@ class User(db.Model, SerializerMixin):
         if value is None or (not value.strip()):
             raise ValueError('Name, username, and password must exist!')
         if key == 'password_hash':
-            if (len(value) < 5 or len(value) > 11) or (not re.search("[a-z]", value)) or (not any(char.isdigit() for char in value)):
+            if (len(value) < 6 or len(value) > 11) or (not re.search("[a-z]", value)) or (not any(char.isdigit() for char in value)):
                 raise ValueError("Invalid password. Must be 6 to 12 characters, contain lowercase and numbers")
 
         return value
@@ -41,7 +39,7 @@ class User(db.Model, SerializerMixin):
     @hybrid_property
     def password_hash(self):    
         raise Exception('Password hashes may not be viewed.')
-#removed decode, encoding
+
     @password_hash.setter
     def password_hash(self, password):
         self.validate_user('password_hash', password)  # Validate the password
