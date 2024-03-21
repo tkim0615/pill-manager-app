@@ -45,7 +45,6 @@ const Prescription = ({user, handleDH, handleDeleteDh}) => {
     }, [])
 
     const handleEditClick = (prescription) =>{
-    window.scrollTo(0, document.body.scrollHeight);
 
       setEditIndex(prescription.id)
       setEditedPrescription(prescription)
@@ -210,102 +209,82 @@ const handleDeleteRx = (deletedRx) => {
 
         return (
             user ?
-        
                 <Container>
                     <h1>Prescriptions</h1>
-                    {prescriptions
-                    .sort((a, b) => new Date(b.end_date) - new Date(a.end_date))
-                    .map((prescription) => (
-                <ListGroup.Item key={prescription.id} className="prescription-item" style={{ border: '2px solid #b3d7ff', borderRadius: '5px', margin: '5px 0' }}
-                >
-                        <Row className="align-items-start">
-                                <Col xs={12} md={8}>
-                                    <div className="prescription-details">
-                                        {prescription.completed? <Completed/>: null}
-                                        <div><strong>Name:</strong> {prescription.name}</div>
-                                        <div><strong>Direction:</strong> {prescription.direction}</div>
-                                        <div><strong>Start date:</strong> {prescription.start_date}</div>
-                                        <div><strong>End date:</strong> {prescription.end_date}</div>
-                                        <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
-                                        <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
-                                        <a  style={{ textDecoration: "none" }}
-                                            href={`${imageLink}/${prescription.name.split(' ')[0]}`} target="_blank" rel="noopener noreferrer">
-                                                Click to get image
-                                        </a>
-                                    </div>
-                                    </Col>
-
-                                    <Col xs={{ span: 6, order: 12 }} md={{ span: 4, order: 12 }}>
-                                        <Image src={prescription.image} rounded style={{ maxWidth: '60%', height: 'auto' }} />
-                                    </Col>
-        
-                                <div className="button-group">
-                                    <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">
-                                        Edit
-                                    </Button>
-                                    <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">
-                                        Delete
-                                    </Button>
-                                    <Button onClick={() => handleDhHx(prescription.id)} variant="outline-primary" size="sm">
-                                        {dhOn && prescription.id === rxId ? 'Close dosage history' : 'See dosage history / Progress'}
-                                    </Button>
-                                    <Button
-                                        onClick={() => handleCreateDosageHistory(prescription.id)}
-                                        variant="outline-primary"
-                                        size="sm"
-                                    >
-                                        Create Dosage History
-                                    </Button>
-                                </div>
-        
-                                    <SideEffect prescription={prescription} />
-        
-                                    {dhOn ?
-                                        <PrescriptionProgressBar
-                                            dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}
-                                            totalDose={calculateTotalDosage(prescription)}
-                                        />
-                                        :
-                                        null
-                                    }
-        
-                                    <div className="dosage-history-list" >
-                                        {dosageHx && dhOn && rxId === prescription.id ?
-                                            dosageHx
-                                                .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
-                                                .map((dh) => (
-                                                    <div key={dh.id} style={{ border: '4px solid yellow' }}>
-                                                        <ListGroup.Item >
-                                                            <div>
-                                                                <strong>Date Taken:</strong> {dh.date_taken.slice(0, -3)}
-                                                            </div>
-                                                            <div>
-                                                                <strong>Name:</strong> {dh.prescription_name}
-                                                            </div>
-                                                            <div>
-                                                                <strong>Doctor:</strong> Dr. {dh.doctor_name}
-                                                            </div>
-                                                            <Button onClick={() => handleDhDelete(dh)} variant="outline-danger" size="sm">
-                                                                Delete
-                                                            </Button>
-                                                        </ListGroup.Item>
+                    <Row>
+                        <Col md={8}>
+                            <ListGroup>
+                                {prescriptions
+                                    .sort((a, b) => new Date(b.end_date) - new Date(a.end_date))
+                                    .map((prescription) => (
+                                        <ListGroup.Item key={prescription.id} className="prescription-item" style={{ border: '2px solid #b3d7ff', borderRadius: '5px', margin: '5px 0' }}>
+                                            <Row className="align-items-start">
+                                                <Col xs={12} md={8}>
+                                                    <div className="prescription-details">
+                                                        {prescription.completed ? <Completed /> : null}
+                                                        <div><strong>Name:</strong> {prescription.name}</div>
+                                                        <div><strong>Direction:</strong> {prescription.direction}</div>
+                                                        <div><strong>Start date:</strong> {prescription.start_date}</div>
+                                                        <div><strong>End date:</strong> {prescription.end_date}</div>
+                                                        <div><strong>Completed:</strong> {prescription.completed ? 'Yes' : 'No'}</div>
+                                                        <div><strong>Doctor:</strong> Dr. {prescription.doctor_name}</div>
+                                                        <a style={{ textDecoration: "none" }} href={`${imageLink}/${prescription.name.split(' ')[0]}`} target="_blank" rel="noopener noreferrer">
+                                                            Click to get image
+                                                        </a>
                                                     </div>
-                                                ))
-                                            : null
-                                        }
-                                    </div>
-                            </Row>
-                        </ListGroup.Item>
-                    ))}
-                    {editIndex !== null ? (
-                        <PrescriptionForm user={user} editedPrescription={editedPrescription} onSubmit={onSubmit} />
-                    ) : (
-                        <PrescriptionForm user={user} onSubmit={onSubmit} />
-                    )}
+                                                </Col>
+                                                <Col xs={{ span: 6, order: 12 }} md={{ span: 4, order: 12 }}>
+                                                    <Image src={prescription.image} rounded style={{ maxWidth: '60%', height: 'auto' }} />
+                                                </Col>
+                                                <div className="button-group">
+                                                    <Button onClick={() => handleEditClick(prescription)} variant="outline-secondary" size="sm">Edit</Button>
+                                                    <Button onClick={() => handleDeleteRx(prescription)} variant="outline-danger" size="sm">Delete</Button>
+                                                    <Button onClick={() => handleDhHx(prescription.id)} variant="outline-primary" size="sm">{dhOn && prescription.id === rxId ? 'Close dosage history' : 'See dosage history / Progress'}</Button>
+                                                    <Button onClick={() => handleCreateDosageHistory(prescription.id)} variant="outline-primary" size="sm">Create Dosage History</Button>
+                                                </div>
+                                                <SideEffect prescription={prescription} />
+                                                {dhOn ?
+                                                    <PrescriptionProgressBar
+                                                        dosageTaken={dosageHx.filter((dh) => dh.prescription_id === prescription.id).length}
+                                                        totalDose={calculateTotalDosage(prescription)}
+                                                    />
+                                                    :
+                                                    null
+                                                }
+                                                <div className="dosage-history-list">
+                                                    {dosageHx && dhOn && rxId === prescription.id ?
+                                                        dosageHx
+                                                            .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))
+                                                            .map((dh) => (
+                                                                <div key={dh.id} style={{ border: '4px solid yellow' }}>
+                                                                    <ListGroup.Item>
+                                                                        <div><strong>Date Taken:</strong> {dh.date_taken.slice(0, -3)}</div>
+                                                                        <div><strong>Name:</strong> {dh.prescription_name}</div>
+                                                                        <div><strong>Doctor:</strong> Dr. {dh.doctor_name}</div>
+                                                                        <Button onClick={() => handleDhDelete(dh)} variant="outline-danger" size="sm">Delete</Button>
+                                                                    </ListGroup.Item>
+                                                                </div>
+                                                            ))
+                                                        : null
+                                                    }
+                                                </div>
+                                            </Row>
+                                        </ListGroup.Item>
+                                    ))}
+                            </ListGroup>
+                        </Col>
+                        <Col md={4}>
+                            {editIndex !== null ? (
+                                <PrescriptionForm user={user} editedPrescription={editedPrescription} onSubmit={onSubmit} />
+                            ) : (
+                                <PrescriptionForm user={user} onSubmit={onSubmit} />
+                            )}
+                        </Col>
+                    </Row>
                 </Container>
-                :
-                null
+                : null
         )
+        
 }
 
 export default Prescription

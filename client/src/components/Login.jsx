@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 
 function Login({ onLogin }) {
@@ -38,8 +37,8 @@ function Login({ onLogin }) {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center vh-100">
-            <Form onSubmit={handleSubmit} className="border p-4 rounded shadow-sm">
+        <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+            <Form onSubmit={handleSubmit} className="d-flex flex-column align-items-center p-4 rounded shadow-sm">
                 <h2 className="text-center mb-4">Sign In</h2>
                 <Form.Group controlId="formGroupEmail">
                     <Form.Label>Username</Form.Label>
@@ -56,7 +55,7 @@ function Login({ onLogin }) {
                 </Button>
                 <p className="text-center mb-0">Not a Member? <Link to={"/signup"}>Sign up</Link></p>
             </Form>
-        </Container>
+        </div>
     );
 }
 
