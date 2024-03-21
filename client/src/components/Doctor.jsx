@@ -19,7 +19,7 @@ function Doctor({user}) {
 
       return (
         <Container>
-            <h1>Your doctors</h1>
+            <h1>Doctors</h1>
             <ListGroup>
                 {doctors.map((md) => (
                     <ListGroup.Item key={md.id}>

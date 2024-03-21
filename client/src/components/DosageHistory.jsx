@@ -47,7 +47,7 @@ const DosageHistory = ({dosageHistories, handleEditedDh}) => {
     
     return (
         <Container>
-            <h1>Your Dosage History</h1>
+            <h1>Dosage History</h1>
             <ListGroup>
             {dosageHistories
                 .sort((a, b) => new Date(b.date_taken) - new Date(a.date_taken))

@@ -53,7 +53,7 @@ const handleSubmit = (e)=>{
 
     return (
         <Container>
-            <h1>Your drug allergies</h1>
+            <h1>Drug allergies</h1>
             <ListGroup>
                 {allergies.map((allergy) => (
                     <ListGroup.Item key={allergy.id}>

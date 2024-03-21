@@ -1,0 +1,29 @@
+.usage-instructions {
+    margin-top: 20px;
+  }
+  
+  .instruction-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .pill-emoji {
+    width: 30px;
+    height: 30px;
+    margin-bottom: -10px; /* Adjust alignment with text */
+  }
+  
+  .instruction-list {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+  
+  .instruction-step {
+    font-weight: bold;
+  }
+  
+  .instruction-item {
+    margin-bottom: 10px;
+    line-height: 1.5; /* Increase line height for better readability */
+  }
+  
