@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import pillEmoji from '../pill_emoji.png';
-import backgroundImage from '../background.png'; // Import your background image
+import pillPile from '../pillPile.jpg';
 
 const NavBar = ({ user }) => {
     const handleNotLoggedIn = () => {
@@ -13,13 +13,15 @@ const NavBar = ({ user }) => {
         <>
             <div
                 style={{
-                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundImage: `url(${pillPile})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     minHeight: '19px', // Adjust height as needed
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
+
+                    
                 }}
             >
                 <h1 style={{ color: 'black' }}>Welcome to Pill Manager</h1>

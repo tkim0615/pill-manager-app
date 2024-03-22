@@ -2,7 +2,7 @@ import React from 'react';
 import Login from './Login';
 import Logout from './Logout';
 import UsageInstructions from './UsageInstructions';
-import backgroundImage from '../background.png'; // Import your PNG file
+import backgroundImage from '../background.png';
 
 function Home({ user, onLogin, onLogOut }) {
     return (

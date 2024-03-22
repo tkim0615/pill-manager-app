@@ -58,10 +58,11 @@ function Allergy({ allergies, user, handleAllergySubmit, handleDeleteAllergy }) 
         <Container>
             <Row>
                 <Col md={6}>
+                    
                     <h1>Drug allergies</h1>
-                    <ListGroup>
+                    <ListGroup >
                         {allergies.map(allergy => (
-                            <ListGroup.Item key={allergy.id}>
+                            <ListGroup.Item style={{ border: '3px solid #b3d7ff', padding: '10px', borderRadius: '15px' }} key={allergy.id}>
                                 <div>
                                     <strong>Drug:</strong> {allergy.drug_allergy}
                                 </div>
@@ -86,21 +87,25 @@ function Allergy({ allergies, user, handleAllergySubmit, handleDeleteAllergy }) 
                     </ListGroup>
                 </Col>
                 <Col md={6}>
-                    <Form onSubmit={handleSubmit}>
-                        <h1>Add new drug allergy</h1>
-                        <Form.Group>
-                            <Form.Label>Drug allergy:</Form.Label>
-                            <Form.Control type="text" name="drug allergy" value={allergyName} onChange={e => setAllergyName(e.target.value)} required />
-                        </Form.Group>
+                    <h1>Add new drug allergy</h1>
 
-                        <Form.Group>
-                            <Form.Label>Symptom:</Form.Label>
-                            <Form.Control type="text" name="symptom" value={symptom} onChange={e => setSymptom(e.target.value)} required />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Add allergy
-                        </Button>
-                    </Form>
+                    <div style={{ border: '3px solid #b3d7ff', padding: '10px', borderRadius: '15px' }}>
+
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group>
+                                <Form.Label>Drug allergy:</Form.Label>
+                                <Form.Control type="text" name="drug allergy" value={allergyName} onChange={e => setAllergyName(e.target.value)} required />
+                            </Form.Group>
+
+                            <Form.Group>
+                                <Form.Label>Symptom:</Form.Label>
+                                <Form.Control type="text" name="symptom" value={symptom} onChange={e => setSymptom(e.target.value)} required />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                                Add allergy
+                            </Button>
+                        </Form>
+                    </div>
                 </Col>
             </Row>
         </Container>

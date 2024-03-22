@@ -217,7 +217,7 @@ const handleDeleteRx = (deletedRx) => {
                                 {prescriptions
                                     .sort((a, b) => new Date(b.end_date) - new Date(a.end_date))
                                     .map((prescription) => (
-                                        <ListGroup.Item key={prescription.id} className="prescription-item" style={{ border: '2px solid #b3d7ff', borderRadius: '5px', margin: '5px 0' }}>
+                                        <ListGroup.Item key={prescription.id} className="prescription-item" style={{ border: '3px solid #b3d7ff', padding: '10px', borderRadius: '15px' }}>
                                             <Row className="align-items-start">
                                                 <Col xs={12} md={8}>
                                                     <div className="prescription-details">

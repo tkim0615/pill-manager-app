@@ -53,10 +53,11 @@ function Login({ onLogin }) {
                 <Button variant="primary" type="submit" className="w-100 mb-3">
                     Login
                 </Button>
-                <p className="text-center mb-0">Not a Member? <Link to={"/signup"}>Sign up</Link></p>
+                <p className="mb-0">Not a Member? <Link to={"/signup"}> Sign up</Link></p>
             </Form>
         </div>
     );
+    
 }
 
 export default Login;

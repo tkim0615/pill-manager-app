@@ -22,7 +22,7 @@ function Doctor({user}) {
             <h1>Doctors</h1>
             <ListGroup>
                 {doctors.map((md) => (
-                    <ListGroup.Item key={md.id}>
+                    <ListGroup.Item style={{ border: '3px solid #b3d7ff', padding: '10px', borderRadius: '15px' }} key={md.id}>
                       <div>
                             <strong>Name:</strong> Dr. {md.name} 
                       </div>
