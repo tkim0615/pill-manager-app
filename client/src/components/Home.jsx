@@ -16,16 +16,16 @@ function Home({ user, onLogin, onLogOut }) {
             ) : (
                 <div
                     style={{
-                        backgroundImage: `url(${backgroundImage})`, // Set the background image
-                        backgroundSize: 'cover', // Make sure the background image covers the entire container
-                        backgroundPosition: 'center', // Center the background image
-                        minHeight: 'calc(100vh - 80px)', // Adjusted minimum height to cover the entire viewport excluding 80px for the navbar height
+                        backgroundImage: `url(${backgroundImage})`, 
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center', 
+                        minHeight: '100vh', 
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        padding: '5px', // Adjusted padding value
-                        marginTop: '-80px', // Adjusted margin top to shift everything upwards
+                        padding: '5px',
+                        marginTop: '-80px', 
                     }}
                 >
                     <Login onLogin={onLogin} />

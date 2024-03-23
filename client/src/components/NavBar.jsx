@@ -1,8 +1,9 @@
+
+
 import React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import pillEmoji from '../pill_emoji.png';
-import pillPile from '../pillPile.jpg';
+import { FaHome, FaPrescriptionBottleAlt, FaHistory, FaAllergies, FaUserMd, FaUser } from 'react-icons/fa';
 
 const NavBar = ({ user }) => {
     const handleNotLoggedIn = () => {
@@ -10,53 +11,44 @@ const NavBar = ({ user }) => {
     };
 
     return (
-        <>
-            <div
-                style={{
-                    backgroundImage: `url(${pillPile})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    minHeight: '19px', // Adjust height as needed
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-
-                    
-                }}
-            >
-                <h1 style={{ color: 'black' }}>Welcome to Pill Manager</h1>
-            </div>
-
-            <Navbar bg="dark" data-bs-theme="dark" className="pill-navbar">
-                <Container>
-                    <Navbar.Brand href="/">
-                        Pill Manager <img src={pillEmoji} alt="Pill Emoji" style={{ width: '30px', height: '40px', backgroundColor: 'transparent' }} />
-                    </Navbar.Brand>
+        <Navbar bg="white" variant="light" expand="lg">
+            <Container>
+                <Navbar.Brand as={Link} to="/">
+                    Pill Manager
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">
-                            Home
+                            <FaHome /> Home
                         </Nav.Link>
-                        <Nav.Link as={Link} to={user ? '/prescriptions' : '/'} onClick={user ? null : handleNotLoggedIn}>
-                            Prescriptions
+                        <Nav.Link as={Link} to="/prescriptions">
+                            <FaPrescriptionBottleAlt /> Prescriptions
                         </Nav.Link>
-                        <Nav.Link as={Link} to={user ? '/dosage_history' : '/'} onClick={user ? null : handleNotLoggedIn}>
-                            Dosage Tracker
+                        <Nav.Link as={Link} to="/dosage_history">
+                            <FaHistory /> Dosage Tracker
                         </Nav.Link>
-                        <Nav.Link as={Link} to={user ? '/allergy' : '/'} onClick={user ? null : handleNotLoggedIn}>
-                            Allergy
+                        <Nav.Link as={Link} to="/allergy">
+                            <FaAllergies /> Allergy
                         </Nav.Link>
-                        <Nav.Link as={Link} to={user ? '/doctors' : '/'} onClick={user ? null : handleNotLoggedIn}>
-                            Doctors
+                        <Nav.Link as={Link} to="/doctors">
+                            <FaUserMd /> Doctors
                         </Nav.Link>
-                        {user && (
-                            <Nav.Link as={Link} to={`/users/${user?.id}`}>
-                                Account
+                    </Nav>
+                    <Nav>
+                        {user ? (
+                            <Nav.Link as={Link} to={`/users/${user.id}`}>
+                                <FaUser /> Account
+                            </Nav.Link>
+                        ) : (
+                            <Nav.Link onClick={handleNotLoggedIn}>
+                                <FaUser /> Login
                             </Nav.Link>
                         )}
                     </Nav>
-                </Container>
-            </Navbar>
-        </>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 };
 
